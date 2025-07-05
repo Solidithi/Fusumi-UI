@@ -1,16 +1,14 @@
 "use client";
-
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { PageHeader } from "@/components/shared/PageHeader";
 import { FilterTabs } from "@/components/shared/FilterTab";
 import { InvoiceTable } from "@/components/shared/InvoiceTable";
+import { PageHeader } from "@/components/shared/PageHeader";
 import { SearchBar } from "@/components/shared/SearchBar";
+import { mockInvoiceData } from "@/lib/data";
 import { FilterType } from "@/types/dashboard";
-import { StatsCards } from "@/components/dashboard/StatCards";
-import { mockDashboardStats, mockInvoiceData } from "@/lib/data";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
-export function DashboardContent() {
+export function MyInvoices() {
   const [activeFilter, setActiveFilter] = useState<FilterType>("paid");
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -34,12 +32,9 @@ export function DashboardContent() {
     >
       <div className="max-w-7xl mx-auto">
         <PageHeader
-          title="Dashboard Overview"
-          subtitle="Welcome back! Here's what's happening with your business today."
-          isBusiness={true}
+          title="My Invoices"
+          subtitle="Welcome back! Here’s your invoices."
         />
-        <StatsCards stats={mockDashboardStats} />
-
         <motion.div
           className="flex flex-col md:flex-row md:items-center md:justify-between mb-6"
           initial={{ opacity: 0, y: 20 }}

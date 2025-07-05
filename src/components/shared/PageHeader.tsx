@@ -7,9 +7,10 @@ import { AnimatedButton } from "../ui/Button";
 interface PageHeaderProps {
   title?: string;
   subtitle?: string;
+  isBusiness?: boolean;
 }
 
-export function PageHeader({ title, subtitle }: PageHeaderProps) {
+export function PageHeader({ title, subtitle, isBusiness }: PageHeaderProps) {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -47,44 +48,22 @@ export function PageHeader({ title, subtitle }: PageHeaderProps) {
         <p className="text-gray-600">{subtitle || "No infor"}</p>
       </motion.div>
 
-      <motion.div
-        className="flex space-x-3 mt-4 md:mt-0"
-        variants={itemVariants as any}
-      >
-        <AnimatedButton
-          className="bg-[#2a849a] hover:bg-[#2a849a]/90 text-white p-3 flex gap-3  justify-between rounded-lg"
-          //   asChild
+      {isBusiness && (
+        <motion.div
+          className="flex space-x-3 mt-4 md:mt-0"
+          variants={itemVariants as any}
         >
-          {/* <motion.button
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0 10px 25px rgba(42, 132, 154, 0.3)",
-            }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-          > */}
-          <Plus className="" />
-          <span>Create offer</span>
-          {/* </motion.button> */}
-        </AnimatedButton>
+          <AnimatedButton className="bg-[#2a849a] hover:bg-[#2a849a]/90 text-white pr-4 py-3 flex gap-3  justify-between rounded-lg">
+            <Plus className="" />
+            <span>Create offer</span>
+          </AnimatedButton>
 
-        <AnimatedButton
-          className="bg-[#2a849a] hover:bg-[#2a849a]/90 text-white p-3 flex gap-3  justify-between rounded-lg"
-          //   asChild
-        >
-          {/* <motion.button
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0 10px 25px rgba(42, 132, 154, 0.3)",
-            }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-          > */}
-          <Plus className="" />
-          <span>Create Invoice</span>
-          {/* </motion.button> */}
-        </AnimatedButton>
-      </motion.div>
+          <AnimatedButton className="bg-[#2a849a] hover:bg-[#2a849a]/90 text-white pr-4 py-3  flex gap-3  justify-between rounded-lg">
+            <Plus className="" />
+            <span>Create Invoice</span>
+          </AnimatedButton>
+        </motion.div>
+      )}
     </motion.div>
   );
 }
