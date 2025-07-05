@@ -4,8 +4,13 @@ import { useInViewAnimation } from "@/hooks/animation-hook/useInViewAnimation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { AnimatedButton } from "../ui/Button";
+import { useRouter } from "next/navigation";
 
 export function ReadySection() {
+  const route = useRouter();
+  const handleClick = () => {
+    route.push("/business/dashboard");
+  };
   const sectionRef = useRef<HTMLDivElement>(null);
   const { ref: contentRef, isInView } = useInViewAnimation({
     once: true,
@@ -164,6 +169,7 @@ export function ReadySection() {
               //     boxShadow: "0 20px 40px rgba(42, 132, 154, 0.3)",
               //   }}
               //   whileTap={{ scale: 0.95 }}
+              onClick={handleClick}
             >
               <motion.span
                 initial={{ opacity: 0 }}

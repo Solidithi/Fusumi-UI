@@ -11,6 +11,7 @@ import {
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { AnimatedButton } from "../ui/Button";
+import { useRouter } from "next/navigation";
 
 interface HeroSectionProps {
   opacity: any;
@@ -19,7 +20,10 @@ interface HeroSectionProps {
 
 export function HeroSection({ opacity, scale }: HeroSectionProps) {
   const { ref: heroRef, isInView } = useInViewAnimation();
-
+  const route = useRouter();
+  const handleClick = () => {
+    route.push("/business/dashboard");
+  };
   return (
     <motion.main
       ref={heroRef}
@@ -99,7 +103,10 @@ export function HeroSection({ opacity, scale }: HeroSectionProps) {
             stiffness: 200,
           }}
         >
-          <AnimatedButton className="bg-[#2a849a] hover:bg-[#2a849a]/90 text-white px-8 py-3 rounded-full text-lg">
+          <AnimatedButton
+            className="bg-[#2a849a] hover:bg-[#2a849a]/90 text-white px-8 py-3 rounded-full text-lg"
+            onClick={handleClick}
+          >
             Dashboard
           </AnimatedButton>
         </motion.div>

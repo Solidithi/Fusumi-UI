@@ -1,4 +1,5 @@
 "use client";
+import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { BenefitSection } from "@/components/sections/BenefitSection";
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -23,6 +24,7 @@ export default function Home() {
       <BenefitSection />
       <PlatformSection />
       <ReadySection />
+      <Footer />
       {/* <FloatingElements /> */}
       {/* <AdditionalSection /> */}
     </div>
