@@ -11,6 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Wrench,
+  Shield,
 } from "lucide-react";
 import { Button } from "./ButtonBussiness";
 import { useRouter } from "next/navigation";
@@ -22,7 +23,7 @@ const sidebarItems = [
     icon: Home,
     label: "Dashboard",
     id: "home",
-    path: businessRoot + "/",
+    path: businessRoot + "/dashboard",
   },
   {
     icon: FileText,
@@ -53,6 +54,12 @@ const sidebarItems = [
     label: "Product Creation",
     id: "product",
     path: businessRoot + "/create-product",
+  },
+  {
+    icon: Shield,
+    label: "KYB Verification",
+    id: "kyb",
+    path: businessRoot + "/",
   },
 ];
 
