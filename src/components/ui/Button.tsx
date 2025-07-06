@@ -13,6 +13,7 @@ interface AnimatedButtonProps {
   size?: "sm" | "md" | "lg";
   onClick?: () => void;
   href?: string;
+  disabled?: boolean; 
 }
 
 export const AnimatedButton = forwardRef<
