@@ -1,17 +1,60 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Home, FileText, Tag, PlusCircle, Package, ChevronLeft, ChevronRight } from "lucide-react"
-import { AnimatedButton } from "./Button"
+import { motion } from "framer-motion";
+import { useState } from "react"; // CHANGE: Added useState import for state management
+import {
+  Home,
+  FileText,
+  Tag,
+  PlusCircle,
+  Package,
+  ChevronLeft,
+  ChevronRight,
+  Wrench,
+} from "lucide-react";
+import { Button } from "./ButtonBussiness";
+import { useRouter } from "next/navigation";
+// import { AnimatedButton } from "./Button"
 // import { Button } from "@/components/ui/button"
-
+const businessRoot = "/business/";
 const sidebarItems = [
-  { icon: Home, label: "Home", active: false },
-  { icon: FileText, label: "Invoice Creation", active: true },
-  { icon: Tag, label: "My Offer", active: false },
-  { icon: PlusCircle, label: "Offer Creation", active: false },
-  { icon: Package, label: "Product Creation", active: false },
-]
+  {
+    icon: Home,
+    label: "Dashboard",
+    id: "home",
+    path: businessRoot + "/",
+  },
+  {
+    icon: FileText,
+    label: "Invoice Creation",
+    id: "invoice",
+    path: businessRoot + "/create-invoice",
+  },
+  {
+    icon: Wrench,
+    label: "Service Creation",
+    id: "service",
+    path: businessRoot + "/create-service",
+  },
+  {
+    icon: Tag,
+    label: "My Offer",
+    id: "offer",
+    path: businessRoot + "/my-offer",
+  },
+  {
+    icon: PlusCircle,
+    label: "Offer Creation",
+    id: "offer-create",
+    path: businessRoot + "/create-offer",
+  },
+  {
+    icon: Package,
+    label: "Product Creation",
+    id: "product",
+    path: businessRoot + "/create-product",
+  },
+];
 
 const containerVariants = {
   expanded: {
@@ -22,7 +65,7 @@ const containerVariants = {
     width: 80,
     transition: { duration: 0.3, ease: "easeInOut" },
   },
-}
+};
 
 const itemVariants = {
   hidden: { x: -20, opacity: 0 },
@@ -31,14 +74,25 @@ const itemVariants = {
     opacity: 1,
     transition: { duration: 0.5 },
   },
-}
+};
 
 interface SidebarProps {
-  isExpanded: boolean
-  onToggle: () => void
+  isExpanded: boolean;
+  onToggle: () => void;
+  activePage?: string; // Optional prop to highlight active page
 }
 
-export function Sidebar({ isExpanded, onToggle }: SidebarProps) {
+export function Sidebar({ isExpanded, onToggle, activePage }: SidebarProps) {
+  // CHANGE: Added state to track which sidebar item is currently active
+  const [activeItem, setActiveItem] = useState("invoice"); // Default to "invoice" as it was previously active
+  const router = useRouter();
+
+  // CHANGE: Added function to handle sidebar item clicks
+  const handleItemClick = (itemId: (typeof sidebarItems)[0]) => {
+    // setActiveItem(itemId);
+    router.push(itemId.path);
+  };
+
   return (
     <motion.div
       className="bg-gradient-to-b from-[#2a6b7f] to-[#3587A3] flex flex-col shadow-2xl relative"
@@ -47,15 +101,38 @@ export function Sidebar({ isExpanded, onToggle }: SidebarProps) {
       initial="expanded"
     >
       {/* Toggle Button - Inside Sidebar */}
-      <div className="flex justify-end p-2">
-        <AnimatedButton
+      <div>
+        {isExpanded ? (
+          <div className="flex justify-end p-2 pt-8">
+            <Button
+              onClick={onToggle}
+              size="icon"
+              className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 border-0 text-white shadow-lg transition-all duration-300"
+              variant="ghost"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+          </div>
+        ) : (
+          <div className="flex justify-center p-2 pt-8">
+            <Button
+              onClick={onToggle}
+              size="icon"
+              className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 border-0 text-white shadow-lg transition-all duration-300"
+              variant="ghost"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
+        {/* <Button
           onClick={onToggle}
-        //   size="icon"
+          size="icon"
           className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 border-0 text-white shadow-lg transition-all duration-300"
-        //   variant="ghost"
+          variant="ghost"
         >
           {isExpanded ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-        </AnimatedButton>
+        </Button> */}
       </div>
 
       {/* Navigation Items */}
@@ -71,10 +148,11 @@ export function Sidebar({ isExpanded, onToggle }: SidebarProps) {
             whileTap={{ scale: 0.95 }}
             className="w-full"
           >
-            <AnimatedButton
-            //   variant="ghost"
+            <Button
+              variant="ghost"
+              onClick={() => handleItemClick(item)} // CHANGE: Added click handler to update active state
               className={`w-full justify-start h-12 transition-all duration-300 ${
-                item.active
+                activePage === item.id // CHANGE: Check if current item is active using state instead of item.active
                   ? "bg-white/20 text-white shadow-lg ring-2 ring-white/30"
                   : "text-white/70 hover:bg-white/10 hover:text-white"
               } ${isExpanded ? "px-4" : "px-0 justify-center"}`}
@@ -90,10 +168,10 @@ export function Sidebar({ isExpanded, onToggle }: SidebarProps) {
                   {item.label}
                 </motion.span>
               )}
-            </AnimatedButton>
+            </Button>
           </motion.div>
         ))}
       </div>
     </motion.div>
-  )
+  );
 }

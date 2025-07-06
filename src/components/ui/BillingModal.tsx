@@ -3,9 +3,10 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, X, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
-import { AnimatedButton } from "./Button";
+// import { Button } from "./Button";
 import { Label } from "./Label";
 import { Input } from "./Input";
+import { Button } from "./ButtonBussiness";
 
 interface BillingItem {
   id: string;
@@ -97,14 +98,14 @@ export function BillingModal({ isOpen, onClose, onSave }: BillingModalProps) {
               <div className="bg-gradient-to-r from-[#3587A3]/80 to-[#4a9bb8]/80 backdrop-blur-sm p-6 border-b border-white/20">
                 <div className="flex items-center justify-between">
                   <h2 className="text-2xl font-bold text-white">Billing</h2>
-                  <AnimatedButton
+                  <Button
                     onClick={onClose}
-                    // variant="ghost"
-                    // size="icon"
+                    variant="ghost"
+                    size="icon"
                     className="text-white hover:bg-white/20"
                   >
                     <X className="h-5 w-5" />
-                  </AnimatedButton>
+                  </Button>
                 </div>
               </div>
 
@@ -112,14 +113,14 @@ export function BillingModal({ isOpen, onClose, onSave }: BillingModalProps) {
               <div className="p-6 space-y-6 max-h-[calc(90vh-200px)] overflow-y-auto">
                 {/* Add Button */}
                 <div className="flex justify-start">
-                  <AnimatedButton
+                  <Button
                     onClick={addItem}
                     variant="outline"
-                    // size="icon"
+                    size="icon"
                     className="w-12 h-12 rounded-full bg-white/20 border-white/30 hover:bg-white/30 text-white"
                   >
                     <Plus className="h-6 w-6" />
-                  </AnimatedButton>
+                  </Button>
                 </div>
 
                 {/* Items */}
@@ -182,15 +183,15 @@ export function BillingModal({ isOpen, onClose, onSave }: BillingModalProps) {
                         <Label className="text-white/90 font-medium">
                           Action
                         </Label>
-                        <AnimatedButton
+                        <Button
                           onClick={() => removeItem(item.id)}
                           variant="outline"
-                        //   size="icon"
-                        //   disabled={items.length <= 1}
+                          size="icon"
+                          disabled={items.length <= 1}
                           className="w-full bg-red-500/20 border-red-400/30 text-red-200 hover:bg-red-500/30 hover:border-red-400/50 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           <Trash2 className="h-4 w-4" />
-                        </AnimatedButton>
+                        </Button>
                       </div>
                     </motion.div>
                   ))}
@@ -209,19 +210,32 @@ export function BillingModal({ isOpen, onClose, onSave }: BillingModalProps) {
 
               {/* Footer */}
               <div className="p-6 border-t border-white/20 flex justify-center space-x-4">
-                <AnimatedButton
+                <Button
                   onClick={handleSave}
                   className="px-8 py-2 bg-gradient-to-r from-[#3587A3] to-[#4a9bb8] hover:from-[#2a6b7f] hover:to-[#3587A3] text-white font-semibold rounded-full"
                 >
                   Save
-                </AnimatedButton>
-                <AnimatedButton
+                </Button>
+                <Button
+                  onClick={() => {
+                    setItems([
+                      { id: "1", productName: "", price: "", quantity: "" },
+                      { id: "2", productName: "", price: "", quantity: "" },
+                      { id: "3", productName: "", price: "", quantity: "" },
+                    ]);
+                  }}
+                  variant="outline"
+                  className="px-8 py-2 bg-white/20 border-white/30 text-white hover:bg-white/30 rounded-full"
+                >
+                  Reset
+                </Button>
+                <Button
                   onClick={onClose}
                   variant="outline"
                   className="px-8 py-2 bg-white/20 border-white/30 text-white hover:bg-white/30 rounded-full"
                 >
                   Cancel
-                </AnimatedButton>
+                </Button>
               </div>
             </div>
           </motion.div>
