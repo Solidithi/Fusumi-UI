@@ -1,6 +1,6 @@
 export const NAVIGATION_ITEMS = [
-  { label: "For User", href: "#" },
-  { label: "For Business", href: "#" },
+  { label: "For User", href: "/customer" },
+  { label: "For Business", href: "/business" },
   { label: "Market", href: "#" },
 ] as const;
 
