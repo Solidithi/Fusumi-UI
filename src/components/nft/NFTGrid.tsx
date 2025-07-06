@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import type { NFTData } from "@/types/nft";
-import { NFTCard } from "./NFTCard";
 import { ShowMoreButton } from "../ui/ShowMoreButton";
+import { NFTCard } from "./NFTCard";
 
 interface NFTGridProps {
   nfts: NFTData[];
@@ -36,7 +36,7 @@ export function NFTGrid({
   return (
     <div>
       <motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
