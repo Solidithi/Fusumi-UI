@@ -1,11 +1,11 @@
 "use client";
 
-import { DashboardContent } from "./DashBoard";
+import KYBPage from "./KYB";
 
 const page = () => {
   return (
     <div>
-      <DashboardContent />
+      <KYBPage />
     </div>
   );
 };
