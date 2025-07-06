@@ -43,7 +43,7 @@ export default function CreateInvoice() {
       <Sidebar isExpanded={sidebarExpanded} onToggle={() => setSidebarExpanded(!sidebarExpanded)} activePage="invoice" />
 
       {/* Main Content */}
-      <div className="flex-1 p-8">
+      <div className="flex-1 p-8"> 
         <motion.div variants={formVariants} initial="hidden" animate="visible" className="max-w-4xl mx-auto">
           <Card className="bg-gradient-to-br from-[#3587A3] to-[#EDCCBB] shadow-2xl border-0">
             <CardContent className="p-8 space-y-6">
@@ -51,12 +51,12 @@ export default function CreateInvoice() {
               <div className="text-center mb-8">
                 <CardTitle className="text-3xl font-bold text-white tracking-wide drop-shadow-lg">
                   INVOICE CREATION
-                </CardTitle>
+                </CardTitle> 
               </div>
 
               {/* First Row - Debtor Address and Billing */}
               <motion.div
-                className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                className="grid grid-cols-1 md:grid-cols-2 gap-6"          
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
