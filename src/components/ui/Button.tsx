@@ -11,7 +11,8 @@ interface AnimatedButtonProps {
   className?: string;
   variant?: "default" | "secondary" | "outline";
   size?: "sm" | "md" | "lg";
-  onClick?: () => void;
+  // onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   href?: string;
   disabled?: boolean; 
 }

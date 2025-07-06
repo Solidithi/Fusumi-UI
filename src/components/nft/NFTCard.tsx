@@ -8,6 +8,8 @@ import { Clock, Coins } from "lucide-react";
 import type { NFTData } from "@/types/nft";
 import { AnimatedButton } from "../ui/Button";
 import { calculateTimeRemaining, isExpired } from "@/utils/time";
+import { InvoiceDetailModal } from "../ui/modal/InvoiceDetailModal";
+import { getInvoiceDetail } from "@/lib/data";
 
 interface NFTCardProps {
   nft: NFTData;
@@ -16,6 +18,8 @@ interface NFTCardProps {
 
 export function NFTCard({ nft, index }: NFTCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
   // const timeRemaining = calculateTimeRemaining(nft.startDate, nft.endDate);
   const [timeLeft, setTimeLeft] = useState(calculateTimeRemaining(nft.endDate));
   const expired = isExpired(nft.endDate);
@@ -56,41 +60,53 @@ export function NFTCard({ nft, index }: NFTCardProps) {
     },
   };
 
+  const handleCardClick = () => {
+    setShowModal(true);
+  };
+
+  const handleBuyClick = (e: React.MouseEvent) => {
+    e.stopPropagation;
+    // Handle buy action
+    console.log("Buy clicked for offer:", nft.id);
+  };
+
   return (
-    <motion.div
-      className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group hover:shadow-lg transition-shadow duration-300"
-      variants={cardVariants as any}
-      initial="hidden"
-      animate="visible"
-      whileHover={{
-        y: -4,
-        transition: { duration: 0.2 },
-      }}
-    >
-      {/* NFT Image */}
-      <div className="relative aspect-square overflow-hidden">
-        {/* Background gradient matching Figma */}
-        {/* <div className="absolute inset-0 bg-gradient-to-br from-orange-400 via-orange-500 to-red-500" /> */}
+    <div className="">
+      <motion.div
+        className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group hover:shadow-lg transition-shadow duration-300"
+        variants={cardVariants as any}
+        initial="hidden"
+        animate="visible"
+        whileHover={{
+          y: -4,
+          transition: { duration: 0.2 },
+        }}
+        onClick={handleCardClick}
+      >
+        {/* NFT Image */}
+        <div className="relative aspect-square overflow-hidden">
+          {/* Background gradient matching Figma */}
+          {/* <div className="absolute inset-0 bg-gradient-to-br from-orange-400 via-orange-500 to-red-500" /> */}
 
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center"
-          variants={imageVariants as any}
-          initial="hidden"
-          animate="visible"
-        >
-          <Image
-            src={nft.image}
-            alt={nft.title}
-            width={300}
-            height={300}
-            // fill
-            className="object-cover"
-            onLoad={() => setImageLoaded(true)}
-          />
-        </motion.div>
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center"
+            variants={imageVariants as any}
+            initial="hidden"
+            animate="visible"
+          >
+            <Image
+              src={nft.image}
+              alt={nft.title}
+              width={300}
+              height={300}
+              // fill
+              className="object-cover"
+              onLoad={() => setImageLoaded(true)}
+            />
+          </motion.div>
 
-        {/* Rarity Badge */}
-        {/* <motion.div
+          {/* Rarity Badge */}
+          {/* <motion.div
           className="absolute top-3 left-3 px-3 py-1 bg-[#2a849a] rounded-full text-xs font-medium text-white"
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -99,8 +115,8 @@ export function NFTCard({ nft, index }: NFTCardProps) {
           {nft.rarity?.toUpperCase() || "COMMON"}
         </motion.div> */}
 
-        {/* Time Remaining Badge */}
-        {/* <motion.div
+          {/* Time Remaining Badge */}
+          {/* <motion.div
           className={`absolute top-3 right-3 px-2 py-1 rounded-full text-xs font-medium ${
             expired
               ? "bg-red-500 text-white"
@@ -117,99 +133,115 @@ export function NFTCard({ nft, index }: NFTCardProps) {
             </span>
           </div>
         </motion.div> */}
-      </div>
+        </div>
 
-      {/* Card Content */}
-      <div className="p-4 space-y-3">
-        {/* Title */}
-        <motion.h3
-          className="font-semibold text-gray-900 text-sm"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 + index * 0.05 }}
-        >
-          {nft.title}
-        </motion.h3>
+        {/* Card Content */}
+        <div className="p-4 space-y-3">
+          {/* Title */}
+          <motion.h3
+            className="font-semibold text-gray-900 text-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 + index * 0.05 }}
+          >
+            {nft.title}
+          </motion.h3>
 
-        {/* Owner Info */}
-        <motion.div
-          className="flex items-center space-x-2"
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 + index * 0.05 }}
-        >
-          {/* <Avatar className="w-5 h-5"> */}
-          <Image
-            src="https://i.pinimg.com/736x/09/0b/bc/090bbcffd9c72bc9dbcc34506b7cdcc4.jpg"
-            alt={nft.owner}
-            width={200}
-            height={200}
-            className="w-5 h-5 rounded-full object-cover"
-          />
-          {/* <AvatarFallback className="text-xs bg-gray-200">
+          {/* Owner Info */}
+          <motion.div
+            className="flex items-center space-x-2"
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 + index * 0.05 }}
+          >
+            {/* <Avatar className="w-5 h-5"> */}
+            <Image
+              src="https://i.pinimg.com/736x/09/0b/bc/090bbcffd9c72bc9dbcc34506b7cdcc4.jpg"
+              alt={nft.owner}
+              width={200}
+              height={200}
+              className="w-5 h-5 rounded-full object-cover"
+            />
+            {/* <AvatarFallback className="text-xs bg-gray-200">
               {nft.owner[0]}
             </AvatarFallback> */}
-          {/* </Avatar> */}
-          <span className="text-xs text-gray-500">Owned by</span>
-          <span className="text-xs font-medium text-gray-900">{nft.owner}</span>
-        </motion.div>
+            {/* </Avatar> */}
+            <span className="text-xs text-gray-500">Owned by</span>
+            <span className="text-xs font-medium text-gray-900">
+              {nft.owner}
+            </span>
+          </motion.div>
 
-        {/* Token Count with new symbol */}
-        <motion.div
-          className="flex items-center space-x-1"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 + index * 0.05 }}
-        >
-          <Coins className="w-4 h-4 text-[#2a849a]" />
-          <span className="text-sm font-semibold text-gray-900">
-            {nft.tokenCount} Token
-          </span>
-        </motion.div>
-
-        {/* Time Display */}
-        <motion.div
-          className="flex items-center justify-between text-xs"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 + index * 0.05 }}
-        >
-          <div className="flex items-center space-x-1">
-            <Clock className="w-3 h-3 text-gray-400" />
-            <span className="text-gray-500">Duration:</span>
-          </div>
-          <span
-            className={`font-mono font-medium ${
-              expired ? "text-red-500" : "text-gray-700"
-            }`}
+          {/* Token Count with new symbol */}
+          <motion.div
+            className="flex items-center space-x-1"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 + index * 0.05 }}
           >
-            {/* {timeRemaining} */}
-            {timeLeft}
-          </span>
-        </motion.div>
+            <Coins className="w-4 h-4 text-[#2a849a]" />
+            <span className="text-sm font-semibold text-gray-900">
+              {nft.tokenCount} Token
+            </span>
+          </motion.div>
 
-        {/* Buy AnimatedButton */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 + index * 0.05 }}
-        >
-          <AnimatedButton
-            className={`w-full rounded-lg font-medium py-2 ${
-              expired
-                ? "bg-gray-400 hover:bg-gray-400 cursor-not-allowed"
-                : "bg-[#2a849a] hover:bg-[#2a849a]/90"
-            } text-white`}
-            disabled={expired}
-            // whileHover={expired ? {} : { scale: 1.02 }}
-            // whileTap={expired ? {} : { scale: 0.98 }}
-            // transition={{ duration: 0.2 }}
-            // asChild
+          {/* Time Display */}
+          <motion.div
+            className="flex items-center justify-between text-xs"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 + index * 0.05 }}
           >
-            {expired ? "Expired" : "Buy"}
-          </AnimatedButton>
-        </motion.div>
-      </div>
-    </motion.div>
+            <div className="flex items-center space-x-1">
+              <Clock className="w-3 h-3 text-gray-400" />
+              <span className="text-gray-500">Duration:</span>
+            </div>
+            <span
+              className={`font-mono font-medium ${
+                expired ? "text-red-500" : "text-gray-700"
+              }`}
+            >
+              {/* {timeRemaining} */}
+              {timeLeft}
+            </span>
+          </motion.div>
+
+          {/* Buy AnimatedButton */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 + index * 0.05 }}
+          >
+            <AnimatedButton
+              className={`w-full rounded-lg font-medium py-2 ${
+                expired
+                  ? "bg-gray-400 hover:bg-gray-400 cursor-not-allowed"
+                  : "bg-[#2a849a] hover:bg-[#2a849a]/90"
+              } text-white`}
+              disabled={expired}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleBuyClick(e); // hoặc logic khác
+              }}
+              // whileHover={expired ? {} : { scale: 1.02 }}
+              // whileTap={expired ? {} : { scale: 0.98 }}
+              // transition={{ duration: 0.2 }}
+              // asChild
+            >
+              {expired ? "Expired" : "Buy"}
+            </AnimatedButton>
+          </motion.div>
+        </div>
+      </motion.div>
+      <InvoiceDetailModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        invoiceData={getInvoiceDetail(nft.id)}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleBuyClick(e); // hoặc logic khác
+        }}
+      />
+    </div>
   );
 }

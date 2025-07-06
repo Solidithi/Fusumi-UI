@@ -1,4 +1,6 @@
 import type { InvoiceData, DashboardStats } from "@/types/dashboard";
+import { OfferData, ServiceData } from "@/types/market";
+import { InvoiceDetailData, ServiceDetailData } from "@/types/modal";
 import type { NFTData } from "@/types/nft";
 // -------------------------------------------------DASHBOARD-------------------------------------------------
 export const mockDashboardStats: DashboardStats = {
@@ -170,7 +172,8 @@ export const mockNFTData: NFTData[] = [
   {
     id: "9",
     title: "Who the hell are you ?",
-    image: "https://i2.seadn.io/ethereum/0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63/c0fcdf6eff36c1d317a7248b0c7b0326.png?w=350",
+    image:
+      "https://i2.seadn.io/ethereum/0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63/c0fcdf6eff36c1d317a7248b0c7b0326.png?w=350",
     owner: "Lolololola",
     ownerAvatar: "/placeholder.svg?height=24&width=24",
     tokenCount: 9.41,
@@ -182,7 +185,8 @@ export const mockNFTData: NFTData[] = [
   {
     id: "10",
     title: "Who the hell are you ?",
-    image: "https://i2.seadn.io/ethereum/0x232a68a51d6e07357ae025d2a459c16077327102/43ed2e556b1a463431707d9701e279/5843ed2e556b1a463431707d9701e279.gif?frame-time=1&w=350",
+    image:
+      "https://i2.seadn.io/ethereum/0x232a68a51d6e07357ae025d2a459c16077327102/43ed2e556b1a463431707d9701e279/5843ed2e556b1a463431707d9701e279.gif?frame-time=1&w=350",
     owner: "Lolololola",
     ownerAvatar: "/placeholder.svg?height=24&width=24",
     tokenCount: 9.41,
@@ -194,7 +198,8 @@ export const mockNFTData: NFTData[] = [
   {
     id: "11",
     title: "Who the hell are you ?",
-    image: "https://i.pinimg.com/736x/16/e3/07/16e307ecb7336f3480028f4fb1f65be5.jpg",
+    image:
+      "https://i.pinimg.com/736x/16/e3/07/16e307ecb7336f3480028f4fb1f65be5.jpg",
     owner: "Lolololola",
     ownerAvatar: "/placeholder.svg?height=24&width=24",
     tokenCount: 9.41,
@@ -206,7 +211,8 @@ export const mockNFTData: NFTData[] = [
   {
     id: "12",
     title: "Who the hell are you ?",
-    image: "https://i2.seadn.io/ethereum/0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63/2852bacb9aea64afbc2b0c5657e04d7f.png?w=350",
+    image:
+      "https://i2.seadn.io/ethereum/0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63/2852bacb9aea64afbc2b0c5657e04d7f.png?w=350",
     owner: "Lolololola",
     ownerAvatar: "/placeholder.svg?height=24&width=24",
     tokenCount: 9.41,
@@ -218,7 +224,8 @@ export const mockNFTData: NFTData[] = [
   {
     id: "13",
     title: "Who the hell are you ?",
-    image: "https://i2.seadn.io/ethereum/0x232a68a51d6e07357ae025d2a459c16077327102/d8ec1c65324b53f9cbeca81514d63b/02d8ec1c65324b53f9cbeca81514d63b.gif?w=350",
+    image:
+      "https://i2.seadn.io/ethereum/0x232a68a51d6e07357ae025d2a459c16077327102/d8ec1c65324b53f9cbeca81514d63b/02d8ec1c65324b53f9cbeca81514d63b.gif?w=350",
     owner: "Lolololola",
     ownerAvatar: "/placeholder.svg?height=24&width=24",
     tokenCount: 9.41,
@@ -230,7 +237,8 @@ export const mockNFTData: NFTData[] = [
   {
     id: "14",
     title: "Who the hell are you ?",
-    image: "https://i2.seadn.io/ethereum/0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63/12fedd765f414aad994f6397f26e6367.png?w=350",
+    image:
+      "https://i2.seadn.io/ethereum/0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63/12fedd765f414aad994f6397f26e6367.png?w=350",
     owner: "Lolololola",
     ownerAvatar: "/placeholder.svg?height=24&width=24",
     tokenCount: 9.41,
@@ -242,7 +250,8 @@ export const mockNFTData: NFTData[] = [
   {
     id: "15",
     title: "Who the hell are you ?",
-    image: "https://i2.seadn.io/ethereum/0x232a68a51d6e07357ae025d2a459c16077327102/7bc62f4f37f17a6c3381afa4e4231e/b77bc62f4f37f17a6c3381afa4e4231e.gif?frame-time=1&w=350",
+    image:
+      "https://i2.seadn.io/ethereum/0x232a68a51d6e07357ae025d2a459c16077327102/7bc62f4f37f17a6c3381afa4e4231e/b77bc62f4f37f17a6c3381afa4e4231e.gif?frame-time=1&w=350",
     owner: "Lolololola",
     ownerAvatar: "/placeholder.svg?height=24&width=24",
     tokenCount: 9.41,
@@ -255,7 +264,8 @@ export const mockNFTData: NFTData[] = [
   {
     id: "16",
     title: "Shadow Hunter",
-    image: "https://i2.seadn.io/ethereum/0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63/35838a02b66bf9149b1ec7ea6d5256e3.png?w=350",
+    image:
+      "https://i2.seadn.io/ethereum/0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63/35838a02b66bf9149b1ec7ea6d5256e3.png?w=350",
     owner: "CryptoKing",
     ownerAvatar: "/placeholder.svg?height=24&width=24",
     tokenCount: 12.5,
@@ -267,7 +277,8 @@ export const mockNFTData: NFTData[] = [
   {
     id: "17",
     title: "Digital Phoenix",
-    image: "https://i2.seadn.io/ethereum/0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63/c0fcdf6eff36c1d317a7248b0c7b0326.png?w=350",
+    image:
+      "https://i2.seadn.io/ethereum/0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63/c0fcdf6eff36c1d317a7248b0c7b0326.png?w=350",
     owner: "NFTCollector",
     ownerAvatar: "/placeholder.svg?height=24&width=24",
     tokenCount: 15.8,
@@ -279,7 +290,8 @@ export const mockNFTData: NFTData[] = [
   {
     id: "18",
     title: "Cyber Samurai",
-    image: "https://i.pinimg.com/736x/16/e3/07/16e307ecb7336f3480028f4fb1f65be5.jpg",
+    image:
+      "https://i.pinimg.com/736x/16/e3/07/16e307ecb7336f3480028f4fb1f65be5.jpg",
     owner: "TokenMaster",
     ownerAvatar: "/placeholder.svg?height=24&width=24",
     tokenCount: 20.3,
@@ -291,7 +303,8 @@ export const mockNFTData: NFTData[] = [
   {
     id: "19",
     title: "Neon Dreams",
-    image: "https://i2.seadn.io/ethereum/0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63/2852bacb9aea64afbc2b0c5657e04d7f.png?w=350",
+    image:
+      "https://i2.seadn.io/ethereum/0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63/2852bacb9aea64afbc2b0c5657e04d7f.png?w=350",
     owner: "ArtLover",
     ownerAvatar: "/placeholder.svg?height=24&width=24",
     tokenCount: 8.7,
@@ -303,7 +316,8 @@ export const mockNFTData: NFTData[] = [
   {
     id: "20",
     title: "Quantum Cat",
-    image: "https://i2.seadn.io/ethereum/0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63/12fedd765f414aad994f6397f26e6367.png?w=350",
+    image:
+      "https://i2.seadn.io/ethereum/0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63/12fedd765f414aad994f6397f26e6367.png?w=350",
     owner: "QuantumUser",
     ownerAvatar: "/placeholder.svg?height=24&width=24",
     tokenCount: 11.2,
@@ -313,3 +327,372 @@ export const mockNFTData: NFTData[] = [
     category: "Character",
   },
 ];
+
+// -------------------------------------------------MARKET-------------------------------------------------
+export const mockOfferData: OfferData[] = [
+  {
+    id: "1",
+    title: "Who the hell are you ?",
+    image: "/placeholder.svg?height=200&width=200",
+    owner: "Lolololola",
+    ownerAvatar: "/placeholder.svg?height=24&width=24",
+    tokenCount: 9.41,
+    startDate: "2024-01-15T10:30:00Z",
+    endDate: "2024-01-20T14:45:30Z",
+    price: 150,
+    rarity: "common",
+    category: "Character",
+  },
+  {
+    id: "2",
+    title: "Who the hell are you ?",
+    image: "/placeholder.svg?height=200&width=200",
+    owner: "Lolololola",
+    ownerAvatar: "/placeholder.svg?height=24&width=24",
+    tokenCount: 9.41,
+    startDate: "2024-01-10T08:15:00Z",
+    endDate: "2024-01-18T16:30:45Z",
+    price: 200,
+    rarity: "rare",
+    category: "Character",
+  },
+  {
+    id: "3",
+    title: "Who the hell are you ?",
+    image: "/placeholder.svg?height=200&width=200",
+    owner: "Lolololola",
+    ownerAvatar: "/placeholder.svg?height=24&width=24",
+    tokenCount: 9.41,
+    startDate: "2024-01-12T12:00:00Z",
+    endDate: "2024-01-25T09:20:15Z",
+    price: 300,
+    rarity: "epic",
+    category: "Character",
+  },
+  {
+    id: "4",
+    title: "Who the hell are you ?",
+    image: "/placeholder.svg?height=200&width=200",
+    owner: "Lolololola",
+    ownerAvatar: "/placeholder.svg?height=24&width=24",
+    tokenCount: 9.41,
+    startDate: "2024-01-08T14:45:00Z",
+    endDate: "2024-01-22T11:15:30Z",
+    price: 180,
+    rarity: "common",
+    category: "Character",
+  },
+  {
+    id: "5",
+    title: "Who the hell are you ?",
+    image: "/placeholder.svg?height=200&width=200",
+    owner: "Lolololola",
+    ownerAvatar: "/placeholder.svg?height=24&width=24",
+    tokenCount: 9.41,
+    startDate: "2024-01-20T16:30:00Z",
+    endDate: "2024-02-05T10:45:45Z",
+    price: 500,
+    rarity: "legendary",
+    category: "Character",
+  },
+  {
+    id: "6",
+    title: "Who the hell are you ?",
+    image: "/placeholder.svg?height=200&width=200",
+    owner: "Lolololola",
+    ownerAvatar: "/placeholder.svg?height=24&width=24",
+    tokenCount: 9.41,
+    startDate: "2024-01-05T09:00:00Z",
+    endDate: "2024-01-12T18:30:20Z",
+    price: 120,
+    rarity: "common",
+    category: "Character",
+  },
+  {
+    id: "7",
+    title: "Who the hell are you ?",
+    image: "/placeholder.svg?height=200&width=200",
+    owner: "Lolololola",
+    ownerAvatar: "/placeholder.svg?height=24&width=24",
+    tokenCount: 9.41,
+    startDate: "2024-01-18T11:20:00Z",
+    endDate: "2024-01-30T15:45:10Z",
+    price: 250,
+    rarity: "rare",
+    category: "Character",
+  },
+  {
+    id: "8",
+    title: "Who the hell are you ?",
+    image: "/placeholder.svg?height=200&width=200",
+    owner: "Lolololola",
+    ownerAvatar: "/placeholder.svg?height=24&width=24",
+    tokenCount: 9.41,
+    startDate: "2024-01-01T00:00:00Z",
+    endDate: "2024-02-15T23:59:59Z",
+    price: 800,
+    rarity: "legendary",
+    category: "Character",
+  },
+  {
+    id: "9",
+    title: "Who the hell are you ?",
+    image: "/placeholder.svg?height=200&width=200",
+    owner: "Lolololola",
+    ownerAvatar: "/placeholder.svg?height=24&width=24",
+    tokenCount: 9.41,
+    startDate: "2024-01-14T07:30:00Z",
+    endDate: "2024-01-28T19:45:25Z",
+    price: 350,
+    rarity: "epic",
+    category: "Character",
+  },
+  {
+    id: "10",
+    title: "Who the hell are you ?",
+    image: "/placeholder.svg?height=200&width=200",
+    owner: "Lolololola",
+    ownerAvatar: "/placeholder.svg?height=24&width=24",
+    tokenCount: 9.41,
+    startDate: "2024-01-22T13:15:00Z",
+    endDate: "2024-02-01T08:30:40Z",
+    price: 160,
+    rarity: "common",
+    category: "Character",
+  },
+  {
+    id: "11",
+    title: "Who the hell are you ?",
+    image: "/placeholder.svg?height=200&width=200",
+    owner: "Lolololola",
+    ownerAvatar: "/placeholder.svg?height=24&width=24",
+    tokenCount: 9.41,
+    startDate: "2024-01-03T15:45:00Z",
+    endDate: "2024-01-16T12:20:35Z",
+    price: 220,
+    rarity: "rare",
+    category: "Character",
+  },
+  {
+    id: "12",
+    title: "Who the hell are you ?",
+    image: "/placeholder.svg?height=200&width=200",
+    owner: "Lolololola",
+    ownerAvatar: "/placeholder.svg?height=24&width=24",
+    tokenCount: 9.41,
+    startDate: "2024-01-25T10:00:00Z",
+    endDate: "2024-02-08T16:45:50Z",
+    price: 400,
+    rarity: "epic",
+    category: "Character",
+  },
+  // Additional offers for show more
+  {
+    id: "13",
+    title: "Shadow Warrior",
+    image: "/placeholder.svg?height=200&width=200",
+    owner: "CryptoKing",
+    ownerAvatar: "/placeholder.svg?height=24&width=24",
+    tokenCount: 12.5,
+    startDate: "2024-01-02T06:00:00Z",
+    endDate: "2024-01-20T18:30:45Z",
+    price: 600,
+    rarity: "legendary",
+    category: "Warrior",
+  },
+  {
+    id: "14",
+    title: "Digital Phoenix",
+    image: "/placeholder.svg?height=200&width=200",
+    owner: "NFTCollector",
+    ownerAvatar: "/placeholder.svg?height=24&width=24",
+    tokenCount: 15.8,
+    startDate: "2024-01-15T09:30:00Z",
+    endDate: "2024-02-10T22:15:30Z",
+    price: 750,
+    rarity: "legendary",
+    category: "Mythical",
+  },
+  {
+    id: "15",
+    title: "Cyber Samurai",
+    image: "/placeholder.svg?height=200&width=200",
+    owner: "TokenMaster",
+    ownerAvatar: "/placeholder.svg?height=24&width=24",
+    tokenCount: 20.3,
+    startDate: "2024-01-01T12:00:00Z",
+    endDate: "2024-03-01T12:00:00Z",
+    price: 1000,
+    rarity: "legendary",
+    category: "Warrior",
+  },
+];
+
+export const mockServiceData: ServiceData[] = [
+  {
+    id: "1",
+    businessName: "LavaLoon",
+    businessLogo: "/placeholder.svg?height=40&width=40",
+    serviceName: "Premium Analytics",
+    price: 20,
+    description: "Advanced analytics and reporting tools",
+    category: "Analytics",
+  },
+  {
+    id: "2",
+    businessName: "LavaLoon",
+    businessLogo: "/placeholder.svg?height=40&width=40",
+    serviceName: "Cloud Storage Pro",
+    price: 20,
+    description: "Unlimited cloud storage with premium features",
+    category: "Storage",
+  },
+  {
+    id: "3",
+    businessName: "LavaLoon",
+    businessLogo: "/placeholder.svg?height=40&width=40",
+    serviceName: "Security Suite",
+    price: 20,
+    description: "Complete security solution for your business",
+    category: "Security",
+  },
+  {
+    id: "4",
+    businessName: "LavaLoon",
+    businessLogo: "/placeholder.svg?height=40&width=40",
+    serviceName: "Marketing Tools",
+    price: 20,
+    description: "Professional marketing automation platform",
+    category: "Marketing",
+  },
+  {
+    id: "5",
+    businessName: "LavaLoon",
+    businessLogo: "/placeholder.svg?height=40&width=40",
+    serviceName: "API Gateway",
+    price: 20,
+    description: "Scalable API management and gateway service",
+    category: "Development",
+  },
+  {
+    id: "6",
+    businessName: "LavaLoon",
+    businessLogo: "/placeholder.svg?height=40&width=40",
+    serviceName: "Database Pro",
+    price: 20,
+    description: "High-performance database solutions",
+    category: "Database",
+  },
+  {
+    id: "7",
+    businessName: "LavaLoon",
+    businessLogo: "/placeholder.svg?height=40&width=40",
+    serviceName: "Monitoring Plus",
+    price: 20,
+    description: "Real-time monitoring and alerting system",
+    category: "Monitoring",
+  },
+  {
+    id: "8",
+    businessName: "LavaLoon",
+    businessLogo: "/placeholder.svg?height=40&width=40",
+    serviceName: "Backup Solutions",
+    price: 20,
+    description: "Automated backup and disaster recovery",
+    category: "Backup",
+  },
+  {
+    id: "9",
+    businessName: "LavaLoon",
+    businessLogo: "/placeholder.svg?height=40&width=40",
+    serviceName: "AI Assistant",
+    price: 20,
+    description: "Intelligent AI-powered business assistant",
+    category: "AI",
+  },
+  {
+    id: "10",
+    businessName: "LavaLoon",
+    businessLogo: "/placeholder.svg?height=40&width=40",
+    serviceName: "Communication Hub",
+    price: 20,
+    description: "Unified communication platform",
+    category: "Communication",
+  },
+  // Additional services for show more
+  {
+    id: "11",
+    businessName: "TechFlow",
+    businessLogo: "/placeholder.svg?height=40&width=40",
+    serviceName: "Workflow Automation",
+    price: 35,
+    description: "Streamline your business processes",
+    category: "Automation",
+  },
+  {
+    id: "12",
+    businessName: "DataVault",
+    businessLogo: "/placeholder.svg?height=40&width=40",
+    serviceName: "Enterprise Analytics",
+    price: 50,
+    description: "Enterprise-grade data analytics platform",
+    category: "Analytics",
+  },
+];
+// ---------------------------------------------------------------------------------------------------------------
+export const getInvoiceDetail = (offerId: string): InvoiceDetailData => {
+  return {
+    id: offerId,
+    debtorAddress: "0x742d35Cc6634C0532925a3b8D4C9db96590b5b8e",
+    description:
+      "This NFT represents a unique digital collectible featuring an exclusive character design. The artwork includes special traits and rarity attributes that make it valuable for collectors and traders in the NFT marketplace.",
+    startDate: "2024-01-15",
+    endDate: "2024-01-30",
+    products: [
+      {
+        id: "1",
+        name: "NFT Character License",
+        price: 150,
+        quantity: 1,
+      },
+      {
+        id: "2",
+        name: "Commercial Usage Rights",
+        price: 50,
+        quantity: 1,
+      },
+      {
+        id: "3",
+        name: "High Resolution Assets",
+        price: 25,
+        quantity: 2,
+      },
+    ],
+    total: {
+      price: 250,
+      quantity: 4,
+    },
+  };
+};
+
+export const getServiceDetail = (serviceId: string): ServiceDetailData => {
+  return {
+    id: serviceId,
+    serviceName: "Premium Analytics Suite",
+    businessName: "LavaLoon",
+    description:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    startDate: "01/11/2025",
+    endDate: "01/11/2026",
+    price: 20,
+    features: [
+      "Real-time data analytics",
+      "Custom dashboard creation",
+      "Advanced reporting tools",
+      "API integration support",
+      "24/7 customer support",
+    ],
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-lYmmjSZAbS3GTaHKdhjr2G5OhMBRrf.png",
+  };
+};
