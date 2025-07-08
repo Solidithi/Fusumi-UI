@@ -19,7 +19,7 @@ const formVariants = {
     transition: { duration: 0.6, staggerChildren: 0.1 },
   },
 }
-
+ 
 const fieldVariants = {
   hidden: { opacity: 0, x: -20 },
   visible: {
