@@ -11,6 +11,8 @@ import {
 } from "@/lib/animation";
 import { NAVIGATION_ITEMS } from "@/lib/constant";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Logo from "../../../public/Fusumi_Logo.png";
 
 export function Header() {
   const route = useRouter();
@@ -41,7 +43,7 @@ export function Header() {
             // whileHover={{ rotate: 360 }}
             // transition={{ duration: 0.5 }}
           >
-            <svg
+            {/* <svg
               width="391"
               height="391"
               viewBox="0 0 391 391"
@@ -140,7 +142,8 @@ export function Header() {
                 stroke-width="9"
                 stroke-linecap="round"
               />
-            </svg>
+            </svg> */}
+            <Image src={Logo} alt="Logo" width={40} height={40} />
           </motion.div>
           <span
             className="text-white text-xl font-semibold uppercase"
