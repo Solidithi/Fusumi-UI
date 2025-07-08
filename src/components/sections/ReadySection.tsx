@@ -151,7 +151,7 @@ export function ReadySection() {
           variants={itemVariants as any}
         >
           Be among the first to embrace the next wave of crypto innovation.
-          Start your journey with PayFi today.
+          Start your journey with Fusumi today.
         </motion.p>
 
         {/* CTA Buttons */}

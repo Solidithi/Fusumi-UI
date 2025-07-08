@@ -142,7 +142,7 @@ export function PlatformSection() {
         >
           <motion.div className="mb-6" variants={textVariants as any}>
             <span className="text-2xl font-semibold text-[#2a849a] tracking-wide">
-              PayFi
+              Fusumi
             </span>
           </motion.div>
 

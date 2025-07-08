@@ -151,7 +151,7 @@ export function Footer() {
           variants={logoVariants as any}
         >
           <motion.h2 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white">
-            PayFi
+            Fusumi
           </motion.h2>
         </motion.div>
 
@@ -170,7 +170,7 @@ export function Footer() {
           variants={containerVariants}
         >
           <motion.div variants={itemVariants as any}>
-            <p>PayFi © 2025</p>
+            <p>Fusumi © 2025</p>
           </motion.div>
           <motion.div
             className="flex space-x-8 mt-4 md:mt-0"
