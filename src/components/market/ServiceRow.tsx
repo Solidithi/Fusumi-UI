@@ -6,8 +6,9 @@ import { ServiceData } from "@/types/market";
 import { AnimatedButton } from "../ui/Button";
 import Image from "next/image";
 import { useState } from "react";
-import { getServiceDetail } from "@/lib/data";
+import { getServiceDetail, getServiceSubscriptionData } from "@/lib/data";
 import { ServiceDetailModal } from "../ui/modal/ServiceDetailModal";
+import { SubscriptionFormModal } from "../ui/modal/SubscriptionFormModal";
 
 interface ServiceRowProps {
   service: ServiceData;
@@ -16,6 +17,7 @@ interface ServiceRowProps {
 
 export function ServiceRow({ service, index }: ServiceRowProps) {
   const [showModal, setShowModal] = useState(false);
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
 
   const rowVariants = {
     hidden: {
@@ -38,10 +40,9 @@ export function ServiceRow({ service, index }: ServiceRowProps) {
   };
 
   const handleSubscribeClick = (e: React.MouseEvent) => {
-    // Handle subscribe action
-    console.log("Subscribe clicked for service:", service.id);
+    e.stopPropagation();
+    setShowSubscriptionModal(true);
   };
-
   return (
     <div className="">
       <motion.div
@@ -143,6 +144,11 @@ export function ServiceRow({ service, index }: ServiceRowProps) {
           handleSubscribeClick(e); // hoặc logic khác
         }}
         serviceData={getServiceDetail(service.id)}
+      />
+      <SubscriptionFormModal
+        isOpen={showSubscriptionModal}
+        onClose={() => setShowSubscriptionModal(false)}
+        subscriptionData={getServiceSubscriptionData(service.id)}
       />
     </div>
   );

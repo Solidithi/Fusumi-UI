@@ -17,7 +17,7 @@ const footerLinks = {
 export function Footer() {
   const { ref: footerRef, isInView } = useInViewAnimation({
     once: true,
-    margin: "-100px",
+    margin: "1000000px",
   });
 
   const containerVariants = {

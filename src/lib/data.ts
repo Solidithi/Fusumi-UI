@@ -2,6 +2,7 @@ import type { InvoiceData, DashboardStats } from "@/types/dashboard";
 import { OfferData, ServiceData } from "@/types/market";
 import { InvoiceDetailData, ServiceDetailData } from "@/types/modal";
 import type { NFTData } from "@/types/nft";
+import { ServiceSubscriptionData } from "@/types/subscription";
 // -------------------------------------------------DASHBOARD-------------------------------------------------
 export const mockDashboardStats: DashboardStats = {
   totalInvoices: 100000000000,
@@ -695,4 +696,138 @@ export const getServiceDetail = (serviceId: string): ServiceDetailData => {
     image:
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-lYmmjSZAbS3GTaHKdhjr2G5OhMBRrf.png",
   };
+};
+
+
+// -------------------------------------Service---------------------------------------
+
+export const getServiceSubscriptionData = (
+  serviceId: string
+): ServiceSubscriptionData => {
+  // Different form configurations for different services
+  const formConfigs: Record<string, ServiceSubscriptionData> = {
+    "1": {
+      serviceId: "1",
+      serviceName: "Premium Analytics",
+      businessName: "LavaLoon",
+      price: 20,
+      formConfig: {
+        email: true,
+        fullName: true,
+        phone: true,
+        address: false,
+        zipcode: false,
+        nationality: false,
+        personalId: false,
+        sex: false,
+        birthdate: false,
+        image: false,
+        taxId: false,
+        kycImage: false,
+      },
+    },
+    "2": {
+      serviceId: "2",
+      serviceName: "Cloud Storage Pro",
+      businessName: "LavaLoon",
+      price: 20,
+      formConfig: {
+        email: true,
+        fullName: true,
+        phone: true,
+        address: true,
+        zipcode: true,
+        nationality: false,
+        personalId: false,
+        sex: false,
+        birthdate: false,
+        image: false,
+        taxId: false,
+        kycImage: false,
+      },
+    },
+    "3": {
+      serviceId: "3",
+      serviceName: "Security Suite",
+      businessName: "LavaLoon",
+      price: 20,
+      formConfig: {
+        email: true,
+        fullName: true,
+        phone: true,
+        address: true,
+        zipcode: true,
+        nationality: true,
+        personalId: true,
+        sex: true,
+        birthdate: true,
+        image: true,
+        taxId: false,
+        kycImage: true,
+      },
+    },
+    "4": {
+      serviceId: "4",
+      serviceName: "Marketing Tools",
+      businessName: "LavaLoon",
+      price: 20,
+      formConfig: {
+        email: true,
+        fullName: true,
+        phone: true,
+        address: true,
+        zipcode: false,
+        nationality: false,
+        personalId: false,
+        sex: false,
+        birthdate: false,
+        image: false,
+        taxId: true,
+        kycImage: false,
+      },
+    },
+    "5": {
+      serviceId: "5",
+      serviceName: "API Gateway",
+      businessName: "LavaLoon",
+      price: 20,
+      formConfig: {
+        email: true,
+        fullName: true,
+        phone: false,
+        address: false,
+        zipcode: false,
+        nationality: false,
+        personalId: false,
+        sex: false,
+        birthdate: false,
+        image: false,
+        taxId: false,
+        kycImage: false,
+      },
+    },
+  };
+
+  return (
+    formConfigs[serviceId] || {
+      serviceId,
+      serviceName: "Unknown Service",
+      businessName: "Unknown Business",
+      price: 0,
+      formConfig: {
+        email: true,
+        fullName: true,
+        phone: false,
+        address: false,
+        zipcode: false,
+        nationality: false,
+        personalId: false,
+        sex: false,
+        birthdate: false,
+        image: false,
+        taxId: false,
+        kycImage: false,
+      },
+    }
+  );
 };
