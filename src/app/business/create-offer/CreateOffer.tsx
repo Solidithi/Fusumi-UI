@@ -223,7 +223,7 @@ export default function CreateOffer() {
             </CardContent>
           </Card>
         </motion.div>
-      </div>
+      </div>  
 
       {/* Modals */}
       <InvoicePreviewModal

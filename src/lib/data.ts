@@ -2,6 +2,7 @@ import type { InvoiceData, DashboardStats } from "@/types/dashboard";
 import { OfferData, ServiceData } from "@/types/market";
 import { InvoiceDetailData, ServiceDetailData } from "@/types/modal";
 import type { NFTData } from "@/types/nft";
+import { OfferDatas } from "@/types/offer";
 import { ServiceSubscriptionData } from "@/types/subscription";
 // -------------------------------------------------DASHBOARD-------------------------------------------------
 export const mockDashboardStats: DashboardStats = {
@@ -831,3 +832,151 @@ export const getServiceSubscriptionData = (
     }
   );
 };
+
+// --------------------------
+export const mockOfferDatas: OfferDatas[] = [
+  {
+    id: "1",
+    invoiceAddress: "0x742d35Cc6634C0532925a3b8D4C9db96590b5b8e",
+    pricing: 1500.0,
+    contactInfo: {
+      name: "John Smith",
+      email: "john.smith@company.com",
+      phone: "+1 (555) 123-4567",
+      company: "Tech Solutions Inc",
+      address: "123 Business St, New York, NY 10001",
+    },
+    startDate: "2024-01-15",
+    endDate: "2024-03-15",
+    agreements: ["service_agreement.pdf", "terms_conditions.pdf"],
+    status: "active",
+    createdAt: "2024-01-10T10:30:00Z",
+    updatedAt: "2024-01-10T10:30:00Z",
+  },
+  {
+    id: "2",
+    invoiceAddress: "0x123456789abcdef123456789abcdef123456789a",
+    pricing: 2800.5,
+    contactInfo: {
+      name: "Sarah Johnson",
+      email: "sarah.j@digitalcorp.com",
+      phone: "+1 (555) 987-6543",
+      company: "Digital Corp",
+      address: "456 Innovation Ave, San Francisco, CA 94105",
+    },
+    startDate: "2024-02-01",
+    endDate: "2024-04-30",
+    agreements: ["contract.pdf", "nda.pdf", "payment_terms.pdf"],
+    status: "pending",
+    createdAt: "2024-01-25T14:20:00Z",
+    updatedAt: "2024-01-25T14:20:00Z",
+  },
+  {
+    id: "3",
+    invoiceAddress: "0xabcdef123456789abcdef123456789abcdef1234",
+    pricing: 950.0,
+    contactInfo: {
+      name: "Michael Chen",
+      email: "m.chen@startupventures.io",
+      phone: "+1 (555) 456-7890",
+      company: "Startup Ventures",
+      address: "789 Entrepreneur Blvd, Austin, TX 73301",
+    },
+    startDate: "2024-01-20",
+    endDate: "2024-02-20",
+    agreements: ["service_contract.pdf"],
+    status: "expired",
+    createdAt: "2024-01-15T09:15:00Z",
+    updatedAt: "2024-01-15T09:15:00Z",
+  },
+  {
+    id: "4",
+    invoiceAddress: "0x987654321fedcba987654321fedcba987654321f",
+    pricing: 3200.75,
+    contactInfo: {
+      name: "Emily Rodriguez",
+      email: "emily.r@globaltech.com",
+      phone: "+1 (555) 321-0987",
+      company: "Global Tech Solutions",
+      address: "321 Corporate Dr, Chicago, IL 60601",
+    },
+    startDate: "2024-03-01",
+    endDate: "2024-06-01",
+    agreements: ["master_agreement.pdf", "sow.pdf"],
+    status: "draft",
+    createdAt: "2024-02-28T16:45:00Z",
+    updatedAt: "2024-02-28T16:45:00Z",
+  },
+  {
+    id: "5",
+    invoiceAddress: "0x456789abcdef123456789abcdef123456789abcd",
+    pricing: 1750.25,
+    contactInfo: {
+      name: "David Wilson",
+      email: "d.wilson@innovateplus.com",
+      phone: "+1 (555) 654-3210",
+      company: "Innovate Plus",
+      address: "654 Future St, Seattle, WA 98101",
+    },
+    startDate: "2024-02-15",
+    endDate: "2024-05-15",
+    agreements: ["partnership_agreement.pdf", "terms.pdf", "privacy_policy.pdf"],
+    status: "active",
+    createdAt: "2024-02-10T11:30:00Z",
+    updatedAt: "2024-02-10T11:30:00Z",
+  },
+  {
+    id: "6",
+    invoiceAddress: "0xfedcba987654321fedcba987654321fedcba9876",
+    pricing: 4500.0,
+    contactInfo: {
+      name: "Lisa Thompson",
+      email: "lisa.t@enterprisesolutions.com",
+      phone: "+1 (555) 789-0123",
+      company: "Enterprise Solutions",
+      address: "987 Business Park, Boston, MA 02101",
+    },
+    startDate: "2024-01-01",
+    endDate: "2024-12-31",
+    agreements: ["annual_contract.pdf", "sla.pdf", "data_processing.pdf", "compliance.pdf"],
+    status: "active",
+    createdAt: "2023-12-20T08:00:00Z",
+    updatedAt: "2023-12-20T08:00:00Z",
+  },
+  {
+    id: "7",
+    invoiceAddress: "0x111222333444555666777888999000aaabbbccc",
+    pricing: 825.5,
+    contactInfo: {
+      name: "Robert Kim",
+      email: "r.kim@techstartup.io",
+      phone: "+1 (555) 147-2580",
+      company: "Tech Startup",
+      address: "147 Innovation Hub, Portland, OR 97201",
+    },
+    startDate: "2024-02-20",
+    endDate: "2024-03-20",
+    agreements: ["pilot_agreement.pdf"],
+    status: "pending",
+    createdAt: "2024-02-15T13:20:00Z",
+    updatedAt: "2024-02-15T13:20:00Z",
+  },
+  {
+    id: "8",
+    invoiceAddress: "0xaaabbbccc111222333444555666777888999000",
+    pricing: 6750.0,
+    contactInfo: {
+      name: "Amanda Foster",
+      email: "a.foster@megacorp.com",
+      phone: "+1 (555) 369-2580",
+      company: "MegaCorp Industries",
+      address: "369 Corporate Plaza, Miami, FL 33101",
+    },
+    startDate: "2024-03-15",
+    endDate: "2024-09-15",
+    agreements: ["enterprise_contract.pdf", "security_addendum.pdf"],
+    status: "draft",
+    createdAt: "2024-03-10T15:45:00Z",
+    updatedAt: "2024-03-10T15:45:00Z",
+  },
+]
