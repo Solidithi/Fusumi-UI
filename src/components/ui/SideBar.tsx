@@ -12,13 +12,44 @@ import {
   ChevronRight,
   Wrench,
   Shield,
+  DollarSign,
+  ShoppingCart,
+  Image,
 } from "lucide-react";
 import { Button } from "./ButtonBussiness";
 import { useRouter } from "next/navigation";
 // import { AnimatedButton } from "./Button"
 // import { Button } from "@/components/ui/button"
+const customersRoot = "/customers/";
+const customersSidebarItems = [
+  {
+    icon: DollarSign,
+    label: "Repay",
+    id: "repay",
+    path: customersRoot + "repay",
+  },
+  {
+    icon: FileText,
+    label: "My Invoices",
+    id: "my-invoices",
+    path: customersRoot + "my-invoices",
+  },
+  {
+    icon: Image,
+    label: "My NFT",
+    id: "my-nft",
+    path: customersRoot + "my-nft",
+  },
+  // {
+  //   icon: ShoppingCart,
+  //   label: "Marketplace",
+  //   id: "marketplace",
+  //   path: customersRoot + "marketplace",
+  // },
+];
+
 const businessRoot = "/business/";
-const sidebarItems = [
+const businessSidebarItems = [
   {
     icon: Home,
     label: "Dashboard",
@@ -87,15 +118,23 @@ interface SidebarProps {
   isExpanded: boolean;
   onToggle: () => void;
   activePage?: string; // Optional prop to highlight active page
+  type?: "business" | "customers"; // Optional prop to determine which sidebar items to show
 }
 
-export function Sidebar({ isExpanded, onToggle, activePage }: SidebarProps) {
+export function Sidebar({
+  isExpanded,
+  onToggle,
+  activePage,
+  type = "business", 
+}: SidebarProps) {
   // CHANGE: Added state to track which sidebar item is currently active
   const [activeItem, setActiveItem] = useState("invoice"); // Default to "invoice" as it was previously active
   const router = useRouter();
+  const sidebarItems =
+    type === "business" ? businessSidebarItems : customersSidebarItems;
 
   // CHANGE: Added function to handle sidebar item clicks
-  const handleItemClick = (itemId: (typeof sidebarItems)[0]) => {
+  const handleItemClick = (itemId: (typeof sidebarItems)[number]) => {
     // setActiveItem(itemId);
     router.push(itemId.path);
   };
