@@ -13,6 +13,7 @@ import { NAVIGATION_ITEMS } from "@/lib/constant";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Logo from "../../../public/Fusumi_Logo.png";
+import { WalletSelector } from "../ui/ConnectWalletButton";
 
 export function Header() {
   const route = useRouter();
@@ -182,13 +183,13 @@ export function Header() {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <AnimatedButton
+          {/* <AnimatedButton
             variant="secondary"
             className="bg-white text-[#2a849a] hover:bg-white/90 rounded-full py-3 px-6"
             onClick={handleClick}
-          >
-            Connect Wallet
-          </AnimatedButton>
+          > */}
+            <WalletSelector />
+          {/* </AnimatedButton> */}
         </motion.div>
       </div>
     </motion.header>

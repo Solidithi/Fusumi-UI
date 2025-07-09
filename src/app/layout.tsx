@@ -3,6 +3,7 @@ import { Exo, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { WalletProvider } from "./provider/AptosProvider";
 
 const exo = Exo({ subsets: ["latin"], variable: "--font-exo" });
 
@@ -19,9 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${exo.variable}`}>
-        <Header />
-        {children}
-        {/* <Footer /> */}
+        <WalletProvider>
+          <Header />
+          {children}
+          {/* <Footer /> */}
+        </WalletProvider>
       </body>
     </html>
   );
