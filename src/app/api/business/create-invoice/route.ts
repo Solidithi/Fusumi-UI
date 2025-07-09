@@ -52,8 +52,7 @@ export async function POST(req: NextRequest) {
 
     const newInvoice = await prismaClient.invoice.create({
       data: {
-        ownerAddress:
-          ownerAddress || "0x000000000000000000000000000000000000000",
+        ownerAddress: ownerAddress,
         debtorAddress,
         description,
         startDate: new Date(startDate),
