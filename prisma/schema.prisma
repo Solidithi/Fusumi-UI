@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -15,171 +9,134 @@ datasource db {
 }
 
 model Product {
-  id            Int      @id @default(autoincrement())
+  id            String           @id @default(uuid())
   productName   String
   productType   ProductType
   price         Float
   unitOfMeasure String
   description   String?
-  images        String[] // store the uploaded image’s URL or path
+  images        String[]
   startDate     DateTime
   endDate       DateTime
-
-  invoices InvoiceProduct[]
-  services Service[]        @relation("ServiceBilling")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  invoices      InvoiceProduct[]
+  services      Service[]        @relation("ServiceBilling")
 }
 
 model Invoice {
-  id            Int      @id @default(autoincrement())
+  id            String     @id @default(uuid())
   ownerAddress  String
   debtorAddress String
   description   String?
   paidStatus    PaidStatus @default(PENDING)
   startDate     DateTime
   endDate       DateTime
+  attachments   String[]
 
-  // — Billing: the selected products for this invoice
-  items InvoiceProduct[]
-
-  // — Agreements & Binding: any uploaded docs or images
-  attachments String[] // store the uploaded file URLs or paths
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  businessId String
+  business   Business         @relation(fields: [businessId], references: [id])
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  items      InvoiceProduct[]
 }
 
 model InvoiceProduct {
-  id        Int     @id @default(autoincrement())
-  invoice   Invoice @relation(fields: [invoiceId], references: [id])
-  invoiceId Int
-  product   Product @relation(fields: [productId], references: [id])
-  productId Int
+  id        String  @id @default(uuid())
+  invoiceId String
+  productId String
   quantity  Int
-
-  // you could add fields here like `quantity` or `unitPrice` if needed later
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 }
 
 model ServiceCustomerField {
-  id        Int               @id @default(autoincrement())
-  service   Service           @relation(fields: [serviceId], references: [id])
-  serviceId Int
+  id        String            @id @default(uuid())
+  serviceId String
   field     CustomerInfoField
+  service   Service           @relation(fields: [serviceId], references: [id])
 }
 
 /// the list of possible customer-info fields
 model Service {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String?
-  imageUrl    String? // your “upload” field
-  startDate   DateTime
-  endDate     DateTime
-
-  // — Billing: which Products this service bills
-  products Product[] @relation("ServiceBilling")
-
-
-  // — Customer Info: which fields to collect
+  id             String                 @id @default(uuid())
+  name           String
+  description    String?
+  imageUrl       String?
+  startDate      DateTime
+  endDate        DateTime
+  attachments    String[]
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
   customerFields ServiceCustomerField[]
-
-  // — Agreements & Binding: uploaded docs/images
-  attachments String[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  products       Product[]              @relation("ServiceBilling")
 }
 
 model Offer {
-  id             Int      @id @default(autoincrement())
-  invoiceAddress String // “Invoice Address” text field
-  pricing        Float // “Pricing” numeric field; switch to Decimal if you need exact precision
-  offerStatus    OfferStatus @default(PENDING)
-  startDate      DateTime // “Start Date”
-  endDate        DateTime // “End Date”
-
-  // — Contact Info: select one or more users as contacts
-  contacts      User[]         @relation("OfferContacts")
-  offerContacts OfferContact[]
-
-  // — Agreements & Binding: uploaded docs/images
-  attachments String[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             String         @id @default(uuid())
+  invoiceAddress String
+  pricing        Float
+  offerStatus    OfferStatus    @default(PENDING)
+  startDate      DateTime
+  endDate        DateTime
+  attachments    String[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  offerContacts  OfferContact[]
+  contacts       User[]         @relation("OfferContacts")
 }
 
 /// join‐table for Offer ⇄ User (contact info)
 model OfferContact {
-  offer   Offer @relation(fields: [offerId], references: [id])
-  offerId Int
-  user    User  @relation(fields: [userId], references: [id])
-  userId  Int
+  offerId String
+  userId  String
+  offer   Offer  @relation(fields: [offerId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
 
   @@id([offerId, userId])
 }
 
 model User {
-  id          Int       @id @default(autoincrement())
-  email       String    @unique
-  fullName    String?
-  phone       String?
-  // any other profile‐type fields you need:
-  address     String?
-  zipcode     String?
-  nationality String?
-  personalId  String?
-  sex         String?
-  birthDate   DateTime?
-  imageUrl    String?
-  taxId       String?
-  kycImageUrl String[]
-
-  // — Relations
-  offers        Offer[]        @relation("OfferContacts")
+  id            String         @id @default(uuid())
+  email         String         @unique
+  fullName      String?
+  phone         String?
+  address       String?
+  zipcode       String?
+  nationality   String?
+  personalId    String?
+  sex           String?
+  birthDate     DateTime?
+  imageUrl      String?
+  taxId         String?
+  kycImageUrl   String[]
+  role          UserRole       @default(CUSTOMER)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
   offerContacts OfferContact[]
-  // optionally hook into your existing relations:
-  // invoices    Invoice[] @relation("InvoiceCreator")
-  // services    Service[] @relation("ServiceCreator")
-
-  role      UserRole @default(CUSTOMER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // optionally hook into your existing relations:
-  // invoices    Invoice[]    @relation("InvoiceCreator")
-  // services    Service[]    @relation("ServiceCreator")
+  offers        Offer[]        @relation("OfferContacts")
 }
 
 model Business {
-  id                 String   @id @default(uuid())
-  // Business Info
-  businessName       String
-  registrationNumber String
-  incorporationDate  DateTime
-  businessType       String
-  officialWebsite    String?      // optional
-  businessLogo    String?      // optional - logo image URL
-
-  // Legal Representative Info
-  legalRepFullName   String
-  legalRepId   String
-  legalRepPosition   String
+  id                  String   @id @default(uuid())
+  businessName        String
+  registrationNumber  String
+  incorporationDate   DateTime
+  businessType        String
+  officialWebsite     String?
+  businessLogo        String?
+  legalRepFullName    String
+  legalRepId          String
+  legalRepPosition    String
   legalRepNationality String
-  taxId              String
+  taxId               String
+  financialProfile    String[]
+  documentUrls        String[]
 
-  // Financial & Description
-  financialProfile   String[]
-
-  // File Uploads (as JSON array of URLs if needed)
-  documentUrls       String[]     // array of strings (URLs/paths)
-
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  invoices  Invoice[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
-
 
 enum UserRole {
   BUSINESS
