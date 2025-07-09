@@ -342,7 +342,7 @@ export const mockOfferData: OfferData[] = [
     startDate: "2024-01-15T10:30:00Z",
     endDate: "2024-01-20T14:45:30Z",
     price: 150,
-    rarity: "common",
+    // rarity: "common",
     category: "Character",
   },
   {
@@ -355,7 +355,7 @@ export const mockOfferData: OfferData[] = [
     startDate: "2024-01-10T08:15:00Z",
     endDate: "2024-01-18T16:30:45Z",
     price: 200,
-    rarity: "rare",
+    // rarity: "rare",
     category: "Character",
   },
   {
@@ -368,7 +368,7 @@ export const mockOfferData: OfferData[] = [
     startDate: "2024-01-12T12:00:00Z",
     endDate: "2024-01-25T09:20:15Z",
     price: 300,
-    rarity: "epic",
+    // rarity: "epic",
     category: "Character",
   },
   {
@@ -381,7 +381,7 @@ export const mockOfferData: OfferData[] = [
     startDate: "2024-01-08T14:45:00Z",
     endDate: "2024-01-22T11:15:30Z",
     price: 180,
-    rarity: "common",
+    // rarity: "common",
     category: "Character",
   },
   {
@@ -394,7 +394,7 @@ export const mockOfferData: OfferData[] = [
     startDate: "2024-01-20T16:30:00Z",
     endDate: "2024-02-05T10:45:45Z",
     price: 500,
-    rarity: "legendary",
+    // rarity: "legendary",
     category: "Character",
   },
   {
@@ -407,7 +407,7 @@ export const mockOfferData: OfferData[] = [
     startDate: "2024-01-05T09:00:00Z",
     endDate: "2024-01-12T18:30:20Z",
     price: 120,
-    rarity: "common",
+    // rarity: "common",
     category: "Character",
   },
   {
@@ -420,7 +420,7 @@ export const mockOfferData: OfferData[] = [
     startDate: "2024-01-18T11:20:00Z",
     endDate: "2024-01-30T15:45:10Z",
     price: 250,
-    rarity: "rare",
+    // rarity: "rare",
     category: "Character",
   },
   {
@@ -433,7 +433,7 @@ export const mockOfferData: OfferData[] = [
     startDate: "2024-01-01T00:00:00Z",
     endDate: "2024-02-15T23:59:59Z",
     price: 800,
-    rarity: "legendary",
+    // rarity: "legendary",
     category: "Character",
   },
   {
@@ -446,7 +446,7 @@ export const mockOfferData: OfferData[] = [
     startDate: "2024-01-14T07:30:00Z",
     endDate: "2024-01-28T19:45:25Z",
     price: 350,
-    rarity: "epic",
+    // rarity: "epic",
     category: "Character",
   },
   {
@@ -459,7 +459,7 @@ export const mockOfferData: OfferData[] = [
     startDate: "2024-01-22T13:15:00Z",
     endDate: "2024-02-01T08:30:40Z",
     price: 160,
-    rarity: "common",
+    // rarity: "common",
     category: "Character",
   },
   {
@@ -472,7 +472,7 @@ export const mockOfferData: OfferData[] = [
     startDate: "2024-01-03T15:45:00Z",
     endDate: "2024-01-16T12:20:35Z",
     price: 220,
-    rarity: "rare",
+    // rarity: "rare",
     category: "Character",
   },
   {
@@ -485,7 +485,7 @@ export const mockOfferData: OfferData[] = [
     startDate: "2024-01-25T10:00:00Z",
     endDate: "2024-02-08T16:45:50Z",
     price: 400,
-    rarity: "epic",
+    // rarity: "epic",
     category: "Character",
   },
   // Additional offers for show more
@@ -499,7 +499,7 @@ export const mockOfferData: OfferData[] = [
     startDate: "2024-01-02T06:00:00Z",
     endDate: "2024-01-20T18:30:45Z",
     price: 600,
-    rarity: "legendary",
+    // rarity: "legendary",
     category: "Warrior",
   },
   {
@@ -512,7 +512,7 @@ export const mockOfferData: OfferData[] = [
     startDate: "2024-01-15T09:30:00Z",
     endDate: "2024-02-10T22:15:30Z",
     price: 750,
-    rarity: "legendary",
+    // rarity: "legendary",
     category: "Mythical",
   },
   {
@@ -525,7 +525,7 @@ export const mockOfferData: OfferData[] = [
     startDate: "2024-01-01T12:00:00Z",
     endDate: "2024-03-01T12:00:00Z",
     price: 1000,
-    rarity: "legendary",
+    // rarity: "legendary",
     category: "Warrior",
   },
 ];

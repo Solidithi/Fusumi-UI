@@ -4,3 +4,4 @@
 //   export const Splide: ComponentType<any>;
 //   export const SplideSlide: ComponentType<any>;
 // }
+declare module "@splidejs/react-splide";
