@@ -32,7 +32,7 @@ export default function CreateInvoice() {
   const [billingModalOpen, setBillingModalOpen] = useState(false)
   const [billingData, setBillingData] = useState<{ items: BillingItem[]; total: number } | null>(null)
 
-  const handleBillingSave = (items: BillingItem[], total: number) => {
+  const handleBillingSave = (items: BillingItem[], total: number) => {  
     setBillingData({ items, total })
     console.log("Billing saved:", { items, total })
   }

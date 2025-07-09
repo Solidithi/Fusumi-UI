@@ -34,7 +34,7 @@ export function InvoiceTable({ invoices }: InvoiceTableProps) {
   };
 
   const columns = [
-    { key: "addressOwner", label: "Address Owner" },
+    { key: "NFT Holder", label: "Address Owner" },
     { key: "addressDebtor", label: "Address Debtor" },
     { key: "unitDebt", label: "Unit Debt" },
     { key: "endIn", label: "End In" },

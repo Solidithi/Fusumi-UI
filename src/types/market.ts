@@ -8,7 +8,7 @@ export interface OfferData {
   startDate: string;
   endDate: string;
   price: number;
-  rarity?: "common" | "rare" | "epic" | "legendary";
+  // rarity?: "common" | "rare" | "epic" | "legendary";
   category?: string;
 }
 

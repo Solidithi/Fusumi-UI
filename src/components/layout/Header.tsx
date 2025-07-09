@@ -17,7 +17,7 @@ import Logo from "../../../public/Fusumi_Logo.png";
 export function Header() {
   const route = useRouter();
   const handleClick = () => {
-    route.push("/business/dashboard");
+    // route.push("/business/dashboard");
   };
   const handleLogoClick = () => {
     route.push("/");
@@ -187,7 +187,7 @@ export function Header() {
             className="bg-white text-[#2a849a] hover:bg-white/90 rounded-full py-3 px-6"
             onClick={handleClick}
           >
-            Dashboard
+            Connect Wallet
           </AnimatedButton>
         </motion.div>
       </div>
