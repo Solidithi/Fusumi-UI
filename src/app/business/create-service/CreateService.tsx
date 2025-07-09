@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/ButtonBussiness";
 import { FileUpload } from "@/components/ui/FilesUpload";
 import { Textarea } from "@/components/ui/TextArea";
 import { BillingModal } from "@/components/ui/BillingModal";
-import { CustomerModal } from "@/components/ui/CustomerModal";
+import { CustomerModal } from "@/components/ui/modal/CustomerModal";
 
 const formVariants = {
   hidden: { x: 50, opacity: 0 },

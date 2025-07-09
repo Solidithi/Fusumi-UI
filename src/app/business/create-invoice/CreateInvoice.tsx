@@ -1,15 +1,16 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Label } from "@/components/ui/Label";
-import { Input } from "@/components/ui/Input";
-import { Textarea } from "@/components/ui/TextArea";
 import { BillingModal } from "@/components/ui/BillingModal";
-import { FileUpload } from "@/components/ui/FilesUpload";
-import { Sidebar } from "@/components/ui/SideBar";
 import { Button } from "@/components/ui/ButtonBussiness";
-import { motion } from "framer-motion"
+import { Card, CardContent, CardTitle } from "@/components/ui/Card";
+import { FileUpload } from "@/components/ui/FilesUpload";
+import { Input } from "@/components/ui/Input";
+import { Label } from "@/components/ui/Label";
+import { Sidebar } from "@/components/ui/SideBar";
+import { Textarea } from "@/components/ui/TextArea";
+import axios from "axios";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 const formVariants = {
   hidden: { x: 50, opacity: 0 },
@@ -31,10 +32,38 @@ export default function CreateInvoice() {
   const [sidebarExpanded, setSidebarExpanded] = useState(true)
   const [billingModalOpen, setBillingModalOpen] = useState(false)
   const [billingData, setBillingData] = useState<{ items: BillingItem[]; total: number } | null>(null)
+  const [debtorAddress, setDebtorAddress] = useState("")
+  const [description, setDescription] = useState("")
+  const [startDate, setStartDate] = useState("")
+  const [endDate, setEndDate] = useState("")
 
   const handleBillingSave = (items: BillingItem[], total: number) => {  
     setBillingData({ items, total })
     console.log("Billing saved:", { items, total })
+  }
+
+  const handleCreate = async() => {
+    console.log("Invoice created:", {
+      debtorAddress,
+      description,
+      startDate,
+      endDate,
+      billingData,
+    })
+    const response = await axios.post('/api/business/invoice', {
+      debtorAddress,
+      description,
+      startDate,
+      endDate,
+      billingData,
+    })
+
+    if(response.status !== 200) {
+      console.error("Failed to create invoice")
+      return
+    }
+
+    console.log("Invoice created:", response.data)
   }
 
   return (
@@ -69,6 +98,8 @@ export default function CreateInvoice() {
                     id="debtor-address"
                     placeholder="Enter debtor address"
                     className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 placeholder:text-gray-500 placeholder:opacity-70 transition-all duration-300"
+                    value={debtorAddress}
+                    onChange={e => setDebtorAddress(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
@@ -107,6 +138,8 @@ export default function CreateInvoice() {
                   id="description"
                   placeholder="Enter invoice description"
                   className="min-h-[120px] bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300 resize-none"
+                  value={description}
+                  onChange={e => setDescription(e.target.value)}
                 />
               </motion.div>
 
@@ -125,6 +158,8 @@ export default function CreateInvoice() {
                     id="start-date"
                     type="date"
                     className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
+                    value={startDate}
+                    onChange={e => setStartDate(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
@@ -135,6 +170,8 @@ export default function CreateInvoice() {
                     id="end-date"
                     type="date"
                     className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
+                    value={endDate}
+                    onChange={e => setEndDate(e.target.value)}
                   />
                 </div>
               </motion.div>
@@ -157,7 +194,9 @@ export default function CreateInvoice() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.9, duration: 0.5 }}
               >
-                <Button className="px-12 py-3 bg-gradient-to-r from-[#2a6b7f] to-[#3587A3] hover:from-[#1f5a6b] hover:to-[#2a6b7f] text-white font-semibold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                <Button className="px-12 py-3 bg-gradient-to-r from-[#2a6b7f] to-[#3587A3] hover:from-[#1f5a6b] hover:to-[#2a6b7f] text-white font-semibold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                onClick={handleCreate}
+                >
                   CREATE
                 </Button>
               </motion.div>

@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "./ButtonBussiness"
+import { Button } from "../ButtonBussiness"
 import { X } from "lucide-react"
 import { useState } from "react"
 
