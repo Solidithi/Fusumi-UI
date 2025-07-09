@@ -15,7 +15,7 @@ export default function Repay() {
       <Sidebar
         isExpanded={sidebarExpanded}
         onToggle={() => setSidebarExpanded(!sidebarExpanded)}
-        activePage="home" 
+        activePage="repay" 
         type="customers"  
       />
       <div className="flex  items-center justify-center w-full">

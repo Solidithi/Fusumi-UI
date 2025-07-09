@@ -48,7 +48,7 @@ export function MyNFT() {
       <Sidebar
         isExpanded={sidebarExpanded}
         onToggle={() => setSidebarExpanded(!sidebarExpanded)}
-        activePage="home" // Set active page to "home" for dashboard
+        activePage="my-nft" // Set active page to "home" for dashboard
         type="customers"
       />
       <div className="">

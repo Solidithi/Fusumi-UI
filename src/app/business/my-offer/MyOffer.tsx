@@ -72,7 +72,7 @@ export function OffersContent() {
       <Sidebar
         isExpanded={sidebarExpanded}
         onToggle={() => setSidebarExpanded(!sidebarExpanded)}
-        activePage="home" // Set active page to "home" for dashboard
+        activePage="offer" // Set active page to "home" for dashboard
       />
       <div className="w-full">
         <motion.div

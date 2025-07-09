@@ -31,7 +31,7 @@ export function MyInvoices() {
       <Sidebar
         isExpanded={sidebarExpanded}
         onToggle={() => setSidebarExpanded(!sidebarExpanded)}
-        activePage="home" // Set active page to "home" for dashboard
+        activePage="my-invoices" // Set active page to "home" for dashboard
         type="customers"
       />
       <div className="w-full">
