@@ -38,14 +38,38 @@ export default function CreateProduct() {
   const [endDate, setEndDate] = useState("");
   const [images, setImages] = useState<string[]>([]);
 
+  // collect validation errors
+  const validateForm = (): string[] => {
+    const errors: string[] = [];
+    if (!productName.trim()) errors.push("Product Name is required.");
+    if (!productType.trim()) errors.push("Product Type is required.");
+    if (!(price > 0)) errors.push("Price must be greater than zero.");
+    if (!unitOfMeasure.trim()) errors.push("Unit of Measure is required.");
+    if (!description.trim()) errors.push("Description is required.");
+    if (images.length === 0) errors.push("Please upload at least one image.");
+    if (!startDate) errors.push("Start Date is required.");
+    if (!endDate) errors.push("End Date is required.");
+    if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+      errors.push("Start Date must be before End Date.");
+    }
+    return errors;
+  };
+
   const handleCreate = async () => {
+    // run client‐side validation
+    const errors = validateForm();
+    if (errors.length) {
+      alert("Please fix the following errors:\n" + errors.join("\n"));
+      return;
+    }
+
     const payload = {
       productName,
       productType,
       price,
       unitOfMeasure,
       description,
-      images: images,
+      images,
       startDate,
       endDate,
     };

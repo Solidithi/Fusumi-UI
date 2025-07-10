@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       { success: true, data: newProduct },
-      { status: 201 }
+      { status: 200 }
     );
   } catch (error) {
     console.error("❌ Error creating product:", error);
