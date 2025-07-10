@@ -50,7 +50,7 @@ export default function CreateInvoice() {
       endDate,
       billingData,
     })
-    const response = await axios.post('/api/business/invoice', {
+    const response = await axios.post('/api/business/create-invoice', {
       debtorAddress,
       description,
       startDate,

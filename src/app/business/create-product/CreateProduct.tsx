@@ -74,17 +74,17 @@ export default function CreateProduct() {
       endDate,
     };
 
-    console.log("📤 Payload:", payload);
+    console.log("Payload:", payload);
 
     try {
       const response = await axios.post(
         "/api/business/create-product",
         payload
       );
-      console.log("✅ API Response:", response.data);
+      console.log("API Response:", response.data);
       alert("Product created successfully!");
     } catch (error) {
-      console.error("❌ API Error:", error);
+      console.error("API Error:", error);
       alert("Failed to create product!");
     }
   };
