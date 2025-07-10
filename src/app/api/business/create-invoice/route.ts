@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
       endDate,
       billing,
       agreements,
+      businessId,
     } = body;
 
     console.log(" Parsed:", {
@@ -61,6 +62,11 @@ export async function POST(req: NextRequest) {
         paidStatus: "PENDING",
         createdAt: new Date(),
         updatedAt: new Date(),
+        business: {
+          connect: {
+            id: businessId, // 👈 ID của Business
+          },
+        },
         items: {
           create: mappedItems,
         },
@@ -81,7 +87,7 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("❌ Error creating invoice:", error);
+    console.error("Error creating invoice:", error);
     return NextResponse.json(
       { success: false, error: "Internal Server Error" },
       { status: 500 }
