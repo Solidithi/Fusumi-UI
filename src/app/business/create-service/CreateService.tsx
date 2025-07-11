@@ -1,17 +1,20 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState } from "react";
-import { Plus } from "lucide-react";
-import { Sidebar } from "@/components/ui/SideBar";
-import { Card, CardContent, CardTitle } from "@/components/ui/Card";
-import { Label } from "@/components/ui/Label";
-import { Input } from "@/components/ui/Input";
-import { Button } from "@/components/ui/ButtonBussiness";
-import { FileUpload } from "@/components/ui/FilesUpload";
-import { Textarea } from "@/components/ui/TextArea";
 import { BillingModal } from "@/components/ui/BillingModal";
+import { Button } from "@/components/ui/ButtonBussiness";
+import { Card, CardContent, CardTitle } from "@/components/ui/Card";
+import { FileUpload } from "@/components/ui/FilesUpload";
+import { Input } from "@/components/ui/Input";
+import { Label } from "@/components/ui/Label";
 import { CustomerModal } from "@/components/ui/modal/CustomerModal";
+import { Sidebar } from "@/components/ui/SideBar";
+import { Textarea } from "@/components/ui/TextArea";
+import { toast } from "@/hooks/animation-hook/useToast";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import axios from "axios";
+import { motion } from "framer-motion";
+import { Plus } from "lucide-react";
+import { useState } from "react";
 
 const formVariants = {
   hidden: { x: 50, opacity: 0 },
@@ -44,6 +47,14 @@ interface CustomerFieldsConfig {
   kycImage: boolean;
 }
 
+interface ContactInfo {
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+  address: string;
+}
+
 export default function CreateService() {
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const [billingModalOpen, setBillingModalOpen] = useState(false);
@@ -55,7 +66,13 @@ export default function CreateService() {
   const [customerData, setCustomerData] = useState<CustomerFieldsConfig | null>(
     null
   );
-  
+  const [invoiceAddress, setInvoiceAddress] = useState("");
+  const [pricing, setPricing] = useState(0);
+  const [agreementsData, setAgreementsData] = useState<string[]>([]);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const { account, wallet } = useWallet();
+
   const handleBillingSave = (items: BillingItem[], total: number) => {
     setBillingData({ items, total });
     console.log("Billing saved:", { items, total });
@@ -65,6 +82,12 @@ export default function CreateService() {
     setCustomerData(fieldsConfig);
     console.log("Customer fields config saved:", fieldsConfig);
   };
+
+  const handleAgreementsSave = (files: string[]) => {
+    setAgreementsData(files);
+    console.log("Agreements saved:", files);
+  };
+
   const handleReset = () => {
     // Reset all form fields
     const form = document.querySelector("form") as HTMLFormElement;
@@ -73,7 +96,35 @@ export default function CreateService() {
     }
     setBillingData(null);
     setCustomerData(null);
+    setInvoiceAddress("");
+    setPricing(0);
+    setAgreementsData([]);
+    setStartDate("");
+    setEndDate("");
   };
+
+  const handleCreateService = async () => {
+    if (!account?.address) {
+      toast({
+        title: "Please connect your wallet",
+        description: "You need to connect your wallet to create a service",
+        variant: "destructive",
+      });
+      return;
+    }
+    const response = await axios.post("/api/create-service", {
+      billingData: billingData,
+      customerData: customerData,
+      agreementsData: agreementsData,
+      startDate: startDate,
+      endDate: endDate,
+      invoiceAddress: invoiceAddress,
+      pricing: pricing,
+      account: account?.address,
+    });
+    console.log(response);
+  };
+
   return (
     <div className="min-h-screen bg-white flex">
       {/* Sidebar */}
@@ -148,9 +199,7 @@ export default function CreateService() {
                     {billingData && billingData.total > 0 ? (
                       `$${billingData.total.toFixed(2)}`
                     ) : (
-                      <>
-                        {/* <Receipt className="h-4 w-4 mr-2" /> */} ...
-                      </>
+                      <>{/* <Receipt className="h-4 w-4 mr-2" /> */} ...</>
                     )}
                   </Button>
                 </div>
@@ -226,6 +275,8 @@ export default function CreateService() {
                   <Input
                     id="start-date"
                     type="date"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
                     className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                   />
                 </div>
@@ -239,6 +290,8 @@ export default function CreateService() {
                   <Input
                     id="end-date"
                     type="date"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
                     className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                   />
                 </div>
@@ -254,7 +307,11 @@ export default function CreateService() {
                 <Label className="text-sm font-semibold text-white/90">
                   Agreements & Binding
                 </Label>
-                <FileUpload accept=".pdf,.doc,.docx,.txt" multiple={true} />
+                <FileUpload
+                  accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png"
+                  multiple={true}
+                  onChange={(files) => setAgreementsData(files)}
+                />
               </motion.div>
 
               {/* Create Button */}
@@ -264,7 +321,10 @@ export default function CreateService() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 1.1, duration: 0.5 }}
               >
-                <Button className="px-12 py-3 bg-gradient-to-r from-[#2a6b7f] to-[#3587A3] hover:from-[#1f5a6b] hover:to-[#2a6b7f] text-white font-semibold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                <Button
+                  className="px-12 py-3 bg-gradient-to-r from-[#2a6b7f] to-[#3587A3] hover:from-[#1f5a6b] hover:to-[#2a6b7f] text-white font-semibold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                  onClick={handleCreateService}
+                >
                   CREATE
                 </Button>
               </motion.div>

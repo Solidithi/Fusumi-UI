@@ -1,16 +1,18 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/ButtonBussiness";
+import { Card, CardContent, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { Card, CardContent, CardTitle } from "@/components/ui/Card";
 import { Sidebar } from "@/components/ui/SideBar";
-import { InvoicePreviewModal } from "@/components/ui/modal/InvoicePreviewModal";
-import { ContactInfoModal } from "@/components/ui/modal/ContactInfo";
 import { AgreementsModal } from "@/components/ui/modal/AgreementModal";
+import { ContactInfoModal } from "@/components/ui/modal/ContactInfo";
+import { InvoicePreviewModal } from "@/components/ui/modal/InvoicePreviewModal";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import axios from "axios";
+import { motion } from "framer-motion";
+import { Eye, FileText, User } from "lucide-react";
 import { useState } from "react";
-import { Eye, User, FileText } from "lucide-react";
 
 const formVariants = {
   hidden: { x: 50, opacity: 0 },
@@ -21,7 +23,7 @@ const formVariants = {
   },
 };
 
-interface ContactInfo {
+export interface ContactInfo {
   name: string;
   email: string;
   phone: string;
@@ -34,8 +36,14 @@ export default function CreateOffer() {
   const [invoicePreviewOpen, setInvoicePreviewOpen] = useState(false);
   const [contactInfoOpen, setContactInfoOpen] = useState(false);
   const [agreementsOpen, setAgreementsOpen] = useState(false);
+
+  const [invoiceAddress, setInvoiceAddress] = useState("");
+  const [pricing, setPricing] = useState(0);
   const [contactData, setContactData] = useState<ContactInfo | null>(null);
   const [agreementsData, setAgreementsData] = useState<string[]>([]);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const { account, wallet } = useWallet();
 
   const handleContactSave = (contactInfo: ContactInfo) => {
     setContactData(contactInfo);
@@ -45,6 +53,34 @@ export default function CreateOffer() {
   const handleAgreementsSave = (files: string[]) => {
     setAgreementsData(files);
     console.log("Agreements saved:", files);
+  };
+
+  const handleCreateOffer = async () => {
+    if (!account) {
+      console.log("No account found");
+      return;
+    }
+
+    if (invoiceAddress === "" || pricing === 0 || startDate === "" || endDate === "") {
+      console.log("Missing required fields");
+      return;
+    }
+
+    const response = await axios.post("/api/business/create-offer", {
+      businessAddress: account?.address,
+      invoiceAddress: invoiceAddress,
+      pricing: pricing,
+      contactInfo: contactData,
+      agreements: agreementsData,
+      startDate: startDate,
+      endDate: endDate,
+    });
+
+    if (response.status === 200) {
+      console.log("Offer created successfully");
+    } else {
+      console.log("Failed to create offer");
+    }
   };
 
   return (
@@ -91,6 +127,8 @@ export default function CreateOffer() {
                     id="invoice-address"
                     placeholder="Enter invoice address"
                     className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
+                    value={invoiceAddress}
+                    onChange={(e) => setInvoiceAddress(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
@@ -130,6 +168,8 @@ export default function CreateOffer() {
                     step="0.01"
                     placeholder="Enter pricing amount"
                     className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
+                    value={pricing}
+                    onChange={(e) => setPricing(Number(e.target.value))}
                   />
                 </div>
                 <div className="space-y-2">
@@ -170,6 +210,8 @@ export default function CreateOffer() {
                     id="start-date"
                     type="date"
                     className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
@@ -183,6 +225,8 @@ export default function CreateOffer() {
                     id="end-date"
                     type="date"
                     className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
                   />
                 </div>
               </motion.div>
@@ -216,14 +260,17 @@ export default function CreateOffer() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.9, duration: 0.5 }}
               >
-                <Button className="px-12 py-3 bg-gradient-to-r from-[#2a6b7f] to-[#3587A3] hover:from-[#1f5a6b] hover:to-[#2a6b7f] text-white font-semibold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                <Button
+                  className="px-12 py-3 bg-gradient-to-r from-[#2a6b7f] to-[#3587A3] hover:from-[#1f5a6b] hover:to-[#2a6b7f] text-white font-semibold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                  onClick={handleCreateOffer}
+                >
                   CREATE
                 </Button>
               </motion.div>
             </CardContent>
           </Card>
         </motion.div>
-      </div>  
+      </div>
 
       {/* Modals */}
       <InvoicePreviewModal
