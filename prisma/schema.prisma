@@ -62,6 +62,7 @@ model Service {
   id             String                 @id @default(uuid())
   name           String
   description    String?
+  price          Float
   imageUrl       String?
   startDate      DateTime
   endDate        DateTime
@@ -70,6 +71,8 @@ model Service {
   updatedAt      DateTime               @updatedAt
   customerFields ServiceCustomerField[]
   products       Product[]              @relation("ServiceBilling")
+  businessId     String
+  business       Business               @relation(fields: [businessId], references: [id])
 }
 
 model Offer {
@@ -83,17 +86,18 @@ model Offer {
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   offerContacts  OfferContact[]
-  contacts       User[]         @relation("OfferContacts")
+  businessId     String
+  business       Business               @relation(fields: [businessId], references: [id])
 }
 
 /// join‐table for Offer ⇄ User (contact info)
 model OfferContact {
   offerId String
-  userId  String
+  businessId  String
   offer   Offer  @relation(fields: [offerId], references: [id])
-  user    User   @relation(fields: [userId], references: [id])
+  business    Business   @relation(fields: [businessId], references: [id])
 
-  @@id([offerId, userId])
+  @@id([offerId, businessId])
 }
 
 model User {
@@ -113,8 +117,6 @@ model User {
   role          UserRole       @default(CUSTOMER)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  offerContacts OfferContact[]
-  offers        Offer[]        @relation("OfferContacts")
 }
 
 model Business {
@@ -134,8 +136,11 @@ model Business {
   documentUrls        String[]
 
   invoices  Invoice[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  services  Service[]
+  offers    Offer[]
+  OfferContact OfferContact[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum UserRole {
