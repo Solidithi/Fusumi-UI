@@ -22,12 +22,12 @@ import { useRouter } from "next/navigation";
 // import { Button } from "@/components/ui/button"
 const customersRoot = "/customers/";
 const customersSidebarItems = [
-  {
-    icon: DollarSign,
-    label: "Repay",
-    id: "repay",
-    path: customersRoot + "repay",
-  },
+  // {
+  //   icon: DollarSign,
+  //   label: "Repay",
+  //   id: "repay",
+  //   path: customersRoot + "repay",
+  // },
   {
     icon: FileText,
     label: "My Invoices",

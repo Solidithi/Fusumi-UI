@@ -1,6 +1,6 @@
 "use client";
 import { FilterTabs } from "@/components/shared/FilterTab";
-import { InvoiceTable } from "@/components/shared/InvoiceTable";
+import { CustomerInvoiceTable } from "@/components/shared/CustomerInvoiceTable";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { SearchBar } from "@/components/shared/SearchBar";
 import { Sidebar } from "@/components/ui/SideBar";
@@ -62,7 +62,7 @@ export function MyInvoices() {
               />
             </motion.div>
 
-            <InvoiceTable invoices={filteredInvoices} />
+            <CustomerInvoiceTable invoices={filteredInvoices} />
           </div>
         </motion.div>
       </div>
