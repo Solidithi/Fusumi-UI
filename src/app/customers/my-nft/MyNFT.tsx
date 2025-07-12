@@ -8,7 +8,7 @@ import { NFTGrid } from "@/components/nft/NFTGrid";
 import { mockNFTData } from "@/lib/data";
 import { Sidebar } from "@/components/ui/SideBar";
 
-const ITEMS_PER_PAGE = 15; // 3 rows x 5 columns
+const ITEMS_PER_PAGE = 12; // 3 rows x 5 columns
 
 export function MyNFT() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -51,7 +51,7 @@ export function MyNFT() {
         activePage="my-nft" // Set active page to "home" for dashboard
         type="customers"
       />
-      <div className="">
+      <div className="w-full">
         <motion.div
           className="min-h-screen bg-gray-50 py-8 px-6"
           initial={{ opacity: 0 }}
