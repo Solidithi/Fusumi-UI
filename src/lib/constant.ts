@@ -1,5 +1,5 @@
 export const NAVIGATION_ITEMS = [
-  { label: "For User", href: "/customers/repay" },
+  { label: "For User", href: "/customers/my-invoices" },
   { label: "For Business", href: "/business/dashboard" },
   { label: "Market", href: "/market" },
 ] as const;
