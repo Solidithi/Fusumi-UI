@@ -11,6 +11,9 @@ import { FileUpload } from "@/components/ui/FilesUpload";
 import { useState } from "react";
 import { Building2, ChevronLeft, ChevronRight } from "lucide-react";
 import axios from "axios";
+import { aptos } from "@/utils/indexer";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { fusumi_deployer_address } from "@/utils/deployerAddress";
 
 const formVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -47,6 +50,7 @@ export default function KYBPage() {
   const [taxId, setTaxId] = useState("");
   const [financialProfile, setFinancialProfile] = useState("");
   const [documentUrls, setDocumentUrls] = useState<string[]>([]);
+  const { account, signAndSubmitTransaction } = useWallet();
 
   const handleNext = () => {
     setCurrentStep((prev) => Math.min(prev + 1, 3));
@@ -57,34 +61,55 @@ export default function KYBPage() {
   };
 
   const handleSubmit = async () => {
-    const payload = {
-      businessName,
-      registrationNumber,
-      incorporationDate: new Date(incorporationDate).toISOString(),
-      businessType,
-      officialWebsite,
-      businessLogo,
-      legalRepFullName,
-      legalRepId,
-      legalRepPosition,
-      legalRepNationality,
-      taxId,
-      financialProfile: financialProfile
-        ? financialProfile.split(",").map((s) => s.trim())
-        : [],
-      documentUrls,
-    };
-
-    console.log("Payload:", payload);
-
-    try {
-      const response = await axios.post("/api/business/kyb", payload);
-      console.log("API Response:", response.data);
-      alert("Successfully!");
-    } catch (err) {
-      console.error(err);
-      alert("Server error!");
+    if (account == null) {
+      throw new Error("Unable to find account to sign transaction");
     }
+    const response = await signAndSubmitTransaction({
+      sender: account.address,
+      data: {
+        function: `${fusumi_deployer_address}::business_registry::add_business`,
+        functionArguments: [account.address, account.address],
+      },
+    });
+    console.log(response);
+    try {
+      const txn = await aptos.waitForTransaction({
+        transactionHash: response.hash,
+      });
+
+      console.log("Transaction txn", txn);
+    } catch (error) {
+      console.error(error);
+    }
+
+    // const payload = {
+    //   businessName,
+    //   registrationNumber,
+    //   incorporationDate: new Date(incorporationDate).toISOString(),
+    //   businessType,
+    //   officialWebsite,
+    //   businessLogo,
+    //   legalRepFullName,
+    //   legalRepId,
+    //   legalRepPosition,
+    //   legalRepNationality,
+    //   taxId,
+    //   financialProfile: financialProfile
+    //     ? financialProfile.split(",").map((s) => s.trim())
+    //     : [],
+    //   documentUrls,
+    // };
+
+    // console.log("Payload:", payload);
+
+    // try {
+    //   const response = await axios.post("/api/business/kyb", payload);
+    //   console.log("API Response:", response.data);
+    //   alert("Successfully!");
+    // } catch (err) {
+    //   console.error(err);
+    //   alert("Server error!");
+    // }
   };
 
   return (
