@@ -10,6 +10,9 @@ import { FileUpload } from "@/components/ui/FilesUpload";
 import { Sidebar } from "@/components/ui/SideBar";
 import { Button } from "@/components/ui/ButtonBussiness";
 import axios from "axios";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { aptos } from "@/utils/indexer";
+import { fusumi_deployer_address } from "@/utils/deployerAddress";
 
 interface UploadedFile {
   id: string;
@@ -39,53 +42,127 @@ export default function CreateProduct() {
   const [images, setImages] = useState<string[]>([]);
 
   // collect validation errors
-  const validateForm = (): string[] => {
-    const errors: string[] = [];
-    if (!productName.trim()) errors.push("Product Name is required.");
-    if (!productType.trim()) errors.push("Product Type is required.");
-    if (!(price > 0)) errors.push("Price must be greater than zero.");
-    if (!unitOfMeasure.trim()) errors.push("Unit of Measure is required.");
-    if (!description.trim()) errors.push("Description is required.");
-    if (images.length === 0) errors.push("Please upload at least one image.");
-    if (!startDate) errors.push("Start Date is required.");
-    if (!endDate) errors.push("End Date is required.");
-    if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
-      errors.push("Start Date must be before End Date.");
-    }
-    return errors;
-  };
+  // const validateForm = (): string[] => {
+  //   const errors: string[] = [];
+  //   if (!productName.trim()) errors.push("Product Name is required.");
+  //   if (!productType.trim()) errors.push("Product Type is required.");
+  //   if (!(price > 0)) errors.push("Price must be greater than zero.");
+  //   if (!unitOfMeasure.trim()) errors.push("Unit of Measure is required.");
+  //   if (!description.trim()) errors.push("Description is required.");
+  //   if (images.length === 0) errors.push("Please upload at least one image.");
+  //   if (!startDate) errors.push("Start Date is required.");
+  //   if (!endDate) errors.push("End Date is required.");
+  //   if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+  //     errors.push("Start Date must be before End Date.");
+  //   }
+  //   return errors;
+  // };
 
-  const handleCreate = async () => {
-    // run client‐side validation
-    const errors = validateForm();
-    if (errors.length) {
-      alert("Please fix the following errors:\n" + errors.join("\n"));
+  // const handleCreate = async () => {
+  //   // run client‐side validation
+  //   const errors = validateForm();
+  //   if (errors.length) {
+  //     alert("Please fix the following errors:\n" + errors.join("\n"));
+  //     return;
+  //   }
+
+  //   const payload = {
+  //     productName,
+  //     productType,
+  //     price,
+  //     unitOfMeasure,
+  //     description,
+  //     images,
+  //     startDate,
+  //     endDate,
+  //   };
+
+  //   console.log("Payload:", payload);
+
+  //   try {
+  //     const response = await axios.post(
+  //       "/api/business/create-product",
+  //       payload
+  //     );
+  //     console.log("API Response:", response.data);
+  //     alert("Product created successfully!");
+  //   } catch (error) {
+  //     console.error("API Error:", error);
+  //     alert("Failed to create product!");
+  //   }
+  // };
+  // -----------------------------------------------
+  const { account, connected, connect, signAndSubmitTransaction } = useWallet();
+  const [productId, setProductId] = useState("product-1");
+  // const [productName, setProductName] = useState("My Product");
+  // const [productType, setProductType] = useState("service"); // hoặc 'goods'...
+  // const [productPrice, setProductPrice] = useState(5000);
+  // const [unitOfMeasure, setUnitOfMeasure] = useState("unit");
+  // const [productDescription, setProductDescription] = useState(
+  //   "Optional description"
+  // );
+  // const [productImages, setProductImages] = useState([
+  //   "https://example.com/image1.png",
+  //   "https://example.com/image2.png",
+  // ]);
+  // const [startDate, setStartDate] = useState(1723545600); // unix timestamp
+  // const [endDate, setEndDate] = useState(1726224000); // unix timestamp
+  const startDateTimestamp = Math.floor(new Date(startDate).getTime() / 1000);
+  const endDateTimestamp = Math.floor(new Date(endDate).getTime() / 1000);
+  const handleCreateProduct = async () => {
+    if (!account) {
+      alert("Please connect wallet first");
       return;
     }
 
-    const payload = {
-      productName,
-      productType,
-      price,
-      unitOfMeasure,
-      description,
-      images,
-      startDate,
-      endDate,
-    };
-
-    console.log("Payload:", payload);
+    // Console log all entered values
+    console.log("=== PRODUCT CREATION DATA ===");
+    console.log("Product ID:", productId);
+    console.log("Product Name:", productName);
+    console.log("Product Type:", productType);
+    console.log("Price:", price);
+    console.log("Unit of Measure:", unitOfMeasure);
+    console.log("Description:", description);
+    console.log("Images:", images);
+    console.log("Start Date:", startDate);
+    console.log("End Date:", endDate);
+    console.log("startDateTimestamp:", startDateTimestamp);
+    console.log("endDateTimestamp:", endDateTimestamp);
+    console.log("Connected wallet:", account);
+    console.log("=============================");
 
     try {
-      const response = await axios.post(
-        "/api/business/create-product",
-        payload
-      );
-      console.log("API Response:", response.data);
-      alert("Product created successfully!");
+      // const moveDescription = description
+      //   ? { Some: description }
+      //   : { None: true };
+
+      const tx = await signAndSubmitTransaction({
+        sender: account.address,
+        data: {
+          // function: "0xd9768fa77515f3e23654dce4117ff0539d3ffe9fa4ebc87b78034701529d586e::product_registry::create_product",
+          function: `${fusumi_deployer_address}::product_registry::create_product`,
+          typeArguments: [],
+          functionArguments: [
+            productId,
+            productName,
+            productType,
+            price.toString(),
+            unitOfMeasure,
+            description,
+            ["sdcsd"],
+            startDateTimestamp,
+            endDateTimestamp,
+          ],
+        },
+      });
+
+      console.log(`Created Product! ${tx.hash}`);
+      const wait = await aptos.waitForTransaction({ transactionHash: tx.hash });
+      console.log(`Transaction status: ${wait.success ? "Success" : "Failed"}`);
+      alert(`Successfully created product!`);
     } catch (error) {
-      console.error("API Error:", error);
-      alert("Failed to create product!");
+      console.error("Error creating product:", error);
+      alert("Failed to create product. Check console for details.");
     }
   };
 
@@ -143,12 +220,22 @@ export default function CreateProduct() {
                   >
                     Product Type
                   </Label>
-                  <Input
+                  {/* <Input
                     id="product-type"
                     placeholder="Enter product type"
                     onChange={(e) => setProductType(e.target.value)}
                     className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
-                  />
+                  /> */}
+                  <select
+                    onChange={(e) => setProductType(e.target.value)}
+                    className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300 w-full p-2 rounded-md"
+                  >
+                    <option value="" disabled selected>
+                      Select product type
+                    </option>
+                    <option value="service">SERVICE</option>
+                    <option value="product">PRODUCT</option>
+                  </select>
                 </div>
               </motion.div>
 
@@ -274,7 +361,7 @@ export default function CreateProduct() {
                 transition={{ delay: 1.0, duration: 0.5 }}
               >
                 <Button
-                  onClick={handleCreate}
+                  onClick={handleCreateProduct}
                   className="px-12 py-3 bg-gradient-to-r from-[#2a6b7f] to-[#3587A3] hover:from-[#1f5a6b] hover:to-[#2a6b7f] text-white font-semibold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                 >
                   CREATE
