@@ -67,8 +67,8 @@ export default function KYBPage() {
     const response = await signAndSubmitTransaction({
       sender: account.address,
       data: {
-        function: `${fusumi_deployer_address}::business_registry::add_business`,
-        functionArguments: [account.address, account.address],
+        function: `${fusumi_deployer_address}::debt_factory::add_business`,
+        functionArguments: [account.address],
       },
     });
     console.log(response);
