@@ -1,15 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import type { NFTData } from "@/types/nft";
-import { ShowMoreButton } from "../ui/ShowMoreButton";
 import { NFTCard } from "./NFTCard";
 
 interface NFTGridProps {
   nfts: NFTData[];
   displayedCount: number;
   totalCount: number;
-  onShowMore: () => void;
+  onLoadMore: () => void;
   loading?: boolean;
 }
 
@@ -17,9 +17,11 @@ export function NFTGrid({
   nfts,
   displayedCount,
   totalCount,
-  onShowMore,
+  onLoadMore,
   loading = false,
 }: NFTGridProps) {
+  const loadingRef = useRef<HTMLDivElement>(null);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -32,6 +34,29 @@ export function NFTGrid({
   };
 
   const hasMore = displayedCount < totalCount;
+
+  // Intersection Observer for infinite scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          onLoadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const currentRef = loadingRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [hasMore, loading, onLoadMore]);
 
   return (
     <div>
@@ -46,7 +71,19 @@ export function NFTGrid({
         ))}
       </motion.div>
 
-      {hasMore && <ShowMoreButton onClick={onShowMore} loading={loading} />}
+      {/* Loading indicator and intersection observer trigger */}
+      {hasMore && (
+        <div ref={loadingRef} className="flex justify-center mt-8 py-4">
+          {loading ? (
+            <div className="flex items-center space-x-2 text-gray-500">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#2a849a]"></div>
+              <span>Loading more NFTs...</span>
+            </div>
+          ) : (
+            <div className="h-4"></div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
