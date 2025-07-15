@@ -5,11 +5,12 @@ import { TrendingBusinessSection } from "@/components/sections/TrendingBusinessS
 import { TrendingProductsSection } from "@/components/sections/TrendingProductsSection"
 import CarouselWithProgress, { type Image } from "@/components/shared/Carousel"
 import { SearchBar } from "@/components/shared/SearchBar"
-import { ProductDetailModal } from "@/components/ui/modal/ProductDetailModal"
 import { ReviewModal } from "@/components/ui/modal/ReviewModal"
+import { ServiceDetailModal } from "@/components/ui/modal/ServiceDetailModal"
 import { ProductFilters, type FilterState } from "@/components/ui/ProductFilter"
 import { mockBusinesses } from "@/lib/data"
 import { motion } from "framer-motion"
+import { Building2 } from "lucide-react"
 import { useMemo, useState } from "react"
 
 const carouselImages: Image[] = [
@@ -301,7 +302,10 @@ export default function AllProductsPage() {
           className="mt-12"
         >
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">🏪 All Businesses</h2>
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <Building2 className="h-8 w-8 text-[#3587A3]" />
+              <h2 className="text-3xl font-bold text-gray-900">All Businesses</h2>
+            </div>
             <p className="text-gray-600">Browse products and services from all our partners</p>
           </div>
         </motion.div>
@@ -348,15 +352,14 @@ export default function AllProductsPage() {
         onSubmitReview={handleSubmitReview}
       />
 
-      {/* Product Detail Modal */}
-      <ProductDetailModal
+      {/* Service Detail Modal */}
+      <ServiceDetailModal
         isOpen={detailModal.isOpen}
         onClose={() => setDetailModal({ ...detailModal, isOpen: false })}
-        product={detailModal.product}
+        serviceData={convertProductToServiceData(detailModal.product)}
         reviews={reviews}
         onFavoriteToggle={handleFavoriteToggle}
         onSubmitReview={handleSubmitReview}
-        onAddToCart={handleAddToCart}
       />
     </motion.div>
   )
@@ -405,4 +408,27 @@ function findProductById(productId: string): any {
     if (product) return product
   }
   return null
+}
+
+// Convert product data to service data format for ServiceDetailModal
+function convertProductToServiceData(product: any): any {
+  if (!product) return null
+  
+  return {
+    id: product.id,
+    serviceName: product.name,
+    businessName: product.business,
+    description: product.description || `Experience our premium ${product.name} service. Quality guaranteed with excellent customer support.`,
+    startDate: new Date().toLocaleDateString(),
+    endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString(), // 30 days from now
+    price: product.price,
+    features: [
+      "High-quality service delivery",
+      "24/7 customer support",
+      "Satisfaction guarantee",
+      "Professional expertise",
+      "Timely completion"
+    ],
+    image: product.image
+  }
 }

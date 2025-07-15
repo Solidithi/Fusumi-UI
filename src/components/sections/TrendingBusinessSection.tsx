@@ -1,7 +1,7 @@
 "use client"
 
 import { AnimatePresence, motion } from "framer-motion"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, Store } from "lucide-react"
 import Image from "next/image"
 import { useState } from "react"
 
@@ -60,7 +60,10 @@ export function TrendingBusinessSection({
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">🔥 Trending Businesses</h2>
+          <div className="flex items-center gap-2 mb-2">
+            <Store className="w-6 h-6 text-[#3587A3]" />
+            <h2 className="text-2xl font-bold text-gray-900">Trending Businesses</h2>
+          </div>
           <p className="text-gray-600">Most popular businesses this week</p>
         </div>
         

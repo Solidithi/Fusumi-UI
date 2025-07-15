@@ -1,18 +1,32 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Calendar, DollarSign, CheckCircle } from "lucide-react";
-
-import Image from "next/image";
+import { getFavoriteStatus, getServiceSubscriptionData, toggleFavorite } from "@/lib/data";
 import type { ServiceDetailData } from "@/types/modal";
-import { Portal } from "../Portal";
+import { AnimatePresence, motion } from "framer-motion";
+import { Calendar, CheckCircle, DollarSign, Heart, Send, Star, X } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import { AnimatedButton } from "../Button";
+import { Portal } from "../Portal";
+import { Textarea } from "../TextArea";
+import { SubscriptionFormModal } from "./SubscriptionFormModal";
+
+interface Review {
+  id: string;
+  user: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
 
 interface ServiceDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   serviceData: ServiceDetailData;
+  reviews?: Review[];
+  onSubmitReview?: (rating: number, comment: string) => void;
+  onFavoriteToggle?: (productId: string) => void;
 }
 
 export function ServiceDetailModal({
@@ -20,7 +34,23 @@ export function ServiceDetailModal({
   onClose,
   onClick,
   serviceData,
+  reviews = [],
+  onSubmitReview,
+  onFavoriteToggle,
 }: ServiceDetailModalProps) {
+  const [activeTab, setActiveTab] = useState<"description" | "reviews">("description");
+  const [newRating, setNewRating] = useState(0);
+  const [newComment, setNewComment] = useState("");
+  const [hoveredStar, setHoveredStar] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+
+  // Update favorite status when service changes or modal opens
+  useEffect(() => {
+    if (serviceData) {
+      setIsFavorite(getFavoriteStatus(serviceData.id));
+    }
+  }, [serviceData, isOpen]);
   const overlayVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
@@ -50,6 +80,32 @@ export function ServiceDetailModal({
         duration: 0.2,
       },
     },
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newRating > 0 && newComment.trim() && onSubmitReview) {
+      onSubmitReview(newRating, newComment);
+      setNewRating(0);
+      setNewComment("");
+    }
+  };
+
+  const handleFavoriteToggle = () => {
+    if (!serviceData) return;
+    
+    const newFavoriteStatus = toggleFavorite(serviceData.id);
+    setIsFavorite(newFavoriteStatus);
+    
+    // Also call the parent callback if provided
+    onFavoriteToggle?.(serviceData.id);
+    
+    // Dispatch a custom event to notify other components about the favorite update
+    window.dispatchEvent(new CustomEvent('favoriteUpdated', { detail: { productId: serviceData.id } }));
+  };
+
+  const handleSubscribeClick = () => {
+    setShowSubscriptionModal(true);
   };
 
   const contentVariants = {
@@ -103,14 +159,26 @@ export function ServiceDetailModal({
                 >
                   Service Detail
                 </motion.h2>
-                <motion.button
-                  onClick={onClose}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <X className="w-5 h-5 text-gray-500" />
-                </motion.button>
+                <div className="flex items-center gap-2">
+                  <motion.button
+                    onClick={handleFavoriteToggle}
+                    className={`p-2 rounded-full transition-colors duration-200 ${
+                      isFavorite ? "bg-red-50 text-red-500" : "hover:bg-gray-100 text-gray-500"
+                    }`}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <Heart className={`w-5 h-5 ${isFavorite ? "fill-current" : ""}`} />
+                  </motion.button>
+                  <motion.button
+                    onClick={onClose}
+                    className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <X className="w-5 h-5 text-gray-500" />
+                  </motion.button>
+                </div>
               </div>
 
               {/* Content */}
@@ -226,6 +294,141 @@ export function ServiceDetailModal({
                   </p>
                 </motion.div>
 
+                {/* Tabs */}
+                <motion.div 
+                  className="border-b border-gray-200 mb-6"
+                  variants={itemVariants as any}
+                >
+                  <div className="flex space-x-8">
+                    <button
+                      onClick={() => setActiveTab("description")}
+                      className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                        activeTab === "description"
+                          ? "border-[#2a849a] text-[#2a849a]"
+                          : "border-transparent text-gray-500 hover:text-gray-700"
+                      }`}
+                    >
+                      Description
+                    </button>
+                    <button
+                      onClick={() => setActiveTab("reviews")}
+                      className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                        activeTab === "reviews"
+                          ? "border-[#2a849a] text-[#2a849a]"
+                          : "border-transparent text-gray-500 hover:text-gray-700"
+                      }`}
+                    >
+                      Reviews ({reviews.length})
+                    </button>
+                  </div>
+                </motion.div>
+
+                {/* Tab Content */}
+                <motion.div 
+                  className="min-h-[300px] mb-6"
+                  variants={itemVariants as any}
+                >
+                  {activeTab === "description" ? (
+                    <div className="prose max-w-none">
+                      <p className="text-gray-700 leading-relaxed">{serviceData.description}</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-6">
+                      {/* Write Review Form */}
+                      {onSubmitReview && (
+                        <form onSubmit={handleSubmit} className="bg-gray-50 rounded-xl p-4">
+                          <h4 className="font-semibold text-gray-900 mb-4">Write a Review</h4>
+
+                          {/* Rating Input */}
+                          <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Your Rating</label>
+                            <div className="flex gap-1">
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <button
+                                  key={star}
+                                  type="button"
+                                  className="p-1"
+                                  onMouseEnter={() => setHoveredStar(star)}
+                                  onMouseLeave={() => setHoveredStar(0)}
+                                  onClick={() => setNewRating(star)}
+                                >
+                                  <Star
+                                    className={`w-6 h-6 transition-colors ${
+                                      star <= (hoveredStar || newRating)
+                                        ? "text-yellow-400 fill-current"
+                                        : "text-gray-300"
+                                    }`}
+                                  />
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Comment Input */}
+                          <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Your Review</label>
+                            <Textarea
+                              value={newComment}
+                              onChange={(e) => setNewComment(e.target.value)}
+                              placeholder="Share your experience with this service..."
+                              className="min-h-[100px]"
+                            />
+                          </div>
+
+                          <AnimatedButton
+                            type="submit"
+                            disabled={!newRating || !newComment.trim()}
+                            className="bg-[#2a849a] text-white hover:bg-[#2a849a]/90"
+                          >
+                            <Send className="w-4 h-4 mr-2" />
+                            Submit Review
+                          </AnimatedButton>
+                        </form>
+                      )}
+
+                      {/* Existing Reviews */}
+                      <div className="space-y-4">
+                        <h4 className="font-semibold text-gray-900">All Reviews</h4>
+
+                        {reviews.length === 0 ? (
+                          <p className="text-gray-500 text-center py-8">
+                            No reviews yet. Be the first to review this service!
+                          </p>
+                        ) : (
+                          reviews.map((review) => (
+                            <div key={review.id} className="border-b border-gray-200 pb-4 last:border-b-0">
+                              <div className="flex items-start gap-3">
+                                <div className="w-10 h-10 rounded-full bg-[#2a849a]/10 flex items-center justify-center">
+                                  <span className="text-sm font-medium text-[#2a849a]">
+                                    {review.user.charAt(0).toUpperCase()}
+                                  </span>
+                                </div>
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <span className="font-medium text-gray-900">{review.user}</span>
+                                    <div className="flex">
+                                      {[...Array(5)].map((_, i) => (
+                                        <Star
+                                          key={i}
+                                          className={`w-4 h-4 ${
+                                            i < review.rating ? "text-yellow-400 fill-current" : "text-gray-300"
+                                          }`}
+                                        />
+                                      ))}
+                                    </div>
+                                    <span className="text-sm text-gray-500">{review.date}</span>
+                                  </div>
+                                  <p className="text-gray-700">{review.comment}</p>
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+
                 {/* Action Buttons */}
                 <motion.div
                   className="flex justify-end space-x-4 pt-4"
@@ -241,8 +444,9 @@ export function ServiceDetailModal({
                     Close
                   </AnimatedButton>
                   <AnimatedButton
-                  onClick={onClick}
-                  className="bg-[#2a849a] rounded-xl p-3 hover:bg-[#2a849a]/90 text-white px-6">
+                    onClick={handleSubscribeClick}
+                    className="bg-[#2a849a] rounded-xl p-3 hover:bg-[#2a849a]/90 text-white px-6"
+                  >
                     Subscribe Now
                   </AnimatedButton>
                 </motion.div>
@@ -251,6 +455,15 @@ export function ServiceDetailModal({
           </motion.div>
         )}
       </AnimatePresence>
+      
+      {/* Subscription Modal */}
+      {serviceData && (
+        <SubscriptionFormModal
+          isOpen={showSubscriptionModal}
+          onClose={() => setShowSubscriptionModal(false)}
+          subscriptionData={getServiceSubscriptionData(serviceData.id)}
+        />
+      )}
     </Portal>
   );
 }

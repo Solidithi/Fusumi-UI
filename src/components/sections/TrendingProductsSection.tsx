@@ -3,7 +3,7 @@
 import { ProductCard } from "@/components/ui/ProductCard"
 import { getProductsWithFavorites, toggleFavorite } from "@/lib/data"
 import { AnimatePresence, motion } from "framer-motion"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, TrendingUp } from "lucide-react"
 import { useEffect, useState } from "react"
 
 interface Product {
@@ -119,7 +119,10 @@ export function TrendingProductsSection({
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">⚡ Trending Products</h2>
+          <div className="flex items-center gap-2 mb-2">
+            <TrendingUp className="w-6 h-6 text-[#3587A3]" />
+            <h2 className="text-2xl font-bold text-gray-900">Trending Products</h2>
+          </div>
           <p className="text-gray-600">Hot picks from across all categories</p>
         </div>
         
