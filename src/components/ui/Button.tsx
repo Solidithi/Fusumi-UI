@@ -14,7 +14,8 @@ interface AnimatedButtonProps {
   // onClick?: () => void;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   href?: string;
-  disabled?: boolean; 
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 export const AnimatedButton = forwardRef<

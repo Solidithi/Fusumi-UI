@@ -2,6 +2,7 @@ export const NAVIGATION_ITEMS = [
   { label: "For User", href: "/customers/my-invoices" },
   { label: "For Business", href: "/business/dashboard" },
   { label: "Market", href: "/market" },
+  { label: "Products", href: "/products" }
 ] as const;
 
 export const COLORS = {
