@@ -59,7 +59,7 @@ export function WalletSelector(walletSortingOptions: WalletSortingOptions) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56 bg-white/95 backdrop-blur-md border border-white/20 shadow-xl">
-        <DropdownMenuItem onSelect={copyAddress} className="gap-2 hover:bg-blue-50/50 transition-colors">
+        <DropdownMenuItem onSelect={copyAddress} className="gap-2 hover:bg-blue-50/50 transition-colors text-black/90">
           <Copy className="h-4 w-4 text-blue-500" /> Copy address
         </DropdownMenuItem>
         {wallet && isAptosConnectWallet(wallet) && (
