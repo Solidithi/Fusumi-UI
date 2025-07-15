@@ -325,7 +325,7 @@ export function ServiceDetailModal({
 
                 {/* Tab Content */}
                 <motion.div 
-                  className="min-h-[300px] mb-6"
+                  className="min-h-[100px] mb-6"
                   variants={itemVariants as any}
                 >
                   {activeTab === "description" ? (
@@ -378,7 +378,7 @@ export function ServiceDetailModal({
                           <AnimatedButton
                             type="submit"
                             disabled={!newRating || !newComment.trim()}
-                            className="bg-[#2a849a] text-white hover:bg-[#2a849a]/90"
+                            className="bg-[#2a849a] text-white hover:bg-[#2a849a]/90 flex items-center justify-center rounded-lg px-3 py-2"
                           >
                             <Send className="w-4 h-4 mr-2" />
                             Submit Review

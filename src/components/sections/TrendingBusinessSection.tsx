@@ -1,7 +1,7 @@
 "use client"
 
 import { AnimatePresence, motion } from "framer-motion"
-import { ChevronLeft, ChevronRight, Store } from "lucide-react"
+import { ChevronLeft, ChevronRight, Star, Store } from "lucide-react"
 import Image from "next/image"
 import { useState } from "react"
 
@@ -131,7 +131,7 @@ export function TrendingBusinessSection({
                 <div>
                   <h3 className="font-semibold text-gray-900">{business.name}</h3>
                   <div className="flex items-center gap-1">
-                    <span className="text-yellow-500">⭐</span>
+                    <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                     <span className="text-sm text-gray-600">
                       {business.rating} ({business.totalReviews})
                     </span>
