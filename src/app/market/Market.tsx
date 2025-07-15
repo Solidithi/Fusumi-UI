@@ -9,21 +9,17 @@ import { SearchBar } from "@/components/shared/SearchBar";
 import { FilterTabs } from "@/components/shared/FilterTab";
 import { MarketplaceTabs } from "@/components/market/MarketTabs";
 import { MarketplaceTab } from "@/types/market";
-import { mockNFTData, mockOfferData, mockServiceData } from "@/lib/data";
+import { mockNFTData, mockOfferData } from "@/lib/data";
 import { NFTGrid } from "@/components/nft/NFTGrid";
-import { ServiceList } from "@/components/market/ServiceList";
 import CarouselWithProgress, { Image } from "@/components/shared/Carousel";
 
 const ITEMS_PER_PAGE = 8; // Changed to 8 items per load
-const SERVICES_PER_PAGE = 8; // Changed to 8 services per page
 
 export function MarketplaceContent() {
   const [activeTab, setActiveTab] = useState<MarketplaceTab>("offer");
   const [searchTerm, setSearchTerm] = useState("");
   const [displayedOfferCount, setDisplayedOfferCount] =
     useState(ITEMS_PER_PAGE);
-  const [displayedServiceCount, setDisplayedServiceCount] =
-    useState(SERVICES_PER_PAGE);
   const [loading, setLoading] = useState(false);
 
   const filteredOffers = useMemo(() => {
@@ -32,15 +28,6 @@ export function MarketplaceContent() {
         offer.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         offer.owner.toLowerCase().includes(searchTerm.toLowerCase()) ||
         offer.category?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [searchTerm]);
-
-  const filteredServices = useMemo(() => {
-    return mockServiceData.filter(
-      (service: any) =>
-        service.businessName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        service.serviceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        service.category?.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [searchTerm]);
 
@@ -56,29 +43,15 @@ export function MarketplaceContent() {
     }, 300);
   };
 
-  const handleLoadMoreServices = () => {
-    if (loading) return;
-
-    setLoading(true);
-    setTimeout(() => {
-      setDisplayedServiceCount((prev) =>
-        Math.min(prev + SERVICES_PER_PAGE, filteredServices.length)
-      );
-      setLoading(false);
-    }, 300);
-  };
-
   const handleSearchChange = (term: string) => {
     setSearchTerm(term);
     setDisplayedOfferCount(ITEMS_PER_PAGE);
-    setDisplayedServiceCount(SERVICES_PER_PAGE);
   };
 
   const handleTabChange = (tab: MarketplaceTab) => {
     setActiveTab(tab);
     setSearchTerm("");
     setDisplayedOfferCount(ITEMS_PER_PAGE);
-    setDisplayedServiceCount(SERVICES_PER_PAGE);
   };
 
   const containerVariants = {
@@ -171,11 +144,11 @@ export function MarketplaceContent() {
           </motion.div>
         </motion.div>
 
-        <div className="flex md:flex-row md:items-center md:justify-between mb-8">
-          <MarketplaceTabs
+        <div className="flex md:flex-row md:items-center md:justify-end mb-8">
+          {/* <MarketplaceTabs
             activeTab={activeTab}
             onTabChange={handleTabChange}
-          />
+          /> */}
           {/* <MarketplaceSearch
             searchTerm={searchTerm}
             onSearchChange={handleSearchChange}
@@ -186,9 +159,7 @@ export function MarketplaceContent() {
           <SearchBar
             searchTerm={searchTerm}
             onSearchChange={setSearchTerm}
-            placeholder={
-              activeTab === "offer" ? "Search offers..." : "Search services..."
-            }
+            placeholder="Search offers..."
           />
         </div>
 
@@ -198,35 +169,12 @@ export function MarketplaceContent() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {activeTab === "offer" ? (
-            filteredOffers.length > 0 ? (
-              <NFTGrid
-                nfts={filteredOffers}
-                displayedCount={displayedOfferCount}
-                totalCount={filteredOffers.length}
-                onLoadMore={handleLoadMoreOffers}
-                loading={loading}
-              />
-            ) : (
-              <motion.div
-                className="text-center py-16"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                <div className="text-gray-400 text-6xl mb-4">🔍</div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  No offers found
-                </h3>
-                <p className="text-gray-600">Try adjusting your search terms</p>
-              </motion.div>
-            )
-          ) : filteredServices.length > 0 ? (
-            <ServiceList
-              services={filteredServices}
-              displayedCount={displayedServiceCount}
-              totalCount={filteredServices.length}
-              onLoadMore={handleLoadMoreServices}
+          {filteredOffers.length > 0 ? (
+            <NFTGrid
+              nfts={filteredOffers}
+              displayedCount={displayedOfferCount}
+              totalCount={filteredOffers.length}
+              onLoadMore={handleLoadMoreOffers}
               loading={loading}
             />
           ) : (
@@ -238,7 +186,7 @@ export function MarketplaceContent() {
             >
               <div className="text-gray-400 text-6xl mb-4">🔍</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                No services found
+                No offers found
               </h3>
               <p className="text-gray-600">Try adjusting your search terms</p>
             </motion.div>
