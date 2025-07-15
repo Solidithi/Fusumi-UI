@@ -62,12 +62,12 @@ const businessSidebarItems = [
     id: "invoice",
     path: businessRoot + "/create-invoice",
   },
-  {
-    icon: Wrench,
-    label: "Service Creation",
-    id: "service",
-    path: businessRoot + "/create-service",
-  },
+  // {
+  //   icon: Wrench,
+  //   label: "Service Creation",
+  //   id: "service",
+  //   path: businessRoot + "/create-service",
+  // },
   {
     icon: Tag,
     label: "My Offer",

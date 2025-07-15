@@ -8,13 +8,13 @@ import { NFTGrid } from "@/components/nft/NFTGrid";
 import { mockNFTData } from "@/lib/data";
 import { Sidebar } from "@/components/ui/SideBar";
 
-const ITEMS_PER_PAGE = 12; // 3 rows x 5 columns
+const ITEMS_PER_PAGE = 8; // Changed to 8 items per load
 
 export function MyNFT() {
   const [searchTerm, setSearchTerm] = useState("");
   const [displayedCount, setDisplayedCount] = useState(ITEMS_PER_PAGE);
   const [loading, setLoading] = useState(false);
-  const [sidebarExpanded, setSidebarExpanded] = useState(true); // Add sidebar state
+  const [sidebarExpanded, setSidebarExpanded] = useState(true);
 
   const filteredNFTs = useMemo(() => {
     return mockNFTData.filter(
@@ -25,15 +25,17 @@ export function MyNFT() {
     );
   }, [searchTerm]);
 
-  const handleShowMore = () => {
+  const handleLoadMore = () => {
+    if (loading) return;
+
     setLoading(true);
-    // Simulate loading delay
+    // Simulate loading delay - reduced from 800ms to 300ms
     setTimeout(() => {
       setDisplayedCount((prev) =>
         Math.min(prev + ITEMS_PER_PAGE, filteredNFTs.length)
       );
       setLoading(false);
-    }, 800);
+    }, 100);
   };
 
   // Reset displayed count when search changes
@@ -74,7 +76,7 @@ export function MyNFT() {
                 nfts={filteredNFTs}
                 displayedCount={displayedCount}
                 totalCount={filteredNFTs.length}
-                onShowMore={handleShowMore}
+                onLoadMore={handleLoadMore}
                 loading={loading}
               />
             ) : (

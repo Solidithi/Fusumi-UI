@@ -14,8 +14,8 @@ import { NFTGrid } from "@/components/nft/NFTGrid";
 import { ServiceList } from "@/components/market/ServiceList";
 import CarouselWithProgress, { Image } from "@/components/shared/Carousel";
 
-const ITEMS_PER_PAGE = 15; // 3 rows x 4 columns for offers
-const SERVICES_PER_PAGE = 10; // 10 services per page
+const ITEMS_PER_PAGE = 8; // Changed to 8 items per load
+const SERVICES_PER_PAGE = 8; // Changed to 8 services per page
 
 export function MarketplaceContent() {
   const [activeTab, setActiveTab] = useState<MarketplaceTab>("offer");
@@ -44,24 +44,28 @@ export function MarketplaceContent() {
     );
   }, [searchTerm]);
 
-  const handleShowMoreOffers = () => {
+  const handleLoadMoreOffers = () => {
+    if (loading) return;
+
     setLoading(true);
     setTimeout(() => {
       setDisplayedOfferCount((prev) =>
         Math.min(prev + ITEMS_PER_PAGE, filteredOffers.length)
       );
       setLoading(false);
-    }, 800);
+    }, 300);
   };
 
-  const handleShowMoreServices = () => {
+  const handleLoadMoreServices = () => {
+    if (loading) return;
+
     setLoading(true);
     setTimeout(() => {
       setDisplayedServiceCount((prev) =>
         Math.min(prev + SERVICES_PER_PAGE, filteredServices.length)
       );
       setLoading(false);
-    }, 800);
+    }, 300);
   };
 
   const handleSearchChange = (term: string) => {
@@ -196,18 +200,11 @@ export function MarketplaceContent() {
         >
           {activeTab === "offer" ? (
             filteredOffers.length > 0 ? (
-              //   <OfferGrid
-              //     offers={filteredOffers}
-              //     displayedCount={displayedOfferCount}
-              //     totalCount={filteredOffers.length}
-              //     onShowMore={handleShowMoreOffers}
-              //     loading={loading}
-              //   />
               <NFTGrid
                 nfts={filteredOffers}
                 displayedCount={displayedOfferCount}
                 totalCount={filteredOffers.length}
-                onShowMore={handleShowMoreOffers}
+                onLoadMore={handleLoadMoreOffers}
                 loading={loading}
               />
             ) : (
@@ -229,7 +226,7 @@ export function MarketplaceContent() {
               services={filteredServices}
               displayedCount={displayedServiceCount}
               totalCount={filteredServices.length}
-              onShowMore={handleShowMoreServices}
+              onLoadMore={handleLoadMoreServices}
               loading={loading}
             />
           ) : (
