@@ -1,0 +1,19 @@
+[
+  {
+    "id": "1",
+    "username": "demoUser",
+    "address": "0xec447b2ace49374fdca1330f30d45bd9cc13cbda55f5b04a0bfb40a550aefa0a",
+    "role": "normal",
+    "email": "demo@fusumi.com",
+    "kycStatus": "not_started",
+    "avatar": "https://img.reservoir.tools/images/v2/base/KqtSkRFFlZttDkpvazqwGfPTGS5sCRDCcvUFTlXspj3d83r0pKlXh1OYV2ePRm8FS5OSV3k06mAXta7s%2FKLF6c9P9v5thRB3UB%2BhE79bqwl9STXi2ni8MCfZsyEzhJj2.jpg?width=512"
+  },
+  {
+    "id": "2",
+    "username": "demoBusiness",
+    "role": "business",
+    "email": "business@fusumi.com",
+    "kycStatus": "verified",
+    "avatar": "https://img.reservoir.tools/images/v2/base/hc%2BnPcLmWxs%2FDW99DlBQ42k40ZoyYV5jCIms5qHjwvvLR8Hy6oIs93RgPfXtLmtMM%2BBxHSpla%2FBUOKAcbFKAPYgOTUl%2BMaXa5PeWwQ9W%2FxPPbaePwXiOMFJxmXy2XxrcUwslhotlYJrjcpBo3bB2Ch7qLn6xx0DfOqRbsvhXfABDEl13gXR8eFBl0X2j3UQh.gif?width=512"
+  }
+]
