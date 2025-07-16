@@ -168,11 +168,11 @@ export function MarketplaceContent() {
           </motion.div>
         </motion.div>
 
-        <div className="flex md:flex-row md:items-center md:justify-between mb-8">
-          <MarketplaceTabs
+        <div className="flex md:flex-row md:items-center md:justify-end mb-8">
+          {/* <MarketplaceTabs
             activeTab={activeTab}
             onTabChange={handleTabChange}
-          />
+          /> */}
           {/* <MarketplaceSearch
             searchTerm={searchTerm}
             onSearchChange={handleSearchChange}
@@ -219,26 +219,35 @@ export function MarketplaceContent() {
               </motion.div>
             )
           ) : filteredServices.length > 0 ? (
-            <ServiceList
-              services={filteredServices}
-              displayedCount={displayedServiceCount}
-              totalCount={filteredServices.length}
-              onLoadMore={handleLoadMoreServices}
-              loading={loading}
-            />
-          ) : (
-            <motion.div
-              className="text-center py-16"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
+            // <ServiceList
+            //   services={filteredServices}
+            //   displayedCount={displayedServiceCount}
+            //   totalCount={filteredServices.length}
+            //   onLoadMore={handleLoadMoreServices}
+            //   loading={loading}
+            // />
+            <div className="">
               <div className="text-gray-400 text-6xl mb-4">🔍</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                No services found
+                No offers found
               </h3>
               <p className="text-gray-600">Try adjusting your search terms</p>
-            </motion.div>
+            </div>
+          ) : (
+            // <div className="">
+            //   <div className="text-gray-400 text-6xl mb-4">🔍</div>
+            //   <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            //     No offers found
+            //   </h3>
+            //   <p className="text-gray-600">Try adjusting your search terms</p>
+            // </div>
+            <div className="">
+              <div className="text-gray-400 text-6xl mb-4">🔍</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                No offers found
+              </h3>
+              <p className="text-gray-600">Try adjusting your search terms</p>
+            </div>
           )}
         </motion.div>
       </div>

@@ -22,9 +22,10 @@ interface ProductCardProps {
   index: number
   onFavoriteToggle?: (id: string) => void
   onViewDetails?: (id: string) => void
+  shouldAnimate?: boolean
 }
 
-export function ProductCard({ product, index, onFavoriteToggle, onViewDetails }: ProductCardProps) {
+export function ProductCard({ product, index, onFavoriteToggle, onViewDetails, shouldAnimate = true }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   const cardVariants = {
@@ -34,9 +35,13 @@ export function ProductCard({ product, index, onFavoriteToggle, onViewDetails }:
       y: 0,
       transition: {
         duration: 0.4,
-        delay: index * 0.05,
+        delay: shouldAnimate ? index * 0.05 : 0,
         ease: easeOut,
       },
+    },
+    static: {
+      opacity: 1,
+      y: 0,
     },
   }
 
@@ -44,8 +49,8 @@ export function ProductCard({ product, index, onFavoriteToggle, onViewDetails }:
     <motion.div
       className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group min-w-[280px] flex-shrink-0 cursor-pointer"
       variants={cardVariants}
-      initial="hidden"
-      animate="visible"
+      initial={shouldAnimate ? "hidden" : "static"}
+      animate={shouldAnimate ? "visible" : "static"}
       whileHover={{ y: -5 }}
       onClick={() => onViewDetails?.(product.id)}
     >

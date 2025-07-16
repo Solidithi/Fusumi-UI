@@ -61,16 +61,11 @@ export default function AllProductsPage() {
 
   // Infinite scroll states
   const [displayedBusinessCount, setDisplayedBusinessCount] = useState(3); // Start with 3 businesses
-  const [displayedTrendingBusinessCount, setDisplayedTrendingBusinessCount] =
-    useState(8); // Start with 8 trending businesses
-  const [displayedTrendingProductCount, setDisplayedTrendingProductCount] =
-    useState(8); // Start with 8 trending products
   const [loading, setLoading] = useState(false);
-  const [trendingBusinessLoading, setTrendingBusinessLoading] = useState(false);
-  const [trendingProductLoading, setTrendingProductLoading] = useState(false);
   const loadingRef = useRef<HTMLDivElement>(null);
-  const trendingBusinessLoadingRef = useRef<HTMLDivElement>(null);
-  const trendingProductLoadingRef = useRef<HTMLDivElement>(null);
+  
+  // Track which businesses should animate (only new ones)
+  const [shouldAnimateMap, setShouldAnimateMap] = useState<Map<string, boolean>>(new Map());
 
   // Mock reviews data
   const [reviews] = useState([
@@ -123,17 +118,34 @@ export default function AllProductsPage() {
 
     // Simulate loading delay
     setTimeout(() => {
-      setDisplayedBusinessCount((prev) =>
-        Math.min(prev + 3, filteredBusinesses.length)
-      );
+      const newCount = Math.min(displayedBusinessCount + 3, filteredBusinesses.length);
+      setDisplayedBusinessCount(newCount);
       setLoading(false);
     }, 800);
-  }, [loading, filteredBusinesses.length]);
+  }, [loading, displayedBusinessCount, filteredBusinesses]);
 
   // Reset displayed count when filters change
   useEffect(() => {
     setDisplayedBusinessCount(3);
+    setShouldAnimateMap(new Map()); // Reset animation tracking
   }, [searchTerm, filters]);
+
+  // Track new businesses to animate only newly loaded ones
+  useEffect(() => {
+    const currentBusinesses = filteredBusinesses.slice(0, displayedBusinessCount);
+    setShouldAnimateMap(prev => {
+      const newMap = new Map(prev);
+      
+      currentBusinesses.forEach((business, index) => {
+        if (!newMap.has(business.id)) {
+          // Mark new businesses for animation
+          newMap.set(business.id, true);
+        }
+      });
+      
+      return newMap;
+    });
+  }, [displayedBusinessCount, filteredBusinesses]);
 
   // Intersection Observer for infinite scroll
   useEffect(() => {
@@ -230,32 +242,6 @@ export default function AllProductsPage() {
     return allTrendingProducts.sort((a, b) => b.rating - a.rating).slice(0, 16);
   }, []);
 
-  // Load more trending businesses function
-  const loadMoreTrendingBusinesses = useCallback(() => {
-    if (trendingBusinessLoading) return;
-    setTrendingBusinessLoading(true);
-
-    setTimeout(() => {
-      setDisplayedTrendingBusinessCount((prev) =>
-        Math.min(prev + 4, trendingBusinesses.length)
-      );
-      setTrendingBusinessLoading(false);
-    }, 600);
-  }, [trendingBusinessLoading, trendingBusinesses.length]);
-
-  // Load more trending products function
-  const loadMoreTrendingProducts = useCallback(() => {
-    if (trendingProductLoading) return;
-    setTrendingProductLoading(true);
-
-    setTimeout(() => {
-      setDisplayedTrendingProductCount((prev) =>
-        Math.min(prev + 4, trendingProducts.length)
-      );
-      setTrendingProductLoading(false);
-    }, 600);
-  }, [trendingProductLoading, trendingProducts.length]);
-
   const handleFavoriteToggle = (productId: string) => {
     setFavorites((prev) => {
       const newFavorites = new Set(prev);
@@ -298,76 +284,6 @@ export default function AllProductsPage() {
     });
     setReviewModal({ ...reviewModal, isOpen: false });
   };
-
-  // Reset displayed counts when filters change
-  useEffect(() => {
-    setDisplayedTrendingBusinessCount(8);
-    setDisplayedTrendingProductCount(8);
-  }, [searchTerm, filters]);
-
-  // Intersection Observer for trending businesses infinite scroll
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (
-          entries[0].isIntersecting &&
-          displayedTrendingBusinessCount < trendingBusinesses.length &&
-          !trendingBusinessLoading
-        ) {
-          loadMoreTrendingBusinesses();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    const currentRef = trendingBusinessLoadingRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, [
-    displayedTrendingBusinessCount,
-    trendingBusinesses.length,
-    trendingBusinessLoading,
-    loadMoreTrendingBusinesses,
-  ]);
-
-  // Intersection Observer for trending products infinite scroll
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (
-          entries[0].isIntersecting &&
-          displayedTrendingProductCount < trendingProducts.length &&
-          !trendingProductLoading
-        ) {
-          loadMoreTrendingProducts();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    const currentRef = trendingProductLoadingRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, [
-    displayedTrendingProductCount,
-    trendingProducts.length,
-    trendingProductLoading,
-    loadMoreTrendingProducts,
-  ]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -500,25 +416,43 @@ export default function AllProductsPage() {
         </motion.div>
 
         {/* Business Sections List */}
-        <motion.div
-          className="space-y-8"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
+        <div className="space-y-8">
           {filteredBusinesses.length > 0 ? (
             <>
               {filteredBusinesses
                 .slice(0, displayedBusinessCount)
-                .map((business, index) => (
-                  <motion.div key={business.id} variants={itemVariants as any}>
-                    <BusinessSection
-                      business={business}
-                      onFavoriteToggle={handleFavoriteToggle}
-                      onViewDetails={handleViewDetails}
-                    />
-                  </motion.div>
-                ))}
+                .map((business, index) => {
+                  // Check if this business should animate (first time being rendered)
+                  const shouldAnimate = shouldAnimateMap.get(business.id) === true;
+                  
+                  return (
+                    <motion.div 
+                      key={`business-${business.id}`}
+                      initial={shouldAnimate ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.6,
+                        ease: [0.6, -0.05, 0.01, 0.99],
+                        delay: shouldAnimate ? (index % 3) * 0.1 : 0, // Stagger animation for new items
+                      }}
+                      onAnimationComplete={() => {
+                        // Mark as animated to prevent re-animation
+                        setShouldAnimateMap(prev => {
+                          const newMap = new Map(prev);
+                          newMap.set(business.id, false);
+                          return newMap;
+                        });
+                      }}
+                    >
+                      <BusinessSection
+                        business={business}
+                        onFavoriteToggle={handleFavoriteToggle}
+                        onViewDetails={handleViewDetails}
+                        shouldAnimate={shouldAnimate}
+                      />
+                    </motion.div>
+                  );
+                })}
 
               {/* Loading indicator and intersection observer trigger */}
               {displayedBusinessCount < filteredBusinesses.length && (
@@ -537,7 +471,9 @@ export default function AllProductsPage() {
           ) : (
             <motion.div
               className="text-center py-16"
-              variants={itemVariants as any}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.6, -0.05, 0.01, 0.99] }}
             >
               <div className="text-gray-400 text-6xl mb-4">🔍</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
@@ -548,7 +484,7 @@ export default function AllProductsPage() {
               </p>
             </motion.div>
           )}
-        </motion.div>
+        </div>
       </div>
 
       {/* Review Modal */}
