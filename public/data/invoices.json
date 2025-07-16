@@ -1,0 +1,284 @@
+{
+    "invoices": [
+        {
+            "id": "inv-001",
+            "ownerAddress": "0x1234567890abcdef1234567890abcdef12345678",
+            "debtorAddress": "0xabcdef1234567890abcdef1234567890abcdef12",
+            "description": "Web development project - Phase 1 including frontend design and backend API",
+            "paidStatus": "PAID",
+            "startDate": "2024-01-15T00:00:00.000Z",
+            "endDate": "2024-02-15T00:00:00.000Z",
+            "attachments": [
+                "invoice_001.pdf",
+                "receipt_001.pdf",
+                "project_details.pdf"
+            ],
+            "businessId": "bus-001",
+            "createdAt": "2024-01-15T10:00:00.000Z",
+            "updatedAt": "2024-02-16T10:00:00.000Z"
+        },
+        {
+            "id": "inv-002",
+            "ownerAddress": "0x9876543210fedcba9876543210fedcba98765432",
+            "debtorAddress": "0xfedcba9876543210fedcba9876543210fedcba98",
+            "description": "Organic vegetables monthly subscription - January 2024",
+            "paidStatus": "PENDING",
+            "startDate": "2024-02-01T00:00:00.000Z",
+            "endDate": "2024-02-28T23:59:59.000Z",
+            "attachments": [
+                "invoice_002.pdf",
+                "delivery_schedule.pdf"
+            ],
+            "businessId": "bus-002",
+            "createdAt": "2024-02-01T11:00:00.000Z",
+            "updatedAt": "2024-02-01T11:00:00.000Z"
+        },
+        {
+            "id": "inv-003",
+            "ownerAddress": "0x5555666677778888999900001111222233334444",
+            "debtorAddress": "0x4444333322221111000099998888777766665555",
+            "description": "Cloud infrastructure setup and migration services",
+            "paidStatus": "PAID",
+            "startDate": "2024-01-20T00:00:00.000Z",
+            "endDate": "2024-03-20T00:00:00.000Z",
+            "attachments": [
+                "invoice_003.pdf",
+                "migration_plan.pdf",
+                "completion_cert.pdf"
+            ],
+            "businessId": "bus-003",
+            "createdAt": "2024-01-20T08:30:00.000Z",
+            "updatedAt": "2024-03-21T08:30:00.000Z"
+        },
+        {
+            "id": "inv-004",
+            "ownerAddress": "0xaaabbbbccccddddeeeeffffgggghhhhiiiijjjj",
+            "debtorAddress": "0xjjjjiiiihhhhggggffffeeeedddccccbbbbaaaa",
+            "description": "Eco-friendly packaging materials supply contract",
+            "paidStatus": "OVERDUE",
+            "startDate": "2024-01-10T00:00:00.000Z",
+            "endDate": "2024-02-10T00:00:00.000Z",
+            "attachments": [
+                "invoice_004.pdf",
+                "material_specs.pdf"
+            ],
+            "businessId": "bus-004",
+            "createdAt": "2024-01-10T09:15:00.000Z",
+            "updatedAt": "2024-02-15T09:15:00.000Z"
+        },
+        {
+            "id": "inv-005",
+            "ownerAddress": "0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t",
+            "debtorAddress": "0xt9s8r7q6p5o4n3m2l1k0j9i8h7g6f5e4d3c2b1a",
+            "description": "Mobile app development for iOS and Android platforms",
+            "paidStatus": "PENDING",
+            "startDate": "2024-02-15T00:00:00.000Z",
+            "endDate": "2024-06-15T00:00:00.000Z",
+            "attachments": [
+                "invoice_005.pdf",
+                "app_wireframes.pdf",
+                "development_timeline.pdf"
+            ],
+            "businessId": "bus-001",
+            "createdAt": "2024-02-15T14:00:00.000Z",
+            "updatedAt": "2024-02-15T14:00:00.000Z"
+        },
+        {
+            "id": "inv-006",
+            "ownerAddress": "0xffeeddccbbaa9988776655443322110088776655",
+            "debtorAddress": "0x5566778800112233445566778899aabbccddeeff",
+            "description": "Premium organic fruit basket subscription - February 2024",
+            "paidStatus": "PAID",
+            "startDate": "2024-02-05T00:00:00.000Z",
+            "endDate": "2024-03-05T00:00:00.000Z",
+            "attachments": [
+                "invoice_006.pdf",
+                "organic_certificates.pdf"
+            ],
+            "businessId": "bus-002",
+            "createdAt": "2024-02-05T10:30:00.000Z",
+            "updatedAt": "2024-02-10T10:30:00.000Z"
+        },
+        {
+            "id": "inv-007",
+            "ownerAddress": "0x123abc456def789ghi012jkl345mno678pqr901stu",
+            "debtorAddress": "0xuts109rqp876onm543lkj210ihg987fed654cba321",
+            "description": "AWS cloud consulting and optimization services",
+            "paidStatus": "PENDING",
+            "startDate": "2024-02-20T00:00:00.000Z",
+            "endDate": "2024-04-20T00:00:00.000Z",
+            "attachments": [
+                "invoice_007.pdf",
+                "optimization_report.pdf"
+            ],
+            "businessId": "bus-003",
+            "createdAt": "2024-02-20T13:45:00.000Z",
+            "updatedAt": "2024-02-20T13:45:00.000Z"
+        },
+        {
+            "id": "inv-008",
+            "ownerAddress": "0x9988776655443322110099887766554433221100",
+            "debtorAddress": "0x0011223344556677889900112233445566778899",
+            "description": "Sustainable manufacturing equipment lease agreement",
+            "paidStatus": "PAID",
+            "startDate": "2024-01-25T00:00:00.000Z",
+            "endDate": "2024-07-25T00:00:00.000Z",
+            "attachments": [
+                "invoice_008.pdf",
+                "equipment_specs.pdf",
+                "lease_agreement.pdf"
+            ],
+            "businessId": "bus-004",
+            "createdAt": "2024-01-25T11:20:00.000Z",
+            "updatedAt": "2024-02-01T11:20:00.000Z"
+        }
+    ],
+    "products": [
+        {
+            "id": "prod-001",
+            "productName": "Web Development Service",
+            "productType": "SERVICE",
+            "price": 2500.00,
+            "unitOfMeasure": "per project",
+            "description": "Complete web development solution including frontend, backend, and deployment",
+            "images": [
+                "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop",
+                "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop"
+            ],
+            "startDate": "2024-01-01T00:00:00.000Z",
+            "endDate": "2024-12-31T23:59:59.000Z",
+            "createdAt": "2024-01-01T08:00:00.000Z",
+            "updatedAt": "2024-01-15T08:00:00.000Z"
+        },
+        {
+            "id": "prod-002",
+            "productName": "Organic Vegetables Box",
+            "productType": "PRODUCT",
+            "price": 45.99,
+            "unitOfMeasure": "per box",
+            "description": "Weekly delivery of fresh, locally-grown organic vegetables",
+            "images": [
+                "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&h=300&fit=crop",
+                "https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?w=400&h=300&fit=crop"
+            ],
+            "startDate": "2024-01-01T00:00:00.000Z",
+            "endDate": "2024-12-31T23:59:59.000Z",
+            "createdAt": "2024-01-01T09:00:00.000Z",
+            "updatedAt": "2024-01-10T09:00:00.000Z"
+        },
+        {
+            "id": "prod-003",
+            "productName": "Cloud Migration Service",
+            "productType": "SERVICE",
+            "price": 5000.00,
+            "unitOfMeasure": "per migration",
+            "description": "Complete cloud infrastructure migration with 24/7 support",
+            "images": [
+                "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=300&fit=crop",
+                "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=300&fit=crop"
+            ],
+            "startDate": "2024-01-01T00:00:00.000Z",
+            "endDate": "2024-12-31T23:59:59.000Z",
+            "createdAt": "2024-01-01T07:00:00.000Z",
+            "updatedAt": "2024-01-20T07:00:00.000Z"
+        },
+        {
+            "id": "prod-004",
+            "productName": "Eco-Friendly Packaging",
+            "productType": "PRODUCT",
+            "price": 0.85,
+            "unitOfMeasure": "per unit",
+            "description": "Biodegradable packaging materials made from recycled content",
+            "images": [
+                "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+                "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=400&h=300&fit=crop"
+            ],
+            "startDate": "2024-01-01T00:00:00.000Z",
+            "endDate": "2024-12-31T23:59:59.000Z",
+            "createdAt": "2024-01-01T08:30:00.000Z",
+            "updatedAt": "2024-01-25T08:30:00.000Z"
+        },
+        {
+            "id": "prod-005",
+            "productName": "Mobile App Development",
+            "productType": "SERVICE",
+            "price": 8000.00,
+            "unitOfMeasure": "per app",
+            "description": "Cross-platform mobile application development for iOS and Android",
+            "images": [
+                "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=300&fit=crop",
+                "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=300&fit=crop"
+            ],
+            "startDate": "2024-01-01T00:00:00.000Z",
+            "endDate": "2024-12-31T23:59:59.000Z",
+            "createdAt": "2024-01-15T08:00:00.000Z",
+            "updatedAt": "2024-02-15T08:00:00.000Z"
+        },
+        {
+            "id": "prod-006",
+            "productName": "Organic Fruit Basket",
+            "productType": "PRODUCT",
+            "price": 35.50,
+            "unitOfMeasure": "per basket",
+            "description": "Seasonal organic fruits sourced from local farms",
+            "images": [
+                "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=400&h=300&fit=crop",
+                "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=400&h=300&fit=crop"
+            ],
+            "startDate": "2024-01-01T00:00:00.000Z",
+            "endDate": "2024-12-31T23:59:59.000Z",
+            "createdAt": "2024-01-01T09:00:00.000Z",
+            "updatedAt": "2024-02-05T09:00:00.000Z"
+        }
+    ],
+    "invoiceProducts": [
+        {
+            "id": "ip-001",
+            "invoiceId": "inv-001",
+            "productId": "prod-001",
+            "quantity": 1
+        },
+        {
+            "id": "ip-002",
+            "invoiceId": "inv-002",
+            "productId": "prod-002",
+            "quantity": 4
+        },
+        {
+            "id": "ip-003",
+            "invoiceId": "inv-003",
+            "productId": "prod-003",
+            "quantity": 1
+        },
+        {
+            "id": "ip-004",
+            "invoiceId": "inv-004",
+            "productId": "prod-004",
+            "quantity": 1000
+        },
+        {
+            "id": "ip-005",
+            "invoiceId": "inv-005",
+            "productId": "prod-005",
+            "quantity": 1
+        },
+        {
+            "id": "ip-006",
+            "invoiceId": "inv-006",
+            "productId": "prod-006",
+            "quantity": 6
+        },
+        {
+            "id": "ip-007",
+            "invoiceId": "inv-007",
+            "productId": "prod-003",
+            "quantity": 1
+        },
+        {
+            "id": "ip-008",
+            "invoiceId": "inv-008",
+            "productId": "prod-004",
+            "quantity": 500
+        }
+    ]
+}
