@@ -82,7 +82,7 @@ export function ErrorModal({
             }}
           >
             {/* Error Gradient Accent */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 via-red-400 to-red-500 rounded-t-3xl" />
+            {/* <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 via-red-400 to-red-500 rounded-t-3xl" /> */}
 
             <div className="flex flex-col items-center space-y-8">
               {/* Error Animation */}

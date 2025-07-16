@@ -58,13 +58,13 @@ export function SuccessModal({
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
         >
           {/* Backdrop */}
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/50 to-black/60 backdrop-blur-md"
             onClick={onClose}
-          />
+          /> */}
 
           {/* Modal */}
           <motion.div
@@ -84,7 +84,7 @@ export function SuccessModal({
             }}
           >
             {/* Success Gradient Accent */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-500 via-green-400 to-green-500 rounded-t-3xl" />
+            {/* <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-500 via-green-400 to-green-500 rounded-t-3xl" /> */}
 
             <div className="flex flex-col items-center space-y-8">
               {/* Success Animation */}
