@@ -5,16 +5,90 @@ import { TrendingBusinessSection } from "@/components/sections/TrendingBusinessS
 import { TrendingProductsSection } from "@/components/sections/TrendingProductsSection";
 import CarouselWithProgress, { type Image } from "@/components/shared/Carousel";
 import { SearchBar } from "@/components/shared/SearchBar";
+import { CategorySelect } from "@/components/ui/CategorySelect";
 import { ReviewModal } from "@/components/ui/modal/ReviewModal";
 import { ServiceDetailModal } from "@/components/ui/modal/ServiceDetailModal";
 import {
   ProductFilters,
   type FilterState,
 } from "@/components/ui/ProductFilter";
-import { mockBusinesses } from "@/lib/data";
 import { motion } from "framer-motion";
 import { Building2 } from "lucide-react";
-import { useMemo, useState, useEffect, useRef, useCallback } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
+// Types based on Prisma schema
+interface Business {
+  id: string;
+  businessName: string;
+  registrationNumber: string;
+  incorporationDate: string;
+  businessType: string;
+  officialWebsite?: string;
+  businessLogo?: string;
+  legalRepFullName: string;
+  legalRepId: string;
+  legalRepPosition: string;
+  legalRepNationality: string;
+  taxId: string;
+  financialProfile: string[];
+  documentUrls: string[];
+  description?: string;
+  rating?: number;
+  totalReviews?: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface Product {
+  id: string;
+  productName: string;
+  productType: "SERVICE" | "PRODUCT";
+  price: number;
+  unitOfMeasure: string;
+  description?: string;
+  images: string[];
+  startDate: string;
+  endDate: string;
+  businessId: string;
+  category: string;
+  rating: number;
+  reviews: number;
+  sales: number;
+  type: "service" | "goods";
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface Service {
+  id: string;
+  name: string;
+  description?: string;
+  price: number;
+  imageUrl?: string;
+  startDate: string;
+  endDate: string;
+  attachments: string[];
+  businessId: string;
+  features?: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface Review {
+  id: string;
+  productId: string;
+  user: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
+
+interface ProductsData {
+  businesses: Business[];
+  products: Product[];
+  services: Service[];
+  reviews: Review[];
+}
 
 const carouselImages: Image[] = [
   {
@@ -33,6 +107,7 @@ const carouselImages: Image[] = [
 
 export default function AllProductsPage() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [filters, setFilters] = useState<FilterState>({
     type: [],
     category: [],
@@ -59,15 +134,96 @@ export default function AllProductsPage() {
     product: null,
   });
 
+  // Data state from JSON file
+  const [productsData, setProductsData] = useState<ProductsData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   // Infinite scroll states
   const [displayedBusinessCount, setDisplayedBusinessCount] = useState(3); // Start with 3 businesses
-  const [loading, setLoading] = useState(false);
+  const [businessLoading, setBusinessLoading] = useState(false);
   const loadingRef = useRef<HTMLDivElement>(null);
 
   // Track which businesses should animate (only new ones)
   const [shouldAnimateMap, setShouldAnimateMap] = useState<
     Map<string, boolean>
   >(new Map());
+
+  // Load data from API
+  useEffect(() => {
+    const loadProductsData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/products');
+        if (!response.ok) {
+          throw new Error('Failed to load products data');
+        }
+        const data: ProductsData = await response.json();
+        setProductsData(data);
+        
+        // Load favorites from localStorage
+        const savedFavorites = localStorage.getItem('product-favorites');
+        if (savedFavorites) {
+          setFavorites(new Set(JSON.parse(savedFavorites)));
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProductsData();
+  }, []);
+
+  // Save favorites to localStorage
+  useEffect(() => {
+    localStorage.setItem('product-favorites', JSON.stringify(Array.from(favorites)));
+  }, [favorites]);
+
+  // Create business objects with products grouped
+  const businesses = useMemo(() => {
+    if (!productsData) return [];
+    
+    return productsData.businesses.map(business => {
+      const businessProducts = productsData.products.filter(p => p.businessId === business.id);
+      const businessServices = productsData.services.filter(s => s.businessId === business.id);
+      
+      return {
+        ...business,
+        name: business.businessName,
+        logo: business.businessLogo || `https://ui-avatars.com/api/?name=${encodeURIComponent(business.businessName)}&background=3587A3&color=fff&size=64`,
+        trending: businessProducts.filter(p => p.rating >= 4.5).slice(0, 3),
+        bestSellers: businessProducts.sort((a, b) => b.sales - a.sales).slice(0, 3),
+        goods: businessProducts.filter(p => p.type === 'goods'),
+        services: businessProducts.filter(p => p.type === 'service').concat(
+          businessServices.map(s => ({
+            ...s,
+            id: s.id,
+            name: s.name,
+            productName: s.name,
+            price: s.price,
+            description: s.description,
+            image: s.imageUrl || '/placeholder-service.jpg',
+            images: s.imageUrl ? [s.imageUrl] : [],
+            rating: 4.5, // Default rating for services
+            reviews: Math.floor(Math.random() * 100) + 10,
+            category: 'Service',
+            type: 'service' as const,
+            sales: Math.floor(Math.random() * 200) + 50,
+            business: business.businessName,
+            businessId: s.businessId,
+            productType: 'SERVICE' as const,
+            unitOfMeasure: 'per service',
+            startDate: s.startDate,
+            endDate: s.endDate,
+            createdAt: s.createdAt,
+            updatedAt: s.updatedAt
+          }))
+        )
+      };
+    });
+  }, [productsData]);
 
   // Mock reviews data
   const [reviews] = useState([
@@ -88,35 +244,37 @@ export default function AllProductsPage() {
   ]);
 
   const filteredBusinesses = useMemo(() => {
-    return mockBusinesses
-      .map((business) => ({
+    if (!businesses) return [];
+    
+    return businesses
+      .map((business: any) => ({
         ...business,
-        trending: business.trending.filter((product) =>
-          matchesFilters(product, searchTerm, filters)
+        trending: business.trending.filter((product: any) =>
+          matchesFilters(product, searchTerm, filters, selectedCategory)
         ),
-        bestSellers: business.bestSellers.filter((product) =>
-          matchesFilters(product, searchTerm, filters)
+        bestSellers: business.bestSellers.filter((product: any) =>
+          matchesFilters(product, searchTerm, filters, selectedCategory)
         ),
-        goods: business.goods.filter((product) =>
-          matchesFilters(product, searchTerm, filters)
+        goods: business.goods.filter((product: any) =>
+          matchesFilters(product, searchTerm, filters, selectedCategory)
         ),
-        services: business.services.filter((product) =>
-          matchesFilters(product, searchTerm, filters)
+        services: business.services.filter((product: any) =>
+          matchesFilters(product, searchTerm, filters, selectedCategory)
         ),
       }))
       .filter(
-        (business) =>
+        (business: any) =>
           business.trending.length > 0 ||
           business.bestSellers.length > 0 ||
           business.goods.length > 0 ||
           business.services.length > 0
       );
-  }, [searchTerm, filters]);
+  }, [businesses, searchTerm, filters, selectedCategory]);
 
   // Load more businesses function
   const loadMoreBusinesses = useCallback(() => {
-    if (loading) return;
-    setLoading(true);
+    if (businessLoading) return;
+    setBusinessLoading(true);
 
     // Simulate loading delay
     setTimeout(() => {
@@ -125,9 +283,9 @@ export default function AllProductsPage() {
         filteredBusinesses.length
       );
       setDisplayedBusinessCount(newCount);
-      setLoading(false);
+      setBusinessLoading(false);
     }, 800);
-  }, [loading, displayedBusinessCount, filteredBusinesses]);
+  }, [businessLoading, displayedBusinessCount, filteredBusinesses]);
 
   // Reset displayed count when filters change
   useEffect(() => {
@@ -144,7 +302,7 @@ export default function AllProductsPage() {
     setShouldAnimateMap((prev) => {
       const newMap = new Map(prev);
 
-      currentBusinesses.forEach((business, index) => {
+      currentBusinesses.forEach((business: any, index: number) => {
         if (!newMap.has(business.id)) {
           // Mark new businesses for animation
           newMap.set(business.id, true);
@@ -162,7 +320,7 @@ export default function AllProductsPage() {
         if (
           entries[0].isIntersecting &&
           displayedBusinessCount < filteredBusinesses.length &&
-          !loading
+          !businessLoading
         ) {
           loadMoreBusinesses();
         }
@@ -183,14 +341,16 @@ export default function AllProductsPage() {
   }, [
     displayedBusinessCount,
     filteredBusinesses.length,
-    loading,
+    businessLoading,
     loadMoreBusinesses,
   ]);
 
   // Get trending businesses (top businesses by average product rating)
   const trendingBusinesses = useMemo(() => {
-    return mockBusinesses
-      .map((business) => {
+    if (!businesses) return [];
+    
+    return businesses
+      .map((business: any) => {
         const allProducts = [
           ...business.trending,
           ...business.bestSellers,
@@ -199,11 +359,11 @@ export default function AllProductsPage() {
         ];
         const avgRating =
           allProducts.length > 0
-            ? allProducts.reduce((sum, product) => sum + product.rating, 0) /
+            ? allProducts.reduce((sum: number, product: any) => sum + product.rating, 0) /
               allProducts.length
             : 0;
         const totalReviews = allProducts.reduce(
-          (sum, product) => sum + product.reviews,
+          (sum: number, product: any) => sum + product.reviews,
           0
         );
 
@@ -214,41 +374,43 @@ export default function AllProductsPage() {
         };
       })
       .filter(
-        (business) => business.rating >= 4.5 && business.totalReviews >= 50
+        (business: any) => business.rating >= 4.5 && business.totalReviews >= 50
       )
-      .sort((a, b) => b.rating * b.totalReviews - a.rating * a.totalReviews)
+      .sort((a: any, b: any) => b.rating * b.totalReviews - a.rating * a.totalReviews)
       .slice(0, 12); // Top 12 trending businesses
-  }, []);
+  }, [businesses]);
 
   // Get all trending products across all businesses
   const trendingProducts = useMemo(() => {
+    if (!businesses) return [];
+    
     const allTrendingProducts: any[] = [];
 
-    mockBusinesses.forEach((business) => {
+    businesses.forEach((business: any) => {
       // Add trending products
-      business.trending.forEach((product) => {
+      business.trending.forEach((product: any) => {
         allTrendingProducts.push({
           ...product,
           business: business.name,
           type: "goods" as const,
-          sales: Math.floor(Math.random() * 1000) + 100, // Mock sales data
+          sales: product.sales || Math.floor(Math.random() * 1000) + 100, // Use existing sales or mock
         });
       });
 
       // Add some best sellers as trending too
-      business.bestSellers.slice(0, 2).forEach((product) => {
+      business.bestSellers.slice(0, 2).forEach((product: any) => {
         allTrendingProducts.push({
           ...product,
           business: business.name,
           type: "goods" as const,
-          sales: Math.floor(Math.random() * 1000) + 100,
+          sales: product.sales || Math.floor(Math.random() * 1000) + 100,
         });
       });
     });
 
     // Sort by rating and return top 16
-    return allTrendingProducts.sort((a, b) => b.rating - a.rating).slice(0, 16);
-  }, []);
+    return allTrendingProducts.sort((a: any, b: any) => b.rating - a.rating).slice(0, 16);
+  }, [businesses]);
 
   const handleFavoriteToggle = (productId: string) => {
     setFavorites((prev) => {
@@ -258,13 +420,78 @@ export default function AllProductsPage() {
       } else {
         newFavorites.add(productId);
       }
+      
+      // Emit event for other components
+      window.dispatchEvent(new CustomEvent('favoriteUpdated', {
+        detail: { productId, isFavorite: newFavorites.has(productId) }
+      }));
+      
       return newFavorites;
     });
   };
 
+  // Function to save updated products data
+  const saveProductsData = async (updatedData: ProductsData) => {
+    try {
+      const response = await fetch('/api/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to save data');
+      }
+      
+      setProductsData(updatedData);
+      console.log('Data saved successfully:', updatedData);
+    } catch (error) {
+      console.error('Failed to save data:', error);
+    }
+  };
+
+  // Function to add a new review using API
+  const addReview = async (productId: string, rating: number, comment: string, user: string = 'Anonymous User') => {
+    if (!productsData) return;
+
+    const newReview: Review = {
+      id: `r${Date.now()}`,
+      productId,
+      user,
+      rating,
+      comment,
+      date: new Date().toLocaleDateString()
+    };
+
+    try {
+      const response = await fetch('/api/products', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'add-review',
+          data: newReview
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to add review');
+      }
+      
+      const result = await response.json();
+      setProductsData(result.data);
+      console.log('Review added successfully:', newReview);
+    } catch (error) {
+      console.error('Failed to add review:', error);
+    }
+  };
+
   // Update handleViewDetails:
   const handleViewDetails = (productId: string) => {
-    const product = findProductById(productId);
+    const product = findProductById(productId, businesses);
     if (product) {
       setDetailModal({
         isOpen: true,
@@ -284,7 +511,9 @@ export default function AllProductsPage() {
   };
 
   const handleSubmitReview = (rating: number, comment: string) => {
-    // Handle review submission
+    // Add the review to our data
+    addReview(reviewModal.productId, rating, comment);
+    
     console.log("New review:", {
       rating,
       comment,
@@ -323,30 +552,53 @@ export default function AllProductsPage() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="max-w-7xl mx-auto px-6 pt-8">
-        {/* Header */}
-        <motion.div
-          className="text-center mb-8"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.h1
-            className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
-            variants={itemVariants as any}
-          >
-            All Products
-          </motion.h1>
-          <motion.p
-            className="text-gray-600 max-w-2xl mx-auto"
-            variants={itemVariants as any}
-          >
-            Discover amazing products and services from our trusted business
-            partners. Find exactly what you&apos;re looking for with our
-            advanced search and filtering options.
-          </motion.p>
-        </motion.div>
-      </div>
+      {loading ? (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading products...</p>
+          </div>
+        </div>
+      ) : error ? (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="text-red-500 text-6xl mb-4">⚠️</div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Error Loading Data</h2>
+            <p className="text-gray-600 mb-4">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="max-w-7xl mx-auto px-6 pt-8">
+            {/* Header */}
+            <motion.div
+              className="text-center mb-8"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <motion.h1
+                className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+                variants={itemVariants as any}
+              >
+                All Products
+              </motion.h1>
+              <motion.p
+                className="text-gray-600 max-w-2xl mx-auto"
+                variants={itemVariants as any}
+              >
+                Discover amazing products and services from our trusted business
+                partners. Find exactly what you&apos;re looking for with our
+                advanced search and filtering options.
+              </motion.p>
+            </motion.div>
+          </div>
 
       {/* Hero Carousel */}
       <motion.div
@@ -372,6 +624,14 @@ export default function AllProductsPage() {
               searchTerm={searchTerm}
               onSearchChange={setSearchTerm}
               placeholder="Search products, businesses, or categories..."
+            />
+          </div>
+          <div className="md:max-w-xs">
+            <CategorySelect
+              value={selectedCategory}
+              onValueChange={setSelectedCategory}
+              placeholder="Filter by category"
+              showExamples={false}
             />
           </div>
           <ProductFilters activeFilters={filters} onFilterChange={setFilters} />
@@ -500,24 +760,26 @@ export default function AllProductsPage() {
         </div>
       </div>
 
-      {/* Review Modal */}
-      <ReviewModal
-        isOpen={reviewModal.isOpen}
-        onClose={() => setReviewModal({ ...reviewModal, isOpen: false })}
-        productName={reviewModal.productName}
-        reviews={reviews}
-        onSubmitReview={handleSubmitReview}
-      />
+          {/* Review Modal */}
+          <ReviewModal
+            isOpen={reviewModal.isOpen}
+            onClose={() => setReviewModal({ ...reviewModal, isOpen: false })}
+            productName={reviewModal.productName}
+            reviews={productsData?.reviews || []}
+            onSubmitReview={handleSubmitReview}
+          />
 
-      {/* Service Detail Modal */}
-      <ServiceDetailModal
-        isOpen={detailModal.isOpen}
-        onClose={() => setDetailModal({ ...detailModal, isOpen: false })}
-        serviceData={convertProductToServiceData(detailModal.product)}
-        reviews={reviews}
-        onFavoriteToggle={handleFavoriteToggle}
-        onSubmitReview={handleSubmitReview}
-      />
+          {/* Service Detail Modal */}
+          <ServiceDetailModal
+            isOpen={detailModal.isOpen}
+            onClose={() => setDetailModal({ ...detailModal, isOpen: false })}
+            serviceData={convertProductToServiceData(detailModal.product)}
+            reviews={productsData?.reviews || []}
+            onFavoriteToggle={handleFavoriteToggle}
+            onSubmitReview={handleSubmitReview}
+          />
+        </>
+      )}
     </motion.div>
   );
 }
@@ -526,7 +788,8 @@ export default function AllProductsPage() {
 function matchesFilters(
   product: any,
   searchTerm: string,
-  filters: FilterState
+  filters: FilterState,
+  selectedCategory?: string
 ): boolean {
   // Search term filter
   if (searchTerm) {
@@ -537,6 +800,11 @@ function matchesFilters(
       product.category.toLowerCase().includes(searchLower);
 
     if (!matchesSearch) return false;
+  }
+
+  // Selected category filter (from CategorySelect)
+  if (selectedCategory && product.category !== selectedCategory) {
+    return false;
   }
 
   // Type filter
@@ -568,15 +836,15 @@ function matchesFilters(
   return true;
 }
 
-function findProductById(productId: string): any {
-  for (const business of mockBusinesses) {
+function findProductById(productId: string, businesses: any[]): any {
+  for (const business of businesses) {
     const allProducts = [
       ...business.trending,
       ...business.bestSellers,
       ...business.goods,
       ...business.services,
     ];
-    const product = allProducts.find((p) => p.id === productId);
+    const product = allProducts.find((p: any) => p.id === productId);
     if (product) return product;
   }
   return null;

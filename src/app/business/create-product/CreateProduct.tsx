@@ -1,18 +1,18 @@
 "use client";
 
+import { Button } from "@/components/ui/ButtonBussiness";
+import { Card, CardContent, CardTitle } from "@/components/ui/Card";
+import { CategorySelect } from "@/components/ui/CategorySelect";
+import { FileUpload } from "@/components/ui/FilesUpload";
+import { Input } from "@/components/ui/Input";
+import { Label } from "@/components/ui/Label";
+import { Sidebar } from "@/components/ui/SideBar";
+import { Textarea } from "@/components/ui/TextArea";
+import { fusumi_deployer_address } from "@/utils/deployerAddress";
+import { aptos } from "@/utils/indexer";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Card, CardContent, CardTitle } from "@/components/ui/Card";
-import { Label } from "@/components/ui/Label";
-import { Input } from "@/components/ui/Input";
-import { Textarea } from "@/components/ui/TextArea";
-import { FileUpload } from "@/components/ui/FilesUpload";
-import { Sidebar } from "@/components/ui/SideBar";
-import { Button } from "@/components/ui/ButtonBussiness";
-import axios from "axios";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import { aptos } from "@/utils/indexer";
-import { fusumi_deployer_address } from "@/utils/deployerAddress";
 
 interface UploadedFile {
   id: string;
@@ -34,6 +34,7 @@ export default function CreateProduct() {
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const [productName, setProductName] = useState("");
   const [productType, setProductType] = useState("");
+  const [category, setCategory] = useState("");
   const [price, setPrice] = useState<number>(0);
   const [unitOfMeasure, setUnitOfMeasure] = useState("");
   const [description, setDescription] = useState("");
@@ -115,11 +116,60 @@ export default function CreateProduct() {
       return;
     }
 
+    // Basic validation
+    if (!productName.trim()) {
+      alert("Please enter a product name");
+      return;
+    }
+    if (!productType) {
+      alert("Please select a product type");
+      return;
+    }
+    if (!category) {
+      alert("Please select a business category");
+      return;
+    }
+    if (price <= 0) {
+      alert("Please enter a valid price");
+      return;
+    }
+    // const response = await signAndSubmitTransaction({
+    //   sender: account.address,
+    //   data: {
+    //     function: `${fusumi_deployer_address}::product_registry::create_product`,
+    //     // functionArguments: [
+    //     //   account.address,
+    //     //   "IPFS", //IPFS ICD Image
+    //     //   productName,
+    //     //   productType,
+    //     //   price,
+    //     //   unitOfMeasure,
+    //     //   description,
+    //     //   images,
+    //     //   startDate,
+    //     //   endDate,
+    //     // ],
+    //     functionArguments: [
+    //       account.address.toString(),
+    //       "ipfs://QmXyZ12345abcde", // IPFS ICD Image
+    //       "Premium Coffee Beans",    // productName
+    //       "Grocery",                 // productType
+    //       "1999",                    // price (in smallest unit, e.g., cents or atomic unit)
+    //       "grams",                   // unitOfMeasure
+    //       "High-quality Arabica beans sourced from Vietnam.", // description
+    //       ["ipfs://QmImg1", "ipfs://QmImg2"], // images (array of IPFS links)
+    //       Math.floor(new Date("2025-07-01T00:00:00Z").getTime() / 1000).toString(),
+    //       Math.floor(new Date("2025-12-31T23:59:59Z").getTime() / 1000).toString(),
+    //     ],
+    //   },
+    // });
+
     // Console log all entered values
     console.log("=== PRODUCT CREATION DATA ===");
     console.log("Product ID:", productId);
     console.log("Product Name:", productName);
     console.log("Product Type:", productType);
+    console.log("Category:", category);
     console.log("Price:", price);
     console.log("Unit of Measure:", unitOfMeasure);
     console.log("Description:", description);
@@ -132,38 +182,109 @@ export default function CreateProduct() {
     console.log("=============================");
 
     try {
-      // const moveDescription = description
-      //   ? { Some: description }
-      //   : { None: true };
+      // First, save to JSON via API
+      const productData = {
+        productName,
+        productType: productType.toUpperCase(),
+        category,
+        price,
+        unitOfMeasure,
+        description,
+        images,
+        startDate,
+        endDate,
+        businessId: "b1", // Default business ID - in real app, this would come from authenticated user
+      };
 
-      const tx = await signAndSubmitTransaction({
-        sender: account.address,
-        data: {
-          // function: "0xd9768fa77515f3e23654dce4117ff0539d3ffe9fa4ebc87b78034701529d586e::product_registry::create_product",
-          function: `${fusumi_deployer_address}::product_registry::create_product`,
-          typeArguments: [],
-          functionArguments: [
-            productId,
-            productName,
-            productType,
-            price.toString(),
-            unitOfMeasure,
-            description,
-            ["sdcsd"],
-            startDateTimestamp,
-            endDateTimestamp,
-          ],
+      const apiResponse = await fetch('/api/products/manage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify(productData),
       });
 
-      console.log(`Created Product! ${tx.hash}`);
-      const wait = await aptos.waitForTransaction({ transactionHash: tx.hash });
-      console.log(`Transaction status: ${wait.success ? "Success" : "Failed"}`);
-      alert(`Successfully created product!`);
+      if (!apiResponse.ok) {
+        const errorData = await apiResponse.json();
+        throw new Error(errorData.error || 'Failed to save product to API');
+      }
+
+      const apiResult = await apiResponse.json();
+      console.log('Product saved to API:', apiResult);
+
+      // // Then, submit to blockchain
+      // const tx = await signAndSubmitTransaction({
+      //   sender: account.address,
+      //   data: {
+      //     function: `${fusumi_deployer_address}::product_registry::create_product`,
+      //     typeArguments: [],
+      //     functionArguments: [
+      //       productId,
+      //       productName,
+      //       productType,
+      //       price.toString(),
+      //       unitOfMeasure,
+      //       description,
+      //       images.length > 0 ? images : ["placeholder"],
+      //       startDateTimestamp,
+      //       endDateTimestamp,
+      //     ],
+      //   },
+      // });
+
+      // console.log(`Created Product! ${tx.hash}`);
+      // const wait = await aptos.waitForTransaction({ transactionHash: tx.hash });
+      // console.log(`Transaction status: ${wait.success ? "Success" : "Failed"}`);
+      
+      alert(`Successfully created product!\nAPI: ${apiResult.message}\n`);
+      
+      // Reset form
+      setProductName("");
+      setProductType("");
+      setCategory("");
+      setPrice(0);
+      setUnitOfMeasure("");
+      setDescription("");
+      setImages([]);
+      setStartDate("");
+      setEndDate("");
+      
     } catch (error) {
       console.error("Error creating product:", error);
-      alert("Failed to create product. Check console for details.");
+      alert(`Failed to create product: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
+
+    // run client‐side validation
+    // const errors = validateForm();
+    // if (errors.length) {
+    //   alert("Please fix the following errors:\n" + errors.join("\n"));
+    //   return;
+    // }
+
+    // const payload = {
+    //   productName,
+    //   productType,
+    //   price,
+    //   unitOfMeasure,
+    //   description,
+    //   images,
+    //   startDate,
+    //   endDate,
+    // };
+
+    // console.log("Payload:", payload);
+
+    // try {
+    //   const response = await axios.post(
+    //     "/api/business/create-product",
+    //     payload
+    //   );
+    //   console.log("API Response:", response.data);
+    //   alert("Product created successfully!");
+    // } catch (error) {
+    //   console.error("API Error:", error);
+    //   alert("Failed to create product!");
+    // }
   };
 
   return (
@@ -237,6 +358,27 @@ export default function CreateProduct() {
                     <option value="product">PRODUCT</option>
                   </select>
                 </div>
+              </motion.div>
+
+              {/* Category Selection */}
+              <motion.div
+                className="space-y-2"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.55, duration: 0.5 }}
+              >
+                <Label
+                  htmlFor="category"
+                  className="text-sm font-semibold text-white/90"
+                >
+                  Business Category
+                </Label>
+                <CategorySelect
+                  value={category}
+                  onValueChange={setCategory}
+                  placeholder="Select business category"
+                  showExamples={false}
+                />
               </motion.div>
 
               {/* Second Row - Sale Price and Unit of Measure */}

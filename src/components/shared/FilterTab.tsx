@@ -1,19 +1,21 @@
 "use client";
 
 import { FilterType } from "@/types/dashboard";
+import { PaidStatus } from "@/types/project";
 import { motion } from "framer-motion";
 import { FileText, CheckCircle, Clock } from "lucide-react";
 
 interface FilterTabsProps {
-  activeFilter: FilterType;
-  onFilterChange: (filter: FilterType) => void;
+  activeFilter: PaidStatus;
+  onFilterChange: (filter: PaidStatus) => void;
 }
 
 export function FilterTabs({ activeFilter, onFilterChange }: FilterTabsProps) {
   const tabs = [
-    { id: "total" as FilterType, label: "Total", icon: FileText },
-    { id: "paid" as FilterType, label: "Paid", icon: CheckCircle },
-    { id: "unpaid" as FilterType, label: "Unpaid", icon: Clock },
+    { id: "TOTAL" as PaidStatus, label: "Total", icon: FileText },
+    { id: "PAID" as PaidStatus, label: "Paid", icon: CheckCircle },
+    { id: "OVERDUE" as PaidStatus, label: "Unpaid", icon: Clock },
+    { id: "PENDING" as PaidStatus, label: "Pending", icon: Clock },
   ];
 
   return (

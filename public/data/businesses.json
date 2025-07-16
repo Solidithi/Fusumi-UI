@@ -1,0 +1,212 @@
+{
+  "businesses": [
+    {
+      "id": "b1",
+      "businessName": "TechServ Solutions",
+      "registrationNumber": "REG12345",
+      "incorporationDate": "2020-01-15T00:00:00.000Z",
+      "businessType": "Information Technology",
+      "officialWebsite": "https://techserv.com",
+      "businessLogo": "https://ui-avatars.com/api/?name=TechServ+Solutions&background=3587A3&color=fff&size=64",
+      "legalRepFullName": "John Smith",
+      "legalRepId": "ID123456",
+      "legalRepPosition": "CEO",
+      "legalRepNationality": "American",
+      "taxId": "TAX123456",
+      "financialProfile": [
+        "Revenue: $2M",
+        "Employees: 50"
+      ],
+      "documentUrls": [
+        "https://example.com/doc1.pdf"
+      ],
+      "description": "Leading provider of technology solutions for modern businesses",
+      "rating": 4.8,
+      "totalReviews": 156,
+      "createdAt": "2020-01-15T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "b2",
+      "businessName": "MediCare Plus",
+      "registrationNumber": "REG67890",
+      "incorporationDate": "2019-05-20T00:00:00.000Z",
+      "businessType": "Healthcare",
+      "officialWebsite": "https://medicareplus.com",
+      "businessLogo": "https://ui-avatars.com/api/?name=MediCare+Plus&background=DC2626&color=fff&size=64",
+      "legalRepFullName": "Dr. Sarah Johnson",
+      "legalRepId": "ID789012",
+      "legalRepPosition": "Chief Medical Officer",
+      "legalRepNationality": "Canadian",
+      "taxId": "TAX789012",
+      "financialProfile": [
+        "Revenue: $5M",
+        "Employees: 120"
+      ],
+      "documentUrls": [
+        "https://example.com/doc2.pdf"
+      ],
+      "description": "Comprehensive healthcare services with modern medical facilities",
+      "rating": 4.9,
+      "totalReviews": 203,
+      "createdAt": "2019-05-20T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "b3",
+      "businessName": "FreshMart Retail",
+      "registrationNumber": "REG34567",
+      "incorporationDate": "2021-03-10T00:00:00.000Z",
+      "businessType": "Retail",
+      "officialWebsite": "https://freshmart.com",
+      "businessLogo": "https://ui-avatars.com/api/?name=FreshMart+Retail&background=059669&color=fff&size=64",
+      "legalRepFullName": "Mike Chen",
+      "legalRepId": "ID345678",
+      "legalRepPosition": "Store Manager",
+      "legalRepNationality": "Australian",
+      "taxId": "TAX345678",
+      "financialProfile": [
+        "Revenue: $1.5M",
+        "Employees: 35"
+      ],
+      "documentUrls": [
+        "https://example.com/doc3.pdf"
+      ],
+      "description": "Modern retail store with quality products and excellent service",
+      "rating": 4.6,
+      "totalReviews": 89,
+      "createdAt": "2021-03-10T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "b4",
+      "businessName": "BuildCorp Construction",
+      "registrationNumber": "REG78901",
+      "incorporationDate": "2018-08-12T00:00:00.000Z",
+      "businessType": "Construction",
+      "officialWebsite": "https://buildcorp.com",
+      "businessLogo": "https://ui-avatars.com/api/?name=BuildCorp+Construction&background=F59E0B&color=fff&size=64",
+      "legalRepFullName": "Robert Martinez",
+      "legalRepId": "ID901234",
+      "legalRepPosition": "Project Manager",
+      "legalRepNationality": "American",
+      "taxId": "TAX901234",
+      "financialProfile": [
+        "Revenue: $8M",
+        "Employees: 200"
+      ],
+      "documentUrls": [
+        "https://example.com/doc4.pdf"
+      ],
+      "description": "Professional construction services for residential and commercial projects",
+      "rating": 4.7,
+      "totalReviews": 145,
+      "createdAt": "2018-08-12T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "b5",
+      "businessName": "Taste Paradise Restaurant",
+      "registrationNumber": "REG45678",
+      "incorporationDate": "2022-02-14T00:00:00.000Z",
+      "businessType": "Food & Beverage",
+      "officialWebsite": "https://tasteparadise.com",
+      "businessLogo": "https://ui-avatars.com/api/?name=Taste+Paradise&background=EF4444&color=fff&size=64",
+      "legalRepFullName": "Chef Isabella Rodriguez",
+      "legalRepId": "ID567890",
+      "legalRepPosition": "Head Chef & Owner",
+      "legalRepNationality": "Spanish",
+      "taxId": "TAX567890",
+      "financialProfile": [
+        "Revenue: $750K",
+        "Employees: 15"
+      ],
+      "documentUrls": [
+        "https://example.com/doc5.pdf"
+      ],
+      "description": "Authentic cuisine with fresh ingredients and exceptional dining experience",
+      "rating": 4.8,
+      "totalReviews": 67,
+      "createdAt": "2022-02-14T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "b6",
+      "businessName": "SecureBank Financial",
+      "registrationNumber": "REG12789",
+      "incorporationDate": "2015-11-30T00:00:00.000Z",
+      "businessType": "Banking & Finance",
+      "officialWebsite": "https://securebank.com",
+      "businessLogo": "https://ui-avatars.com/api/?name=SecureBank+Financial&background=1F2937&color=fff&size=64",
+      "legalRepFullName": "David Thompson",
+      "legalRepId": "ID234567",
+      "legalRepPosition": "Branch Manager",
+      "legalRepNationality": "British",
+      "taxId": "TAX234567",
+      "financialProfile": [
+        "Revenue: $12M",
+        "Employees: 80"
+      ],
+      "documentUrls": [
+        "https://example.com/doc6.pdf"
+      ],
+      "description": "Trusted banking services with comprehensive financial solutions",
+      "rating": 4.5,
+      "totalReviews": 234,
+      "createdAt": "2015-11-30T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "b7",
+      "businessName": "BrightFuture Academy",
+      "registrationNumber": "REG56789",
+      "incorporationDate": "2020-09-01T00:00:00.000Z",
+      "businessType": "Education",
+      "officialWebsite": "https://brightfuture.edu",
+      "businessLogo": "https://ui-avatars.com/api/?name=BrightFuture+Academy&background=7C3AED&color=fff&size=64",
+      "legalRepFullName": "Dr. Emily Watson",
+      "legalRepId": "ID345123",
+      "legalRepPosition": "Principal",
+      "legalRepNationality": "American",
+      "taxId": "TAX345123",
+      "financialProfile": [
+        "Revenue: $3M",
+        "Employees: 45"
+      ],
+      "documentUrls": [
+        "https://example.com/doc7.pdf"
+      ],
+      "description": "Excellence in education with modern teaching methods and facilities",
+      "rating": 4.9,
+      "totalReviews": 178,
+      "createdAt": "2020-09-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "b8",
+      "businessName": "WanderLust Travel",
+      "registrationNumber": "REG67123",
+      "incorporationDate": "2019-04-25T00:00:00.000Z",
+      "businessType": "Tourism",
+      "officialWebsite": "https://wanderlust.travel",
+      "businessLogo": "https://ui-avatars.com/api/?name=WanderLust+Travel&background=0EA5E9&color=fff&size=64",
+      "legalRepFullName": "Sofia Anderson",
+      "legalRepId": "ID456789",
+      "legalRepPosition": "Travel Director",
+      "legalRepNationality": "Swedish",
+      "taxId": "TAX456789",
+      "financialProfile": [
+        "Revenue: $2.2M",
+        "Employees: 25"
+      ],
+      "documentUrls": [
+        "https://example.com/doc8.pdf"
+      ],
+      "description": "Unforgettable travel experiences and personalized vacation planning",
+      "rating": 4.7,
+      "totalReviews": 156,
+      "createdAt": "2019-04-25T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    }
+  ]
+}
