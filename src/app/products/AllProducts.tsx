@@ -63,9 +63,11 @@ export default function AllProductsPage() {
   const [displayedBusinessCount, setDisplayedBusinessCount] = useState(3); // Start with 3 businesses
   const [loading, setLoading] = useState(false);
   const loadingRef = useRef<HTMLDivElement>(null);
-  
+
   // Track which businesses should animate (only new ones)
-  const [shouldAnimateMap, setShouldAnimateMap] = useState<Map<string, boolean>>(new Map());
+  const [shouldAnimateMap, setShouldAnimateMap] = useState<
+    Map<string, boolean>
+  >(new Map());
 
   // Mock reviews data
   const [reviews] = useState([
@@ -118,7 +120,10 @@ export default function AllProductsPage() {
 
     // Simulate loading delay
     setTimeout(() => {
-      const newCount = Math.min(displayedBusinessCount + 3, filteredBusinesses.length);
+      const newCount = Math.min(
+        displayedBusinessCount + 3,
+        filteredBusinesses.length
+      );
       setDisplayedBusinessCount(newCount);
       setLoading(false);
     }, 800);
@@ -132,17 +137,20 @@ export default function AllProductsPage() {
 
   // Track new businesses to animate only newly loaded ones
   useEffect(() => {
-    const currentBusinesses = filteredBusinesses.slice(0, displayedBusinessCount);
-    setShouldAnimateMap(prev => {
+    const currentBusinesses = filteredBusinesses.slice(
+      0,
+      displayedBusinessCount
+    );
+    setShouldAnimateMap((prev) => {
       const newMap = new Map(prev);
-      
+
       currentBusinesses.forEach((business, index) => {
         if (!newMap.has(business.id)) {
           // Mark new businesses for animation
           newMap.set(business.id, true);
         }
       });
-      
+
       return newMap;
     });
   }, [displayedBusinessCount, filteredBusinesses]);
@@ -423,12 +431,17 @@ export default function AllProductsPage() {
                 .slice(0, displayedBusinessCount)
                 .map((business, index) => {
                   // Check if this business should animate (first time being rendered)
-                  const shouldAnimate = shouldAnimateMap.get(business.id) === true;
-                  
+                  const shouldAnimate =
+                    shouldAnimateMap.get(business.id) === true;
+
                   return (
-                    <motion.div 
+                    <motion.div
                       key={`business-${business.id}`}
-                      initial={shouldAnimate ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
+                      initial={
+                        shouldAnimate
+                          ? { opacity: 0, y: 30 }
+                          : { opacity: 1, y: 0 }
+                      }
                       animate={{ opacity: 1, y: 0 }}
                       transition={{
                         duration: 0.6,
@@ -437,7 +450,7 @@ export default function AllProductsPage() {
                       }}
                       onAnimationComplete={() => {
                         // Mark as animated to prevent re-animation
-                        setShouldAnimateMap(prev => {
+                        setShouldAnimateMap((prev) => {
                           const newMap = new Map(prev);
                           newMap.set(business.id, false);
                           return newMap;
