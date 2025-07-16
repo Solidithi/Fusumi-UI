@@ -3,7 +3,6 @@ import { FilterTabs } from "@/components/shared/FilterTab";
 import { CustomerInvoiceTable } from "@/components/shared/CustomerInvoiceTable";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { SearchBar } from "@/components/shared/SearchBar";
-import { Sidebar } from "@/components/ui/SideBar";
 import { mockInvoiceData } from "@/lib/data";
 import { FilterType } from "@/types/dashboard";
 import { motion } from "framer-motion";
@@ -27,13 +26,6 @@ export function MyInvoices() {
 
   return (
     <div className="min-h-screen bg-white flex">
-      {/* Sidebar */}
-      <Sidebar
-        isExpanded={sidebarExpanded}
-        onToggle={() => setSidebarExpanded(!sidebarExpanded)}
-        activePage="my-invoices" // Set active page to "home" for dashboard
-        type="customers"
-      />
       <div className="w-full">
         <motion.div
           className="min-h-screen bg-gray-100 py-8 px-6"

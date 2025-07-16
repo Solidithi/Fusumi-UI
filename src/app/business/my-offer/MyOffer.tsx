@@ -7,9 +7,8 @@ import type { OfferDatas } from "@/types/offer";
 import { OffersGrid } from "../../../components/offer/OfferGrid";
 import { OffersHeader } from "../../../components/offer/OfferHeader";
 import { OfferDetailModal } from "@/components/ui/modal/OfferDetailModal";
-import { mockOfferDatas } from "@/lib/data";
+import offersData from "@/../public/data/offers.json";
 import { Sidebar } from "@/components/ui/SideBar";
-// import { mockOfferDatas } from "@/lib/data";
 
 export function OffersContent() {
   const router = useRouter();
@@ -19,23 +18,32 @@ export function OffersContent() {
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [sidebarExpanded, setSidebarExpanded] = useState(true); // Add sidebar state
 
+  // Map offersData to match OfferDatas type
+  const normalizedOffers = useMemo(() => {
+    return offersData.map((offer: any) => ({
+      ...offer,
+      invoiceId: offer.invoiceAddress || offer.invoiceId || "",
+      status: offer.status || "open", // default status
+      updatedAt: offer.updatedAt || offer.createdAt || new Date().toISOString(),
+    }));
+  }, []);
+
   const filteredOffers = useMemo(() => {
-    return mockOfferDatas.filter((offer: any) => {
+    return normalizedOffers.filter((offer: any) => {
       const matchesSearch =
-        offer.contactInfo.name
-          .toLowerCase()
+        offer.contactInfo?.name
+          ?.toLowerCase()
           .includes(searchTerm.toLowerCase()) ||
-        offer.contactInfo.company
-          .toLowerCase()
+        offer.contactInfo?.company
+          ?.toLowerCase()
           .includes(searchTerm.toLowerCase()) ||
         offer.invoiceAddress.toLowerCase().includes(searchTerm.toLowerCase());
 
       const matchesStatus =
         statusFilter === "all" || offer.status === statusFilter;
-
       return matchesSearch && matchesStatus;
     });
-  }, [searchTerm, statusFilter]);
+  }, [searchTerm, statusFilter, normalizedOffers]);
 
   const handleView = (offer: OfferDatas) => {
     setSelectedOffer(offer);

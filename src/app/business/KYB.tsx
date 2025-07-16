@@ -120,7 +120,6 @@ export default function KYBPage() {
         onToggle={() => setSidebarExpanded(!sidebarExpanded)}
         activePage="kyb"
       />
-
       {/* Main Content */}
       <div className="flex-1 p-8">
         <motion.div
@@ -143,7 +142,6 @@ export default function KYBPage() {
               unlock full platform capabilities.
             </p>
           </motion.div>
-
           {/* Progress Indicator - Clickable */}
           <motion.div variants={fieldVariants} className="mb-8">
             <div className="flex items-center justify-center space-x-4">
@@ -180,7 +178,6 @@ export default function KYBPage() {
               </span>
             </div>
           </motion.div>
-
           {/* Form Card */}
           <motion.div variants={fieldVariants}>
             <Card className="bg-gradient-to-br from-[#3587A3] to-[#EDCCBB] shadow-2xl border-0">
@@ -198,12 +195,9 @@ export default function KYBPage() {
                         variants={fieldVariants}
                         className="space-y-2"
                       >
-                        <Label
-                          htmlFor="business-name"
-                          className="text-sm font-semibold text-white/90"
-                        >
-                          Business Name *
-                        </Label>
+                        <label className="block text-sm font-semibold text-white/90 mb-1">
+                          Business Name
+                        </label>
                         <Input
                           id="business-name"
                           placeholder="Enter business name"
@@ -211,17 +205,13 @@ export default function KYBPage() {
                           className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                         />
                       </motion.div>
-
                       <motion.div
                         variants={fieldVariants}
                         className="space-y-2"
                       >
-                        <Label
-                          htmlFor="registration-number"
-                          className="text-sm font-semibold text-white/90"
-                        >
-                          Registration Number *
-                        </Label>
+                        <label className="block text-sm font-semibold text-white/90 mb-1">
+                          Registration Number
+                        </label>
                         <Input
                           id="registration-number"
                           placeholder="Enter registration number"
@@ -232,18 +222,14 @@ export default function KYBPage() {
                         />
                       </motion.div>
                     </div>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <motion.div
                         variants={fieldVariants}
                         className="space-y-2"
                       >
-                        <Label
-                          htmlFor="incorporation-date"
-                          className="text-sm font-semibold text-white/90"
-                        >
-                          Incorporation Date *
-                        </Label>
+                        <label className="block text-sm font-semibold text-white/90 mb-1">
+                          Incorporation Date
+                        </label>
                         <Input
                           id="incorporation-date"
                           type="date"
@@ -251,33 +237,25 @@ export default function KYBPage() {
                           className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                         />
                       </motion.div>
-
                       <motion.div
                         variants={fieldVariants}
                         className="space-y-2"
                       >
-                        <Label
-                          htmlFor="business-type"
-                          className="text-sm font-semibold text-white/90"
-                        >
-                          Business Type *
-                        </Label>
+                        <label className="block text-sm font-semibold text-white/90 mb-1">
+                          Business Type
+                        </label>
                         <Input
                           id="business-type"
-                          placeholder="e.g., LLC, Corporation, Partnership"
+                          placeholder="e.g. LLC, Corporation, etc."
                           onChange={(e) => setBusinessType(e.target.value)}
                           className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                         />
                       </motion.div>
                     </div>
-
                     <motion.div variants={fieldVariants} className="space-y-2">
-                      <Label
-                        htmlFor="official-website"
-                        className="text-sm font-semibold text-white/90"
-                      >
-                        Official Website (if available)
-                      </Label>
+                      <label className="block text-sm font-semibold text-white/90 mb-1">
+                        Official Website
+                      </label>
                       <Input
                         id="official-website"
                         placeholder="https://www.example.com"
@@ -285,11 +263,10 @@ export default function KYBPage() {
                         className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                       />
                     </motion.div>
-
                     <motion.div variants={fieldVariants} className="space-y-2">
-                      <Label className="text-sm font-semibold text-white/90">
+                      <label className="block text-sm font-semibold text-white/90 mb-1">
                         Business Logo
-                      </Label>
+                      </label>
                       <FileUpload
                         accept="image/*"
                         multiple={false}
@@ -298,7 +275,6 @@ export default function KYBPage() {
                     </motion.div>
                   </motion.div>
                 )}
-
                 {/* Step 2: Legal Representative */}
                 {currentStep === 2 && (
                   <motion.div
@@ -312,70 +288,55 @@ export default function KYBPage() {
                         variants={fieldVariants}
                         className="space-y-2"
                       >
-                        <Label
-                          htmlFor="legal-rep-name"
-                          className="text-sm font-semibold text-white/90"
-                        >
-                          Legal Representative Name *
-                        </Label>
+                        <label className="block text-sm font-semibold text-white/90 mb-1">
+                          Full Name
+                        </label>
                         <Input
-                          id="legal-rep-name"
+                          id="legal-rep-full-name"
                           placeholder="Enter full name"
                           onChange={(e) => setLegalRepFullName(e.target.value)}
                           className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                         />
                       </motion.div>
-
                       <motion.div
                         variants={fieldVariants}
                         className="space-y-2"
                       >
-                        <Label
-                          htmlFor="representation-id"
-                          className="text-sm font-semibold text-white/90"
-                        >
-                          Representation ID *
-                        </Label>
+                        <label className="block text-sm font-semibold text-white/90 mb-1">
+                          ID Number
+                        </label>
                         <Input
-                          id="representation-id"
+                          id="legal-rep-id"
                           placeholder="Enter ID number"
                           onChange={(e) => setLegalRepId(e.target.value)}
                           className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                         />
                       </motion.div>
                     </div>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <motion.div
                         variants={fieldVariants}
                         className="space-y-2"
                       >
-                        <Label
-                          htmlFor="rep-position"
-                          className="text-sm font-semibold text-white/90"
-                        >
-                          Representative Position *
-                        </Label>
+                        <label className="block text-sm font-semibold text-white/90 mb-1">
+                          Position
+                        </label>
                         <Input
-                          id="rep-position"
-                          placeholder="e.g., CEO, Director, Manager"
+                          id="legal-rep-position"
+                          placeholder="e.g. CEO, Director, etc."
                           onChange={(e) => setLegalRepPosition(e.target.value)}
                           className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                         />
                       </motion.div>
-
                       <motion.div
                         variants={fieldVariants}
                         className="space-y-2"
                       >
-                        <Label
-                          htmlFor="rep-nationality"
-                          className="text-sm font-semibold text-white/90"
-                        >
-                          Representative Nationality *
-                        </Label>
+                        <label className="block text-sm font-semibold text-white/90 mb-1">
+                          Nationality
+                        </label>
                         <Input
-                          id="rep-nationality"
+                          id="legal-rep-nationality"
                           placeholder="Enter nationality"
                           onChange={(e) =>
                             setLegalRepNationality(e.target.value)
@@ -384,14 +345,10 @@ export default function KYBPage() {
                         />
                       </motion.div>
                     </div>
-
                     <motion.div variants={fieldVariants} className="space-y-2">
-                      <Label
-                        htmlFor="tax-id"
-                        className="text-sm font-semibold text-white/90"
-                      >
-                        Tax ID *
-                      </Label>
+                      <label className="block text-sm font-semibold text-white/90 mb-1">
+                        Tax ID
+                      </label>
                       <Input
                         id="tax-id"
                         placeholder="Enter tax identification number"
@@ -401,7 +358,6 @@ export default function KYBPage() {
                     </motion.div>
                   </motion.div>
                 )}
-
                 {/* Step 3: Financial & Documents */}
                 {currentStep === 3 && (
                   <motion.div
@@ -411,12 +367,9 @@ export default function KYBPage() {
                     className="space-y-6"
                   >
                     <motion.div variants={fieldVariants} className="space-y-2">
-                      <Label
-                        htmlFor="financial-profile"
-                        className="text-sm font-semibold text-white/90"
-                      >
+                      <label className="block text-sm font-semibold text-white/90 mb-1">
                         Financial Profile
-                      </Label>
+                      </label>
                       <Textarea
                         id="financial-profile"
                         placeholder="Describe your business financial profile, annual revenue, funding sources, etc."
@@ -424,41 +377,27 @@ export default function KYBPage() {
                         className="min-h-[120px] bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300 resize-none"
                       />
                     </motion.div>
-
                     <motion.div variants={fieldVariants} className="space-y-2">
-                      <Label className="text-sm font-semibold text-white/90">
-                        Related Files *
-                      </Label>
-                      <p className="text-xs text-gray-500 mb-3">
-                        Upload business registration documents, certificates,
-                        financial statements, etc.
-                      </p>
+                      <label className="block text-sm font-semibold text-white/90 mb-1">
+                        Supporting Documents
+                      </label>
                       <FileUpload
                         accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                         multiple={true}
                         onChange={(urls) => setDocumentUrls(urls)}
                       />
                     </motion.div>
-
                     <motion.div
                       variants={fieldVariants}
                       className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg p-4"
                     >
-                      <h4 className="font-semibold text-white mb-2">
-                        Required Documents:
-                      </h4>
-                      <ul className="text-sm text-white/90 space-y-1">
-                        <li>• Business Registration Certificate</li>
-                        <li>• Articles of Incorporation</li>
-                        <li>• Tax Registration Certificate</li>
-                        <li>• Bank Account Verification</li>
-                        <li>• Legal Representative ID Copy</li>
-                        <li>• Financial Statements (if available)</li>
-                      </ul>
+                      <span className="text-white/80 text-sm">
+                        Upload any relevant business documents, certificates, or
+                        financial statements.
+                      </span>
                     </motion.div>
                   </motion.div>
                 )}
-
                 {/* Navigation Buttons */}
                 <motion.div
                   variants={fieldVariants}
@@ -473,11 +412,9 @@ export default function KYBPage() {
                     <ChevronLeft className="h-4 w-4 mr-2" />
                     Previous
                   </Button>
-
                   <div className="text-sm text-white/70">
                     {currentStep} of 3 steps completed
                   </div>
-
                   <Button
                     onClick={currentStep === 3 ? handleSubmit : handleNext}
                     className="px-8 py-2 bg-gradient-to-r from-[#2a6b7f] to-[#3587A3] hover:from-[#1f5a6b] hover:to-[#2a6b7f] text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"

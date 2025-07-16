@@ -1,8 +1,8 @@
 export const NAVIGATION_ITEMS = [
-  { label: "For User", href: "/customers/my-invoices" },
-  { label: "For Business", href: "/business/dashboard" },
-  { label: "Market", href: "/market" },
-  { label: "Products", href: "/products" }
+  { label: "My Account", href: "/account" },
+  { label: "Business", href: "/business/dashboard" },
+  { label: "Corals Market", href: "/market" },
+  { label: "Business Offers", href: "/products" },
 ] as const;
 
 export const COLORS = {

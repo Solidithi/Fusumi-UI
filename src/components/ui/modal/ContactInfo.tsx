@@ -1,54 +1,62 @@
-"use client"
+"use client";
 
-import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "../ButtonBussiness" 
-import { Input } from "../Input" 
-import { Label } from "../Label" 
-import { Textarea } from "../TextArea"
-import { X, User } from "lucide-react"
-import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "../ButtonBussiness";
+import { Input } from "../Input";
+import { Label } from "../Label";
+import { Textarea } from "../TextArea";
+import { X, User } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useUser } from "@/app/hooks/useUser";
 
 interface ContactInfo {
-  name: string
-  email: string
-  phone: string
-  company: string
-  address: string
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+  address: string;
 }
 
 interface ContactInfoModalProps {
-  isOpen: boolean
-  onClose: () => void
-  onSave?: (contactInfo: ContactInfo) => void
-  initialData?: ContactInfo | null
+  isOpen: boolean;
+  onClose: () => void;
+  onSave?: (contactInfo: ContactInfo) => void;
+  initialData?: ContactInfo | null;
 }
 
-export function ContactInfoModal({ isOpen, onClose, onSave, initialData }: ContactInfoModalProps) {
+export function ContactInfoModal({
+  isOpen,
+  onClose,
+  onSave,
+  initialData,
+}: ContactInfoModalProps) {
+  const currentUser = useUser();
+
   const [contactInfo, setContactInfo] = useState<ContactInfo>({
-    name: "",
-    email: "",
-    phone: "",
-    company: "",
-    address: "",
-  })
+    name: currentUser?.fullName || "",
+    email: currentUser?.email || "",
+    phone: currentUser?.phone || "",
+    company: currentUser?.company || "",
+    address: currentUser?.contactAddress || "",
+  });
 
   useEffect(() => {
     if (initialData) {
-      setContactInfo(initialData)
+      setContactInfo(initialData);
     }
-  }, [initialData])
+  }, [initialData]);
 
   const handleInputChange = (field: keyof ContactInfo, value: string) => {
     setContactInfo((prev) => ({
       ...prev,
       [field]: value,
-    }))
-  }
+    }));
+  };
 
   const handleSave = () => {
-    onSave?.(contactInfo)
-    onClose()
-  }
+    onSave?.(contactInfo);
+    onClose();
+  };
 
   const handleReset = () => {
     setContactInfo({
@@ -57,8 +65,8 @@ export function ContactInfoModal({ isOpen, onClose, onSave, initialData }: Conta
       phone: "",
       company: "",
       address: "",
-    })
-  }
+    });
+  };
 
   return (
     <AnimatePresence>
@@ -87,9 +95,16 @@ export function ContactInfoModal({ isOpen, onClose, onSave, initialData }: Conta
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <User className="h-6 w-6 text-white" />
-                    <h2 className="text-2xl font-bold text-white">Contact Information</h2>
+                    <h2 className="text-2xl font-bold text-white">
+                      Contact Information
+                    </h2>
                   </div>
-                  <Button onClick={onClose} variant="ghost" size="icon" className="text-white hover:bg-white/20">
+                  <Button
+                    onClick={onClose}
+                    variant="ghost"
+                    size="icon"
+                    className="text-white hover:bg-white/20"
+                  >
                     <X className="h-5 w-5" />
                   </Button>
                 </div>
@@ -99,27 +114,37 @@ export function ContactInfoModal({ isOpen, onClose, onSave, initialData }: Conta
               <div className="p-6 space-y-6 max-h-[calc(90vh-200px)] overflow-y-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="contact-name" className="text-sm font-semibold text-white/90">
+                    <Label
+                      htmlFor="contact-name"
+                      className="text-sm font-semibold text-white/90"
+                    >
                       Full Name *
                     </Label>
                     <Input
                       id="contact-name"
                       value={contactInfo.name}
-                      onChange={(e) => handleInputChange("name", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("name", e.target.value)
+                      }
                       placeholder="Enter full name"
                       className="bg-white/90 border-white/30 text-gray-800"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="contact-email" className="text-sm font-semibold text-white/90">
+                    <Label
+                      htmlFor="contact-email"
+                      className="text-sm font-semibold text-white/90"
+                    >
                       Email Address *
                     </Label>
                     <Input
                       id="contact-email"
                       type="email"
                       value={contactInfo.email}
-                      onChange={(e) => handleInputChange("email", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("email", e.target.value)
+                      }
                       placeholder="Enter email address"
                       className="bg-white/90 border-white/30 text-gray-800"
                     />
@@ -128,27 +153,37 @@ export function ContactInfoModal({ isOpen, onClose, onSave, initialData }: Conta
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="contact-phone" className="text-sm font-semibold text-white/90">
+                    <Label
+                      htmlFor="contact-phone"
+                      className="text-sm font-semibold text-white/90"
+                    >
                       Phone Number
                     </Label>
                     <Input
                       id="contact-phone"
                       type="tel"
                       value={contactInfo.phone}
-                      onChange={(e) => handleInputChange("phone", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("phone", e.target.value)
+                      }
                       placeholder="Enter phone number"
                       className="bg-white/90 border-white/30 text-gray-800"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="contact-company" className="text-sm font-semibold text-white/90">
+                    <Label
+                      htmlFor="contact-company"
+                      className="text-sm font-semibold text-white/90"
+                    >
                       Company
                     </Label>
                     <Input
                       id="contact-company"
                       value={contactInfo.company}
-                      onChange={(e) => handleInputChange("company", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("company", e.target.value)
+                      }
                       placeholder="Enter company name"
                       className="bg-white/90 border-white/30 text-gray-800"
                     />
@@ -156,13 +191,18 @@ export function ContactInfoModal({ isOpen, onClose, onSave, initialData }: Conta
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="contact-address" className="text-sm font-semibold text-white/90">
+                  <Label
+                    htmlFor="contact-address"
+                    className="text-sm font-semibold text-white/90"
+                  >
                     Address
                   </Label>
                   <Textarea
                     id="contact-address"
                     value={contactInfo.address}
-                    onChange={(e) => handleInputChange("address", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("address", e.target.value)
+                    }
                     placeholder="Enter full address"
                     className="min-h-[100px] bg-white/90 border-white/30 text-gray-800 resize-none"
                   />
@@ -170,8 +210,8 @@ export function ContactInfoModal({ isOpen, onClose, onSave, initialData }: Conta
 
                 <div className="bg-blue-50/10 border border-blue-200/20 rounded-lg p-4">
                   <p className="text-white/80 text-sm">
-                    <span className="text-red-300">*</span> Required fields. This information will be used for
-                    communication and offer delivery.
+                    <span className="text-red-300">*</span> Required fields.
+                    This information will be used for communication.
                   </p>
                 </div>
               </div>
@@ -204,5 +244,5 @@ export function ContactInfoModal({ isOpen, onClose, onSave, initialData }: Conta
         </>
       )}
     </AnimatePresence>
-  )
+  );
 }

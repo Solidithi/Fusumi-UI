@@ -1,0 +1,112 @@
+[
+  {
+    "id": "1",
+    "invoiceId": "inv-001",
+    "businessAddress": "0x123239424ihoedwjfn121123123",
+    "pricing": 950,
+    "sharePercentage": 100,
+    "remainingPercentage": 0,
+    "isPartialSale": false,
+    "debtNftImageUrl": "/generated-nft-images/debt-nft-1.png",
+    "originalNftImageUrl": "/data/nft-base-images/tier-1/healthcare.png",
+    "contactInfo": {
+      "name": "Alice Waterworks",
+      "email": "alice@waterworks.com",
+      "phone": "+1-555-1234",
+      "company": "Waterworks Inc.",
+      "address": "123 Aqua Lane, Ocean City"
+    },
+    "agreements": ["/agreements/agreement1.pdf"],
+    "startDate": "2024-01-15T10:30:00Z",
+    "endDate": "2024-01-20T14:45:00Z",
+    "createdAt": "2024-01-10T09:00:00Z"
+  },
+  {
+    "id": "2",
+    "invoiceId": "inv-002",
+    "businessAddress": "0x456789abcdefghijklmnopqrstuvwxyz",
+    "pricing": 2300,
+    "sharePercentage": 75,
+    "remainingPercentage": 25,
+    "isPartialSale": true,
+    "debtNftImageUrl": "/generated-nft-images/debt-nft-2.png",
+    "originalNftImageUrl": "/data/nft-base-images/tier-2/organic-food.png",
+    "contactInfo": {
+      "name": "Bob Energy",
+      "email": "bob@energy.com",
+      "phone": "+1-555-5678",
+      "company": "Energy Corp.",
+      "address": "456 Power Ave, Electra City"
+    },
+    "agreements": ["/agreements/agreement2.pdf"],
+    "startDate": "2024-01-10T08:15:00Z",
+    "endDate": "2024-01-18T16:30:00Z",
+    "createdAt": "2024-01-08T11:00:00Z"
+  },
+  {
+    "id": "3",
+    "invoiceId": "inv-003",
+    "businessAddress": "0xabcdef123456789abcdef123456789",
+    "pricing": 700,
+    "sharePercentage": 50,
+    "remainingPercentage": 50,
+    "isPartialSale": true,
+    "debtNftImageUrl": "/generated-nft-images/debt-nft-3.png",
+    "originalNftImageUrl": "/data/nft-base-images/tier-1/tech-service.png",
+    "contactInfo": {
+      "name": "Charlie Gas",
+      "email": "charlie@gas.com",
+      "phone": "+1-555-9012",
+      "company": "Gas Unlimited",
+      "address": "789 Fuel Rd, Gascity"
+    },
+    "agreements": ["/agreements/agreement3.pdf"],
+    "startDate": "2024-01-12T12:00:00Z",
+    "endDate": "2024-01-25T09:20:00Z",
+    "createdAt": "2024-01-11T10:00:00Z"
+  },
+  {
+    "id": "0bf3dad3-4ef5-4b37-9598-8bfcc03b3a11",
+    "invoiceId": "inv-004",
+    "businessAddress": "0x1eff35f3cdb05773359ca60a10d2beceacbd8a3b5018f12a1f3b33b8853d686d",
+    "pricing": 1000,
+    "sharePercentage": 30,
+    "remainingPercentage": 70,
+    "isPartialSale": true,
+    "debtNftImageUrl": "/generated-nft-images/debt-nft-4.png",
+    "originalNftImageUrl": "/data/nft-base-images/tier-3/manufacturing.png",
+    "agreements": [],
+    "contactInfo": {
+      "name": "Kazami Fumishi",
+      "email": "employee@fusumi.com",
+      "phone": "+1-555-0000",
+      "company": "Fusumi Inc.",
+      "address": "15 Main St, Springfield"
+    },
+    "startDate": "2025-07-17",
+    "endDate": "2025-07-25",
+    "createdAt": "2025-07-16T16:24:02.516Z"
+  },
+  {
+    "id": "d1d31d31-c9f4-4100-af7a-04c3333b4b63",
+    "invoiceId": "inv-005",
+    "businessAddress": "0x1eff35f3cdb05773359ca60a10d2beceacbd8a3b5018f12a1f3b33b8853d686d",
+    "pricing": 1000,
+    "sharePercentage": 100,
+    "remainingPercentage": 0,
+    "isPartialSale": false,
+    "debtNftImageUrl": "/generated-nft-images/debt-nft-5.png",
+    "originalNftImageUrl": "/data/nft-base-images/tier-2/renewable-energy.png",
+    "agreements": [],
+    "contactInfo": {
+      "name": "Kazami Fumishi",
+      "email": "employee@fusumi.com",
+      "phone": "+1-555-0000",
+      "company": "Fusumi Inc.",
+      "address": "15 Main St, Springfield"
+    },
+    "startDate": "2025-07-17",
+    "endDate": "2025-07-25",
+    "createdAt": "2025-07-16T16:24:08.550Z"
+  }
+]

@@ -242,7 +242,7 @@ export function OfferDetailModal({
                     <div className="flex items-center space-x-3 mb-4">
                       <Calendar className="w-6 h-6 text-gray-600" />
                       <h3 className="text-lg font-semibold text-gray-900">
-                        Project Timeline
+                        Offer Timeline
                       </h3>
                     </div>
                     <div className="space-y-2">
@@ -262,7 +262,7 @@ export function OfferDetailModal({
                   </div>
                 </motion.div>
 
-                {/* Invoice Address Section */}
+                {/* Invoice Id Section */}
                 <motion.div
                   className="bg-gray-50 rounded-xl p-6"
                   variants={itemVariants as any}
@@ -270,7 +270,7 @@ export function OfferDetailModal({
                   <div className="flex items-center space-x-3 mb-4">
                     {/* <MapPin className="w-5 h-5 text-gray-600" /> */}
                     <h3 className="text-lg font-semibold text-gray-900">
-                      Invoice Address
+                      Invoice Id
                     </h3>
                   </div>
                   <div className="bg-white rounded-lg p-4 border">

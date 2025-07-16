@@ -1,11 +1,16 @@
 [
   {
     "id": "1",
-    "username": "demoUser",
+    "username": "employee128",
+    "phone": "+1-555-0000",
+    "alias": "Fusumi Employee",
     "address": "0xec447b2ace49374fdca1330f30d45bd9cc13cbda55f5b04a0bfb40a550aefa0a",
+    "contactAddress": "15 Main St, Springfield",
+    "belongsToBusiness": "1",
     "role": "normal",
-    "email": "demo@fusumi.com",
-    "kycStatus": "not_started",
+    "email": "employee@fusumi.com",
+    "fullName": "Kazami Fumishi",
+    "kycStatus": "approved",
     "avatar": "https://img.reservoir.tools/images/v2/base/KqtSkRFFlZttDkpvazqwGfPTGS5sCRDCcvUFTlXspj3d83r0pKlXh1OYV2ePRm8FS5OSV3k06mAXta7s%2FKLF6c9P9v5thRB3UB%2BhE79bqwl9STXi2ni8MCfZsyEzhJj2.jpg?width=512"
   },
   {
@@ -15,5 +20,44 @@
     "email": "business@fusumi.com",
     "kycStatus": "verified",
     "avatar": "https://img.reservoir.tools/images/v2/base/hc%2BnPcLmWxs%2FDW99DlBQ42k40ZoyYV5jCIms5qHjwvvLR8Hy6oIs93RgPfXtLmtMM%2BBxHSpla%2FBUOKAcbFKAPYgOTUl%2BMaXa5PeWwQ9W%2FxPPbaePwXiOMFJxmXy2XxrcUwslhotlYJrjcpBo3bB2Ch7qLn6xx0DfOqRbsvhXfABDEl13gXR8eFBl0X2j3UQh.gif?width=512"
+  },
+  {
+    "id": "3",
+    "username": "user_jane",
+    "phone": "+1-555-1234",
+    "alias": "Jane Doe",
+    "address": "0xabc123b2ace49374fdca1330f30d45bd9cc13cbda55f5b04a0bfb40a550aefa0b",
+    "belongsToBusiness": "1",
+    "role": "normal",
+    "email": "jane.doe@example.com",
+    "fullName": "Jane Doe",
+    "kycStatus": "pending",
+    "avatar": "https://img.reservoir.tools/images/v2/base/3n2k4j5h6l7m8n9o0p1q2r3s4t5u6v7w8x9y0z1a2b3c4d5e6f7g8h9i0j1k2l3m4.jpg?width=512"
+  },
+  {
+    "id": "4",
+    "username": "user_john",
+    "phone": "+1-555-5678",
+    "alias": "John Smith",
+    "address": "0xdef456b2ace49374fdca1330f30d45bd9cc13cbda55f5b04a0bfb40a550aefa0c",
+    "belongsToBusiness": "2",
+    "role": "normal",
+    "email": "john.smith@example.com",
+    "fullName": "John Smith",
+    "kycStatus": "approved",
+    "avatar": "https://img.reservoir.tools/images/v2/base/4m5n6o7p8q9r0s1t2u3v4w5x6y7z8a9b0c1d2e3f4g5h6i7j8k9l0m1n2o3p4q5r.jpg?width=512"
+  },
+  {
+    "id": "5",
+    "username": "manager_lisa",
+    "phone": "+1-555-8765",
+    "alias": "Lisa Manager",
+    "address": "0x987654b2ace49374fdca1330f30d45bd9cc13cbda55f5b04a0bfb40a550aefa0d",
+    "belongsToBusiness": "2",
+    "role": "manager",
+    "email": "lisa.manager@fusumi.com",
+    "fullName": "Lisa Manager",
+    "kycStatus": "approved",
+    "avatar": "https://img.reservoir.tools/images/v2/base/5n6o7p8q9r0s1t2u3v4w5x6y7z8a9b0c1d2e3f4g5h6i7j8k9l0m1n2o3p4q5r6s.jpg?width=512"
   }
 ]

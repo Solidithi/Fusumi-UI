@@ -8,11 +8,12 @@ import { Sidebar } from "@/components/ui/SideBar";
 import { AgreementsModal } from "@/components/ui/modal/AgreementModal";
 import { ContactInfoModal } from "@/components/ui/modal/ContactInfo";
 import { InvoicePreviewModal } from "@/components/ui/modal/InvoicePreviewModal";
+import { InvoiceSelector } from "@/components/business/InvoiceSelector";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import axios from "axios";
 import { motion } from "framer-motion";
 import { Eye, FileText, User } from "lucide-react";
 import { useState } from "react";
+import axios from "axios";
 
 const formVariants = {
   hidden: { x: 50, opacity: 0 },
@@ -37,13 +38,16 @@ export default function CreateOffer() {
   const [contactInfoOpen, setContactInfoOpen] = useState(false);
   const [agreementsOpen, setAgreementsOpen] = useState(false);
 
-  const [invoiceAddress, setInvoiceAddress] = useState("");
+  const [invoiceId, setInvoiceId] = useState("");
   const [pricing, setPricing] = useState(0);
   const [contactData, setContactData] = useState<ContactInfo | null>(null);
   const [agreementsData, setAgreementsData] = useState<string[]>([]);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const { account, wallet } = useWallet();
+
+  // Mock business ID - in production, this would come from user session/auth
+  const businessId = "bus-001";
 
   const handleContactSave = (contactInfo: ContactInfo) => {
     setContactData(contactInfo);
@@ -60,26 +64,33 @@ export default function CreateOffer() {
       console.log("No account found");
       return;
     }
-
-    if (invoiceAddress === "" || pricing === 0 || startDate === "" || endDate === "") {
+    if (
+      invoiceId === "" ||
+      pricing === 0 ||
+      startDate === "" ||
+      endDate === ""
+    ) {
       console.log("Missing required fields");
       return;
     }
-
-    const response = await axios.post("/api/business/create-offer", {
-      businessAddress: account?.address,
-      invoiceAddress: invoiceAddress,
-      pricing: pricing,
-      contactInfo: contactData,
-      agreements: agreementsData,
-      startDate: startDate,
-      endDate: endDate,
-    });
-
-    if (response.status === 200) {
-      console.log("Offer created successfully");
-    } else {
-      console.log("Failed to create offer");
+    try {
+      const response = await axios.post("/api/business/create-offer", {
+        invoiceAddress: invoiceId,
+        businessAddress:
+          "0x1eff35f3cdb05773359ca60a10d2beceacbd8a3b5018f12a1f3b33b8853d686d",
+        pricing,
+        contactInfo: contactData,
+        agreements: agreementsData,
+        startDate,
+        endDate,
+      });
+      if (response.status === 200) {
+        console.log("Offer created successfully");
+      } else {
+        console.log("Failed to create offer");
+      }
+    } catch (error) {
+      console.log("Failed to create offer", error);
     }
   };
 
@@ -109,28 +120,18 @@ export default function CreateOffer() {
                 </CardTitle>
               </div>
 
-              {/* First Row - Invoice Address and Preview Invoice Info */}
+              {/* First Row - Invoice Selection and Preview Invoice Info */}
               <motion.div
                 className="grid grid-cols-1 md:grid-cols-2 gap-6"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
               >
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="invoice-address"
-                    className="text-sm font-semibold text-white/90"
-                  >
-                    Invoice Address
-                  </Label>
-                  <Input
-                    id="invoice-address"
-                    placeholder="Enter invoice address"
-                    className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
-                    value={invoiceAddress}
-                    onChange={(e) => setInvoiceAddress(e.target.value)}
-                  />
-                </div>
+                <InvoiceSelector
+                  selectedInvoiceId={invoiceId}
+                  onInvoiceSelect={setInvoiceId}
+                  businessId={businessId}
+                />
                 <div className="space-y-2">
                   <Label
                     htmlFor="preview-invoice"
@@ -142,8 +143,10 @@ export default function CreateOffer() {
                     onClick={() => setInvoicePreviewOpen(true)}
                     variant="outline"
                     className="w-full justify-center bg-white/20 border-white/30 text-white hover:bg-white/30 hover:border-white/50 transition-all duration-300"
+                    disabled={!invoiceId}
                   >
                     <Eye className="h-4 w-4 mr-2" />
+                    {invoiceId ? "Preview Invoice" : "Select Invoice First"}
                   </Button>
                 </div>
               </motion.div>
@@ -167,7 +170,7 @@ export default function CreateOffer() {
                     type="number"
                     step="0.01"
                     placeholder="Enter pricing amount"
-                    className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
+                    className="bg-white/90 border-white/30 text-gray-700 focus:border-white focus:ring-white/50 transition-all duration-300"
                     value={pricing}
                     onChange={(e) => setPricing(Number(e.target.value))}
                   />
@@ -209,7 +212,7 @@ export default function CreateOffer() {
                   <Input
                     id="start-date"
                     type="date"
-                    className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
+                    className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300 text-gray-700"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
                   />
@@ -224,7 +227,7 @@ export default function CreateOffer() {
                   <Input
                     id="end-date"
                     type="date"
-                    className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
+                    className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300 text-gray-700"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
                   />

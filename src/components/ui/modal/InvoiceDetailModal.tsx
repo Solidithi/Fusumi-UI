@@ -7,6 +7,7 @@ import { Input } from "../Input";
 import { Textarea } from "../TextArea";
 import { AnimatedButton } from "../Button";
 import { InvoiceDetailData } from "@/types/modal";
+import { useState } from "react";
 
 interface InvoiceDetailModalProps {
   isOpen: boolean;
@@ -76,6 +77,27 @@ export function InvoiceDetailModal({
     },
   };
 
+  // Tab state
+  const [activeTab, setActiveTab] = useState<"details" | "splits">("details");
+
+  // Mock NFT tree data for demonstration (replace with real data as needed)
+  const nftTree = {
+    root: {
+      id: "NFT-001", // fallback value
+      owner: "Business", // fallback value
+      share: 1.0,
+    },
+    splits: [
+      // Example children (splits)
+      { id: "NFT-002", owner: "InvestorA", share: 0.3 },
+      { id: "NFT-003", owner: "InvestorB", share: 0.2 },
+      { id: "NFT-004", owner: "Business", share: 0.5 },
+    ],
+  };
+
+  // For demo, assume current user is 'Business' (replace with wallet address or user context in real app)
+  const currentUser = "Business";
+
   return (
     <Portal>
       <AnimatePresence>
@@ -94,16 +116,30 @@ export function InvoiceDetailModal({
               variants={modalVariants as any}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Header */}
+              {/* Header with Tabs */}
               <div className="flex items-center justify-between p-6 border-b border-gray-200">
-                <motion.h2
-                  className="text-2xl font-bold text-gray-900"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 }}
-                >
-                  Invoice Detail
-                </motion.h2>
+                <div className="flex gap-4">
+                  <button
+                    className={`text-lg font-bold px-2 pb-1 border-b-2 transition-colors duration-200 ${
+                      activeTab === "details"
+                        ? "border-[#2a849a] text-[#2a849a]"
+                        : "border-transparent text-gray-500"
+                    }`}
+                    onClick={() => setActiveTab("details")}
+                  >
+                    Invoice Details
+                  </button>
+                  <button
+                    className={`text-lg font-bold px-2 pb-1 border-b-2 transition-colors duration-200 ${
+                      activeTab === "splits"
+                        ? "border-[#2a849a] text-[#2a849a]"
+                        : "border-transparent text-gray-500"
+                    }`}
+                    onClick={() => setActiveTab("splits")}
+                  >
+                    NFT Splits
+                  </button>
+                </div>
                 <motion.button
                   onClick={onClose}
                   className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
@@ -114,165 +150,247 @@ export function InvoiceDetailModal({
                 </motion.button>
               </div>
 
-              {/* Content */}
+              {/* Tab Content */}
               <motion.div
                 className="p-6 space-y-6"
                 variants={contentVariants}
                 initial="hidden"
                 animate="visible"
               >
-                {/* Top Section */}
-                <motion.div
-                  className="bg-gray-100 rounded-xl p-6 space-y-4"
-                  variants={itemVariants as any}
-                >
-                  {/* Debtor Address */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Debtor Address
-                    </label>
-                    <Input
-                      value={invoiceData.debtorAddress}
-                      readOnly
-                      className="bg-white"
-                    />
-                  </div>
-
-                  {/* Description */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Description
-                    </label>
-                    <Textarea
-                      value={invoiceData.description}
-                      readOnly
-                      className="bg-white min-h-[120px] resize-none"
-                    />
-                  </div>
-
-                  {/* Date Range */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Start Date
-                      </label>
-                      <Input
-                        value={invoiceData.startDate}
-                        readOnly
-                        className="bg-white"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        End Date
-                      </label>
-                      <Input
-                        value={invoiceData.endDate}
-                        readOnly
-                        className="bg-white"
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-
-                {/* Products Section */}
-                <motion.div
-                  className="bg-gray-100 rounded-xl p-6 space-y-4"
-                  variants={itemVariants as any}
-                >
-                  {invoiceData.products.map((product: any, index: any) => (
+                {activeTab === "details" && (
+                  <>
+                    {/* Top Section */}
                     <motion.div
-                      key={product.id}
-                      className="grid grid-cols-1 md:grid-cols-3 gap-4"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3 + index * 0.1 }}
+                      className="bg-gray-100 rounded-xl p-6 space-y-4"
+                      variants={itemVariants as any}
                     >
+                      {/* Debtor Address */}
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Product name/ Service
+                          Debtor Address
                         </label>
                         <Input
-                          value={product.name}
+                          value={invoiceData.debtorAddress}
                           readOnly
                           className="bg-white"
                         />
                       </div>
+
+                      {/* Description */}
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Price
+                          Description
                         </label>
-                        <Input
-                          value={`$${product.price}`}
+                        <Textarea
+                          value={invoiceData.description}
                           readOnly
-                          className="bg-white"
+                          className="bg-white min-h-[120px] resize-none"
                         />
                       </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Quantity
-                        </label>
-                        <Input
-                          value={product.quantity}
-                          readOnly
-                          className="bg-white"
-                        />
+
+                      {/* Date Range */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Start Date
+                          </label>
+                          <Input
+                            value={invoiceData.startDate}
+                            readOnly
+                            className="bg-white"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            End Date
+                          </label>
+                          <Input
+                            value={invoiceData.endDate}
+                            readOnly
+                            className="bg-white"
+                          />
+                        </div>
                       </div>
                     </motion.div>
-                  ))}
 
-                  {/* Total Line */}
+                    {/* Products Section */}
+                    <motion.div
+                      className="bg-gray-100 rounded-xl p-6 space-y-4"
+                      variants={itemVariants as any}
+                    >
+                      {invoiceData.products.map((product: any, index: any) => (
+                        <motion.div
+                          key={product.id}
+                          className="grid grid-cols-1 md:grid-cols-3 gap-4"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.3 + index * 0.1 }}
+                        >
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Product name/ Service
+                            </label>
+                            <Input
+                              value={product.name}
+                              readOnly
+                              className="bg-white"
+                            />
+                          </div>
+                          initial="hidden"
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Price
+                            </label>
+                            <Input
+                              value={`$${product.price}`}
+                              readOnly
+                              className="bg-white"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Quantity
+                            </label>
+                            <Input
+                              value={product.quantity}
+                              readOnly
+                              className="bg-white"
+                            />
+                          </div>
+                        </motion.div>
+                      ))}
+
+                      {/* Total Line */}
+                      <motion.div
+                        className="border-t-2 border-[#2a849a] pt-4 mt-6"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6 }}
+                      >
+                        <div className="flex justify-end">
+                          <div className="grid grid-cols-2 gap-4 w-full md:w-2/3">
+                            <div>
+                              <label className="block text-lg font-semibold text-gray-900 mb-2">
+                                Total:
+                              </label>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                              <Input
+                                value={`$${invoiceData.total.price}`}
+                                readOnly
+                                className="bg-white font-semibold"
+                              />
+                              <Input
+                                value={invoiceData.total.quantity}
+                                readOnly
+                                className="bg-white font-semibold"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </motion.div>
+
+                    {/* Action Buttons */}
+                    <motion.div
+                      className="flex justify-end space-x-4 pt-4"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.7 }}
+                    >
+                      <AnimatedButton
+                        variant="outline"
+                        onClick={onClose}
+                        className="px-6 bg-gray-400 text-white rounded-xl"
+                      >
+                        Close
+                      </AnimatedButton>
+                      <AnimatedButton
+                        onClick={onClick}
+                        className="bg-[#2a849a] hover:bg-[#2a849a]/90 rounded-xl p-3 text-white px-6"
+                      >
+                        Buy
+                      </AnimatedButton>
+                    </motion.div>
+                  </>
+                )}
+                {activeTab === "splits" && (
                   <motion.div
-                    className="border-t-2 border-[#2a849a] pt-4 mt-6"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 }}
+                    className="bg-gray-100 rounded-xl p-6 space-y-6"
+                    variants={itemVariants as any}
                   >
-                    <div className="flex justify-end">
-                      <div className="grid grid-cols-2 gap-4 w-full md:w-2/3">
-                        <div>
-                          <label className="block text-lg font-semibold text-gray-900 mb-2">
-                            Total:
-                          </label>
+                    <div className="mb-4">
+                      <div className="text-lg font-bold text-[#2a849a] mb-2">
+                        NFT Splitting Hierarchy
+                      </div>
+                      <div className="text-sm text-gray-700 mb-4">
+                        This NFT tree is always 1-depth: the root NFT and its
+                        direct splits. Each split represents a share of the
+                        original invoice's value.
+                      </div>
+                    </div>
+                    {/* NFT Tree Visualization */}
+                    <div className="flex flex-col items-center gap-4">
+                      {/* Root NFT */}
+                      <div className="flex flex-col items-center">
+                        <div className="rounded-full bg-[#2a849a]/90 text-white px-6 py-2 font-bold text-base shadow">
+                          Root NFT
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <Input
-                            value={`$${invoiceData.total.price}`}
-                            readOnly
-                            className="bg-white font-semibold"
-                          />
-                          <Input
-                            value={invoiceData.total.quantity}
-                            readOnly
-                            className="bg-white font-semibold"
-                          />
+                        <div className="text-xs text-gray-700 mt-1">
+                          ID: {nftTree.root.id}
                         </div>
+                        <div className="text-xs text-gray-700">
+                          Owner: {nftTree.root.owner}
+                        </div>
+                        <div className="text-xs text-gray-700">
+                          Share: {(nftTree.root.share * 100).toFixed(1)}%
+                        </div>
+                      </div>
+                      {/* Down arrow */}
+                      <div className="w-1 h-6 bg-[#2a849a]/40 rounded-full" />
+                      {/* Splits */}
+                      <div className="flex flex-row flex-wrap gap-4 justify-center">
+                        {nftTree.splits.map((split) => (
+                          <div
+                            key={split.id}
+                            className="flex flex-col items-center bg-white rounded-xl px-4 py-2 shadow border border-[#2a849a]/20 min-w-[120px] relative"
+                          >
+                            <div className="font-semibold text-[#2a849a] flex items-center gap-2">
+                              Split NFT
+                              {split.owner === currentUser && (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-white text-xs font-semibold shadow-md border border-white absolute -top-4 left-1/2 -translate-x-1/2 animate-fade-in">
+                                  <svg
+                                    className="w-3 h-3 text-white"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M5 13l4 4L19 7"
+                                    />
+                                  </svg>
+                                  Yours
+                                </span>
+                              )}
+                            </div>
+                            <div className="text-xs text-gray-700 mt-1">
+                              ID: {split.id}
+                            </div>
+                            <div className="text-xs text-gray-700">
+                              Owner: {split.owner}
+                            </div>
+                            <div className="text-xs text-gray-700">
+                              Share: {(split.share * 100).toFixed(1)}%
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </motion.div>
-                </motion.div>
-
-                {/* Action Buttons */}
-                <motion.div
-                  className="flex justify-end space-x-4 pt-4"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 }}
-                >
-                  <AnimatedButton
-                    variant="outline"
-                    onClick={onClose}
-                    className="px-6 bg-gray-400 text-white rounded-xl"
-                  >
-                    Close
-                  </AnimatedButton>
-                  <AnimatedButton
-                    onClick={onClick}
-                    className="bg-[#2a849a] hover:bg-[#2a849a]/90 rounded-xl p-3 text-white px-6"
-                  >
-                    Buy
-                  </AnimatedButton>
-                </motion.div>
+                )}
               </motion.div>
             </motion.div>
           </motion.div>

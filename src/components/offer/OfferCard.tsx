@@ -125,16 +125,16 @@ export function OfferCard({
             </motion.div>
           </div> */}
 
-          {/* Invoice Address */}
+          {/* Invoice Id */}
           <div className="space-y-2">
             <div className="flex items-center space-x-2">
               <MapPin className="h-4 w-4 text-gray-400" />
               <span className="text-sm font-medium text-gray-700">
-                Invoice Address
+                Invoice Id
               </span>
             </div>
             <p className="text-sm font-mono text-gray-900 bg-gray-50 p-2 rounded">
-              {formatAddress(offer.invoiceAddress)}
+              {formatAddress(offer.invoiceAddress || "0x")}
             </p>
           </div>
 

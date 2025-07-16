@@ -4,7 +4,7 @@ import { AnimatedButton } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 // import { Input } from "@/components/ui/Input";
 import { motion } from "framer-motion";
-import { Plus, Search, Filter } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 
 interface OffersHeaderProps {
   searchTerm: string;

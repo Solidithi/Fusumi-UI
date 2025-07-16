@@ -1,6 +1,7 @@
+import { v4 as uuidv4 } from "uuid";
+import path from "path";
 import { NextRequest, NextResponse } from "next/server";
-import { prismaClient } from "../../../../../prisma";
-import { ContactInfo } from "@/app/business/create-offer/CreateOffer";
+import fs from "fs";
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,49 +11,56 @@ export async function POST(req: NextRequest) {
       invoiceAddress,
       pricing,
       agreements = [],
-      contactInfo = [],
+      contactInfo = {},
       startDate,
       endDate,
     } = body;
-    // console.log(contactInfo);
     // Basic validation
-    if (!businessAddress || !invoiceAddress || !pricing || !startDate || !endDate) {
+
+    console.log("body: ", body);
+
+    if (
+      !businessAddress ||
+      !invoiceAddress ||
+      !pricing ||
+      !startDate ||
+      !endDate
+    ) {
       return NextResponse.json(
         { success: false, error: "Missing required fields" },
         { status: 400 }
       );
     }
-    let user = await prismaClient.user.findFirst({
-      where: {
-        address: businessAddress,
-      },
-    });
-    if (!user) {
-      console.log("User not found, creating user");
-      user = await prismaClient.user.create({
-        data: {
-          address: businessAddress,
-          email: businessAddress,
-        },
-      });
+    // Find or create user in users.json
+    const usersPath = path.join(process.cwd(), "public/data/users.json");
+    let users = [];
+    try {
+      users = JSON.parse(fs.readFileSync(usersPath, "utf-8"));
+    } catch (e) {
+      users = [];
     }
 
     // Create Offer
-    const newOffer = await prismaClient.offer.create({
-      data: {
-        invoiceAddress,
-        pricing: parseFloat(pricing),
-        startDate: new Date(startDate),
-        endDate: new Date(endDate),
-        attachments: agreements,
-        business: {
-        },
-      },
-      include: {
-        offerContacts: true,
-      },
-    });
-
+    const offersPath = path.join(process.cwd(), "public/data/offers.json");
+    let offers = [];
+    try {
+      offers = JSON.parse(fs.readFileSync(offersPath, "utf-8"));
+    } catch (e) {
+      offers = [];
+    }
+    const newOffer = {
+      id: uuidv4(),
+      invoiceId: invoiceAddress,
+      businessAddress,
+      pricing: parseFloat(pricing),
+      agreements,
+      contactInfo,
+      startDate,
+      endDate,
+      createdAt: new Date().toISOString(),
+    };
+    offers.push(newOffer);
+    fs.writeFileSync(offersPath, JSON.stringify(offers, null, 2));
     return NextResponse.json(
       { success: true, data: newOffer },
       { status: 200 }

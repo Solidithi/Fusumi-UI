@@ -438,6 +438,17 @@ export function NFTCard({ nft, index }: NFTCardProps) {
     console.log("Buy clicked for offer:", nft.id);
   };
 
+  // Mock split NFT info for demonstration
+  const splitInfo = {
+    isRoot: true, // or false if it's a child NFT
+    parentId: null, // or parent NFT id if child
+    rootId: nft.id, // always the root NFT id
+    share: 0.3, // e.g., 0.3 means 30% share
+    ownerShare: 0.3, // for this user
+    totalShares: 1, // sum of all shares
+    // Add more fields as needed
+  };
+
   return (
     <div className="relative">
       {/* Floating particles */}
@@ -506,7 +517,6 @@ export function NFTCard({ nft, index }: NFTCardProps) {
                 ease: "linear",
               }}
             />
-
             {/* Image */}
             <motion.div
               className="absolute inset-0 flex items-center justify-center"
@@ -598,6 +608,32 @@ export function NFTCard({ nft, index }: NFTCardProps) {
                 ))}
               </div>
             )}
+          </div>
+          {/* Split NFT Info Bar (moved below image, above content) */}
+          <div className="w-full flex flex-row items-center justify-between gap-2 px-4 py-2 -mt-4 mb-2 rounded-xl bg-white/80 backdrop-blur-md shadow border border-slate-100">
+            <div className="flex flex-col items-start min-w-[90px]">
+              <span className="text-[11px] font-semibold text-slate-700 flex items-center gap-1">
+                {splitInfo.isRoot ? (
+                  <Star className="w-3 h-3 text-yellow-400 inline-block" />
+                ) : (
+                  <Zap className="w-3 h-3 text-blue-400 inline-block" />
+                )}
+                {splitInfo.isRoot ? "Root NFT" : `Child NFT`}
+              </span>
+              <span className="text-[10px] text-slate-500 mt-0.5">
+                {splitInfo.isRoot
+                  ? "Total Shares: 100%"
+                  : `Parent: #${splitInfo.parentId}`}
+              </span>
+            </div>
+            <div className="flex flex-col items-end min-w-[90px]">
+              <span className="text-[11px] font-semibold text-blue-700">
+                Your Share
+              </span>
+              <span className="text-[13px] font-bold text-blue-900">
+                {(splitInfo.ownerShare * 100).toFixed(1)}%
+              </span>
+            </div>
           </div>
 
           {/* Card Content */}

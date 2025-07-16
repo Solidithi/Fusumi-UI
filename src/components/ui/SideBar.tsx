@@ -94,6 +94,19 @@ const businessSidebarItems = [
   },
 ];
 
+const accountSidebarItems = [
+  { icon: FileText, label: "Profile", id: "profile", path: "/account" },
+  {
+    icon: FileText,
+    label: "My Invoices",
+    id: "invoices",
+    path: "/account/invoices",
+  },
+  { icon: Image, label: "My NFT", id: "nfts", path: "/account/nfts" },
+  { icon: Tag, label: "Upgrade", id: "upgrade", path: "/account/upgrade" },
+  { icon: Shield, label: "KYC", id: "kyc", path: "/account/kyc" },
+];
+
 const containerVariants = {
   expanded: {
     width: 240,
@@ -118,20 +131,24 @@ interface SidebarProps {
   isExpanded: boolean;
   onToggle: () => void;
   activePage?: string; // Optional prop to highlight active page
-  type?: "business" | "customers"; // Optional prop to determine which sidebar items to show
+  type?: "business" | "customers" | "account"; // Optional prop to determine which sidebar items to show
 }
 
 export function Sidebar({
   isExpanded,
   onToggle,
   activePage,
-  type = "business", 
+  type = "business",
 }: SidebarProps) {
   // CHANGE: Added state to track which sidebar item is currently active
   const [activeItem, setActiveItem] = useState("invoice"); // Default to "invoice" as it was previously active
   const router = useRouter();
   const sidebarItems =
-    type === "business" ? businessSidebarItems : customersSidebarItems;
+    type === "account"
+      ? accountSidebarItems
+      : type === "business"
+      ? businessSidebarItems
+      : customersSidebarItems;
 
   // CHANGE: Added function to handle sidebar item clicks
   const handleItemClick = (itemId: (typeof sidebarItems)[number]) => {

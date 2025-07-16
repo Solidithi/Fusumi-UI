@@ -92,7 +92,7 @@ const CarouselWithProgress = ({ images }: CarouselWithProgressProps) => {
               {/* <div className="absolute bottom-0 bg-black bg-opacity-50 text-white text-center p-2 w-full">
                 Project Images
               </div> */}
-            </SplideSlide>  
+            </SplideSlide>
           ))}
         </Splide>
       </section>

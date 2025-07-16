@@ -46,13 +46,6 @@ export function MyNFT() {
 
   return (
     <div className="min-h-screen bg-white flex">
-      {/* Sidebar */}
-      <Sidebar
-        isExpanded={sidebarExpanded}
-        onToggle={() => setSidebarExpanded(!sidebarExpanded)}
-        activePage="my-nft" // Set active page to "home" for dashboard
-        type="customers"
-      />
       <div className="w-full">
         <motion.div
           className="min-h-screen bg-gray-50 py-8 px-6"

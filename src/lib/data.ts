@@ -70,8 +70,10 @@ export const mockNFTData: NFTData[] = [
   {
     id: "1",
     title: "Who the hell are you ?",
-    image:
-      "https://i.pinimg.com/736x/16/e3/07/16e307ecb7336f3480028f4fb1f65be5.jpg",
+    // image:
+    //   "https://i.pinimg.com/736x/16/e3/07/16e307ecb7336f3480028f4fb1f65be5.jpg",
+    // image: "/data/nft-base-images/tier-1/retail.png",
+    image: "/test-overlay.png",
     owner: "Lolololola",
     ownerAvatar: "/placeholder.svg?height=24&width=24",
     tokenCount: 9.4111111,
@@ -750,7 +752,6 @@ export const getServiceDetail = (serviceId: string): ServiceDetailData => {
   };
 };
 
-
 // -------------------------------------Service---------------------------------------
 
 export const getServiceSubscriptionData = (
@@ -971,7 +972,11 @@ export const mockOfferDatas: OfferDatas[] = [
     },
     startDate: "2024-02-15",
     endDate: "2024-05-15",
-    agreements: ["partnership_agreement.pdf", "terms.pdf", "privacy_policy.pdf"],
+    agreements: [
+      "partnership_agreement.pdf",
+      "terms.pdf",
+      "privacy_policy.pdf",
+    ],
     status: "active",
     createdAt: "2024-02-10T11:30:00Z",
     updatedAt: "2024-02-10T11:30:00Z",
@@ -989,7 +994,12 @@ export const mockOfferDatas: OfferDatas[] = [
     },
     startDate: "2024-01-01",
     endDate: "2024-12-31",
-    agreements: ["annual_contract.pdf", "sla.pdf", "data_processing.pdf", "compliance.pdf"],
+    agreements: [
+      "annual_contract.pdf",
+      "sla.pdf",
+      "data_processing.pdf",
+      "compliance.pdf",
+    ],
     status: "active",
     createdAt: "2023-12-20T08:00:00Z",
     updatedAt: "2023-12-20T08:00:00Z",
@@ -1084,7 +1094,7 @@ export const mockOfferDatas: OfferDatas[] = [
     createdAt: "2024-05-30T14:40:00Z",
     updatedAt: "2024-05-30T14:40:00Z",
   },
-]
+];
 // -----------------------------------------------ALL SERVICES DATA-----------------------------------------------
 
 export const mockBusinesses = [
@@ -1105,7 +1115,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.8,
         reviews: 89,
-        description: "High-performance gaming laptop with RTX graphics and 16GB RAM.",
+        description:
+          "High-performance gaming laptop with RTX graphics and 16GB RAM.",
         isFavorite: false,
       },
       {
@@ -1133,7 +1144,8 @@ export const mockBusinesses = [
         sales: 340,
         rating: 4.7,
         reviews: 23,
-        description: "24/7 premium tech support with remote assistance and priority response.",
+        description:
+          "24/7 premium tech support with remote assistance and priority response.",
         isFavorite: false,
       },
     ],
@@ -1149,7 +1161,8 @@ export const mockBusinesses = [
         sales: 2345,
         rating: 4.9,
         reviews: 567,
-        description: "Central smart home control hub with voice commands and app integration.",
+        description:
+          "Central smart home control hub with voice commands and app integration.",
         isFavorite: true,
       },
       {
@@ -1163,7 +1176,8 @@ export const mockBusinesses = [
         sales: 1567,
         rating: 4.7,
         reviews: 345,
-        description: "Professional 4K webcam with auto-focus and low-light correction.",
+        description:
+          "Professional 4K webcam with auto-focus and low-light correction.",
         isFavorite: false,
       },
       {
@@ -1177,7 +1191,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.5,
         reviews: 45,
-        description: "Secure cloud storage with 1TB space, automatic backup, and file sharing.",
+        description:
+          "Secure cloud storage with 1TB space, automatic backup, and file sharing.",
         isFavorite: false,
       },
       {
@@ -1191,7 +1206,8 @@ export const mockBusinesses = [
         sales: 89,
         rating: 4.8,
         reviews: 19,
-        description: "Custom mobile app development for iOS and Android platforms.",
+        description:
+          "Custom mobile app development for iOS and Android platforms.",
         isFavorite: true,
       },
     ],
@@ -1207,7 +1223,8 @@ export const mockBusinesses = [
         sales: 789,
         rating: 4.8,
         reviews: 156,
-        description: "Mechanical gaming keyboard with RGB backlighting and custom switches.",
+        description:
+          "Mechanical gaming keyboard with RGB backlighting and custom switches.",
         isFavorite: false,
       },
       {
@@ -1221,7 +1238,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.5,
         reviews: 123,
-        description: "Fast wireless charging pad compatible with all Qi-enabled devices.",
+        description:
+          "Fast wireless charging pad compatible with all Qi-enabled devices.",
         isFavorite: false,
       },
       {
@@ -1235,7 +1253,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.6,
         reviews: 78,
-        description: "7-in-1 USB-C hub with HDMI, USB 3.0, SD card slots, and power delivery.",
+        description:
+          "7-in-1 USB-C hub with HDMI, USB 3.0, SD card slots, and power delivery.",
         isFavorite: false,
       },
       {
@@ -1249,7 +1268,8 @@ export const mockBusinesses = [
         sales: 678,
         rating: 4.7,
         reviews: 145,
-        description: "Waterproof portable Bluetooth speaker with 20-hour battery life.",
+        description:
+          "Waterproof portable Bluetooth speaker with 20-hour battery life.",
         isFavorite: true,
       },
       {
@@ -1263,7 +1283,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.4,
         reviews: 98,
-        description: "Fitness tracking smartwatch with heart rate monitor and GPS.",
+        description:
+          "Fitness tracking smartwatch with heart rate monitor and GPS.",
         isFavorite: false,
       },
       {
@@ -1277,7 +1298,8 @@ export const mockBusinesses = [
         sales: 1234,
         rating: 4.3,
         reviews: 267,
-        description: "Shockproof protective phone case with raised edges and screen protection.",
+        description:
+          "Shockproof protective phone case with raised edges and screen protection.",
         isFavorite: false,
       },
     ],
@@ -1293,7 +1315,8 @@ export const mockBusinesses = [
         sales: 340,
         rating: 4.7,
         reviews: 23,
-        description: "24/7 premium tech support with remote assistance and priority response.",
+        description:
+          "24/7 premium tech support with remote assistance and priority response.",
         isFavorite: false,
       },
       {
@@ -1307,7 +1330,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.5,
         reviews: 45,
-        description: "Secure cloud storage with 1TB space, automatic backup, and file sharing.",
+        description:
+          "Secure cloud storage with 1TB space, automatic backup, and file sharing.",
         isFavorite: false,
       },
       {
@@ -1321,7 +1345,8 @@ export const mockBusinesses = [
         sales: 123,
         rating: 4.9,
         reviews: 34,
-        description: "Professional website design service with responsive layout and SEO optimization.",
+        description:
+          "Professional website design service with responsive layout and SEO optimization.",
         isFavorite: false,
       },
       {
@@ -1335,7 +1360,8 @@ export const mockBusinesses = [
         sales: 234,
         rating: 4.6,
         reviews: 28,
-        description: "Complete digital marketing package including SEO, social media, and content creation.",
+        description:
+          "Complete digital marketing package including SEO, social media, and content creation.",
         isFavorite: false,
       },
       {
@@ -1349,7 +1375,8 @@ export const mockBusinesses = [
         sales: 89,
         rating: 4.8,
         reviews: 19,
-        description: "Custom mobile app development for iOS and Android platforms.",
+        description:
+          "Custom mobile app development for iOS and Android platforms.",
         isFavorite: true,
       },
       {
@@ -1363,7 +1390,8 @@ export const mockBusinesses = [
         sales: 156,
         rating: 4.4,
         reviews: 21,
-        description: "Professional database design, optimization, and maintenance services.",
+        description:
+          "Professional database design, optimization, and maintenance services.",
         isFavorite: false,
       },
     ],
@@ -1385,7 +1413,8 @@ export const mockBusinesses = [
         sales: 234,
         rating: 4.8,
         reviews: 67,
-        description: "Professional digital art tablet with pressure-sensitive pen and 2K display.",
+        description:
+          "Professional digital art tablet with pressure-sensitive pen and 2K display.",
         isFavorite: false,
       },
       {
@@ -1399,7 +1428,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.9,
         reviews: 123,
-        description: "Professional design software suite with lifetime updates and cloud storage.",
+        description:
+          "Professional design software suite with lifetime updates and cloud storage.",
         isFavorite: true,
       },
       {
@@ -1413,7 +1443,8 @@ export const mockBusinesses = [
         sales: 234,
         rating: 4.9,
         reviews: 67,
-        description: "Complete video production service from script to final edit.",
+        description:
+          "Complete video production service from script to final edit.",
         isFavorite: true,
       },
     ],
@@ -1429,7 +1460,8 @@ export const mockBusinesses = [
         sales: 1456,
         rating: 4.9,
         reviews: 345,
-        description: "Complete camera kit with DSLR, lenses, tripod, and accessories.",
+        description:
+          "Complete camera kit with DSLR, lenses, tripod, and accessories.",
         isFavorite: true,
       },
       {
@@ -1443,7 +1475,8 @@ export const mockBusinesses = [
         sales: 987,
         rating: 4.7,
         reviews: 234,
-        description: "Professional 3-light studio setup with softboxes and stands.",
+        description:
+          "Professional 3-light studio setup with softboxes and stands.",
         isFavorite: false,
       },
       {
@@ -1457,7 +1490,8 @@ export const mockBusinesses = [
         sales: 890,
         rating: 4.8,
         reviews: 124,
-        description: "Professional logo design with multiple concepts and unlimited revisions.",
+        description:
+          "Professional logo design with multiple concepts and unlimited revisions.",
         isFavorite: false,
       },
       {
@@ -1471,7 +1505,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.7,
         reviews: 89,
-        description: "Complete brand identity including logo, colors, typography, and guidelines.",
+        description:
+          "Complete brand identity including logo, colors, typography, and guidelines.",
         isFavorite: false,
       },
     ],
@@ -1487,7 +1522,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.6,
         reviews: 78,
-        description: "Collection of 5 essential graphic design books for creative inspiration.",
+        description:
+          "Collection of 5 essential graphic design books for creative inspiration.",
         isFavorite: false,
       },
       {
@@ -1501,7 +1537,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.5,
         reviews: 123,
-        description: "Comprehensive color palette guide with 1000+ color combinations.",
+        description:
+          "Comprehensive color palette guide with 1000+ color combinations.",
         isFavorite: false,
       },
       {
@@ -1515,7 +1552,8 @@ export const mockBusinesses = [
         sales: 234,
         rating: 4.7,
         reviews: 56,
-        description: "Set of 10 educational typography posters for design inspiration.",
+        description:
+          "Set of 10 educational typography posters for design inspiration.",
         isFavorite: false,
       },
       {
@@ -1529,7 +1567,8 @@ export const mockBusinesses = [
         sales: 789,
         rating: 4.4,
         reviews: 167,
-        description: "High-quality sketch pad with thick paper perfect for design concepts.",
+        description:
+          "High-quality sketch pad with thick paper perfect for design concepts.",
         isFavorite: false,
       },
       {
@@ -1543,7 +1582,8 @@ export const mockBusinesses = [
         sales: 678,
         rating: 4.8,
         reviews: 145,
-        description: "Collection of 200+ professional digital brushes for design software.",
+        description:
+          "Collection of 200+ professional digital brushes for design software.",
         isFavorite: true,
       },
       {
@@ -1557,7 +1597,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.9,
         reviews: 98,
-        description: "Comprehensive video editing course with software and project files.",
+        description:
+          "Comprehensive video editing course with software and project files.",
         isFavorite: false,
       },
     ],
@@ -1573,7 +1614,8 @@ export const mockBusinesses = [
         sales: 890,
         rating: 4.8,
         reviews: 124,
-        description: "Professional logo design with multiple concepts and unlimited revisions.",
+        description:
+          "Professional logo design with multiple concepts and unlimited revisions.",
         isFavorite: false,
       },
       {
@@ -1587,7 +1629,8 @@ export const mockBusinesses = [
         sales: 234,
         rating: 4.9,
         reviews: 67,
-        description: "Complete video production service from script to final edit.",
+        description:
+          "Complete video production service from script to final edit.",
         isFavorite: true,
       },
       {
@@ -1601,7 +1644,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.7,
         reviews: 89,
-        description: "Complete brand identity including logo, colors, typography, and guidelines.",
+        description:
+          "Complete brand identity including logo, colors, typography, and guidelines.",
         isFavorite: false,
       },
       {
@@ -1615,7 +1659,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.6,
         reviews: 98,
-        description: "Professional photography session with edited high-resolution images.",
+        description:
+          "Professional photography session with edited high-resolution images.",
         isFavorite: false,
       },
       {
@@ -1629,7 +1674,8 @@ export const mockBusinesses = [
         sales: 678,
         rating: 4.5,
         reviews: 143,
-        description: "Monthly social media content creation with graphics and captions.",
+        description:
+          "Monthly social media content creation with graphics and captions.",
         isFavorite: false,
       },
     ],
@@ -1651,7 +1697,8 @@ export const mockBusinesses = [
         sales: 678,
         rating: 4.7,
         reviews: 145,
-        description: "Advanced fitness tracker with heart rate, sleep, and stress monitoring.",
+        description:
+          "Advanced fitness tracker with heart rate, sleep, and stress monitoring.",
         isFavorite: false,
       },
       {
@@ -1665,7 +1712,8 @@ export const mockBusinesses = [
         sales: 1234,
         rating: 4.8,
         reviews: 267,
-        description: "Non-slip premium yoga mat with alignment guides and carrying strap.",
+        description:
+          "Non-slip premium yoga mat with alignment guides and carrying strap.",
         isFavorite: true,
       },
       {
@@ -1695,7 +1743,8 @@ export const mockBusinesses = [
         sales: 1567,
         rating: 4.6,
         reviews: 334,
-        description: "Organic plant-based protein powder with 25g protein per serving.",
+        description:
+          "Organic plant-based protein powder with 25g protein per serving.",
         isFavorite: false,
       },
       {
@@ -1709,7 +1758,8 @@ export const mockBusinesses = [
         sales: 987,
         rating: 4.5,
         reviews: 234,
-        description: "Complete resistance bands set with different resistance levels and door anchor.",
+        description:
+          "Complete resistance bands set with different resistance levels and door anchor.",
         isFavorite: false,
       },
       {
@@ -1723,7 +1773,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.8,
         reviews: 78,
-        description: "One-on-one personal training sessions with certified trainers.",
+        description:
+          "One-on-one personal training sessions with certified trainers.",
         isFavorite: false,
       },
       {
@@ -1737,7 +1788,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.9,
         reviews: 89,
-        description: "Therapeutic massage sessions for relaxation and pain relief.",
+        description:
+          "Therapeutic massage sessions for relaxation and pain relief.",
         isFavorite: false,
       },
     ],
@@ -1753,7 +1805,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.8,
         reviews: 89,
-        description: "Space-saving adjustable dumbbells with quick weight selection system.",
+        description:
+          "Space-saving adjustable dumbbells with quick weight selection system.",
         isFavorite: false,
       },
       {
@@ -1767,7 +1820,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.7,
         reviews: 123,
-        description: "Set of 10 pure essential oils for aromatherapy and relaxation.",
+        description:
+          "Set of 10 pure essential oils for aromatherapy and relaxation.",
         isFavorite: false,
       },
       {
@@ -1781,7 +1835,8 @@ export const mockBusinesses = [
         sales: 234,
         rating: 4.6,
         reviews: 67,
-        description: "Comfortable meditation cushion with organic buckwheat filling.",
+        description:
+          "Comfortable meditation cushion with organic buckwheat filling.",
         isFavorite: false,
       },
       {
@@ -1795,7 +1850,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.5,
         reviews: 98,
-        description: "Smart water bottle that tracks hydration and reminds you to drink.",
+        description:
+          "Smart water bottle that tracks hydration and reminds you to drink.",
         isFavorite: true,
       },
       {
@@ -1809,7 +1865,8 @@ export const mockBusinesses = [
         sales: 789,
         rating: 4.4,
         reviews: 167,
-        description: "Weighted sleep mask for better relaxation and deeper sleep.",
+        description:
+          "Weighted sleep mask for better relaxation and deeper sleep.",
         isFavorite: false,
       },
       {
@@ -1823,7 +1880,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.7,
         reviews: 78,
-        description: "High-density foam roller for muscle recovery and pain relief.",
+        description:
+          "High-density foam roller for muscle recovery and pain relief.",
         isFavorite: false,
       },
     ],
@@ -1839,7 +1897,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.8,
         reviews: 78,
-        description: "One-on-one personal training sessions with certified trainers.",
+        description:
+          "One-on-one personal training sessions with certified trainers.",
         isFavorite: false,
       },
       {
@@ -1881,7 +1940,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.9,
         reviews: 89,
-        description: "Therapeutic massage sessions for relaxation and pain relief.",
+        description:
+          "Therapeutic massage sessions for relaxation and pain relief.",
         isFavorite: false,
       },
       {
@@ -1895,7 +1955,8 @@ export const mockBusinesses = [
         sales: 123,
         rating: 4.8,
         reviews: 45,
-        description: "Professional mental health counseling and therapy sessions.",
+        description:
+          "Professional mental health counseling and therapy sessions.",
         isFavorite: false,
       },
     ],
@@ -1917,7 +1978,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.8,
         reviews: 123,
-        description: "Complete set of 5 programming textbooks covering Python, JavaScript, and more.",
+        description:
+          "Complete set of 5 programming textbooks covering Python, JavaScript, and more.",
         isFavorite: false,
       },
       {
@@ -1931,7 +1993,8 @@ export const mockBusinesses = [
         sales: 890,
         rating: 4.9,
         reviews: 234,
-        description: "Lifetime access to 20+ online courses in technology and business.",
+        description:
+          "Lifetime access to 20+ online courses in technology and business.",
         isFavorite: true,
       },
       {
@@ -1945,7 +2008,8 @@ export const mockBusinesses = [
         sales: 1234,
         rating: 4.8,
         reviews: 298,
-        description: "Complete web development course from beginner to advanced level.",
+        description:
+          "Complete web development course from beginner to advanced level.",
         isFavorite: false,
       },
     ],
@@ -1961,7 +2025,8 @@ export const mockBusinesses = [
         sales: 1456,
         rating: 4.7,
         reviews: 345,
-        description: "Comprehensive study planner with goal tracking and progress monitoring.",
+        description:
+          "Comprehensive study planner with goal tracking and progress monitoring.",
         isFavorite: false,
       },
       {
@@ -1975,7 +2040,8 @@ export const mockBusinesses = [
         sales: 987,
         rating: 4.6,
         reviews: 234,
-        description: "Adjustable laptop stand for better posture during study sessions.",
+        description:
+          "Adjustable laptop stand for better posture during study sessions.",
         isFavorite: false,
       },
       {
@@ -2003,7 +2069,8 @@ export const mockBusinesses = [
         sales: 890,
         rating: 4.6,
         reviews: 234,
-        description: "Interactive language learning courses in multiple languages.",
+        description:
+          "Interactive language learning courses in multiple languages.",
         isFavorite: false,
       },
     ],
@@ -2019,7 +2086,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.8,
         reviews: 98,
-        description: "Premium noise-cancelling headphones perfect for focused studying.",
+        description:
+          "Premium noise-cancelling headphones perfect for focused studying.",
         isFavorite: true,
       },
       {
@@ -2033,7 +2101,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.7,
         reviews: 78,
-        description: "Digital note-taking tablet with stylus and cloud synchronization.",
+        description:
+          "Digital note-taking tablet with stylus and cloud synchronization.",
         isFavorite: false,
       },
       {
@@ -2047,7 +2116,8 @@ export const mockBusinesses = [
         sales: 234,
         rating: 4.6,
         reviews: 67,
-        description: "Collection of essential reference books for various academic subjects.",
+        description:
+          "Collection of essential reference books for various academic subjects.",
         isFavorite: false,
       },
       {
@@ -2061,7 +2131,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.5,
         reviews: 123,
-        description: "Advanced scientific calculator with graphing capabilities.",
+        description:
+          "Advanced scientific calculator with graphing capabilities.",
         isFavorite: false,
       },
       {
@@ -2075,7 +2146,8 @@ export const mockBusinesses = [
         sales: 789,
         rating: 4.4,
         reviews: 167,
-        description: "Complete desk organizer set with compartments for all study supplies.",
+        description:
+          "Complete desk organizer set with compartments for all study supplies.",
         isFavorite: false,
       },
       {
@@ -2089,7 +2161,8 @@ export const mockBusinesses = [
         sales: 678,
         rating: 4.3,
         reviews: 145,
-        description: "Blue light blocking glasses to reduce eye strain during screen time.",
+        description:
+          "Blue light blocking glasses to reduce eye strain during screen time.",
         isFavorite: false,
       },
     ],
@@ -2105,7 +2178,8 @@ export const mockBusinesses = [
         sales: 1234,
         rating: 4.8,
         reviews: 298,
-        description: "Complete web development course from beginner to advanced level.",
+        description:
+          "Complete web development course from beginner to advanced level.",
         isFavorite: false,
       },
       {
@@ -2133,7 +2207,8 @@ export const mockBusinesses = [
         sales: 890,
         rating: 4.6,
         reviews: 234,
-        description: "Interactive language learning courses in multiple languages.",
+        description:
+          "Interactive language learning courses in multiple languages.",
         isFavorite: false,
       },
       {
@@ -2147,7 +2222,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.7,
         reviews: 98,
-        description: "Business analytics and data visualization certification course.",
+        description:
+          "Business analytics and data visualization certification course.",
         isFavorite: false,
       },
       {
@@ -2161,7 +2237,8 @@ export const mockBusinesses = [
         sales: 678,
         rating: 4.5,
         reviews: 145,
-        description: "Comprehensive digital marketing course with practical case studies.",
+        description:
+          "Comprehensive digital marketing course with practical case studies.",
         isFavorite: false,
       },
     ],
@@ -2183,7 +2260,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.7,
         reviews: 78,
-        description: "Comprehensive collection of legal document templates for businesses.",
+        description:
+          "Comprehensive collection of legal document templates for businesses.",
         isFavorite: false,
       },
       {
@@ -2197,7 +2275,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.8,
         reviews: 123,
-        description: "Essential business law handbook with case studies and practical examples.",
+        description:
+          "Essential business law handbook with case studies and practical examples.",
         isFavorite: true,
       },
       {
@@ -2211,7 +2290,8 @@ export const mockBusinesses = [
         sales: 123,
         rating: 4.9,
         reviews: 34,
-        description: "Intellectual property protection and trademark registration.",
+        description:
+          "Intellectual property protection and trademark registration.",
         isFavorite: true,
       },
     ],
@@ -2227,7 +2307,8 @@ export const mockBusinesses = [
         sales: 987,
         rating: 4.6,
         reviews: 234,
-        description: "Digital contract management software with e-signature capabilities.",
+        description:
+          "Digital contract management software with e-signature capabilities.",
         isFavorite: false,
       },
       {
@@ -2241,7 +2322,8 @@ export const mockBusinesses = [
         sales: 678,
         rating: 4.5,
         reviews: 145,
-        description: "Complete bundle of 100+ legal forms for various business needs.",
+        description:
+          "Complete bundle of 100+ legal forms for various business needs.",
         isFavorite: false,
       },
       {
@@ -2255,7 +2337,8 @@ export const mockBusinesses = [
         sales: 234,
         rating: 4.8,
         reviews: 67,
-        description: "Expert business law consultation for startups and enterprises.",
+        description:
+          "Expert business law consultation for startups and enterprises.",
         isFavorite: false,
       },
       {
@@ -2269,7 +2352,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.7,
         reviews: 89,
-        description: "Professional contract review and legal document analysis.",
+        description:
+          "Professional contract review and legal document analysis.",
         isFavorite: false,
       },
     ],
@@ -2285,7 +2369,8 @@ export const mockBusinesses = [
         sales: 234,
         rating: 4.8,
         reviews: 67,
-        description: "One-year access to comprehensive legal research database.",
+        description:
+          "One-year access to comprehensive legal research database.",
         isFavorite: false,
       },
       {
@@ -2299,7 +2384,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.6,
         reviews: 98,
-        description: "Comprehensive compliance checklist for different business types.",
+        description:
+          "Comprehensive compliance checklist for different business types.",
         isFavorite: false,
       },
       {
@@ -2313,7 +2399,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.7,
         reviews: 78,
-        description: "Automated privacy policy and terms of service generator tool.",
+        description:
+          "Automated privacy policy and terms of service generator tool.",
         isFavorite: true,
       },
       {
@@ -2341,7 +2428,8 @@ export const mockBusinesses = [
         sales: 234,
         rating: 4.5,
         reviews: 67,
-        description: "High-speed document scanner for legal document digitization.",
+        description:
+          "High-speed document scanner for legal document digitization.",
         isFavorite: false,
       },
       {
@@ -2355,7 +2443,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.6,
         reviews: 78,
-        description: "Mobile app for legal case management and client communication.",
+        description:
+          "Mobile app for legal case management and client communication.",
         isFavorite: false,
       },
     ],
@@ -2371,7 +2460,8 @@ export const mockBusinesses = [
         sales: 234,
         rating: 4.8,
         reviews: 67,
-        description: "Expert business law consultation for startups and enterprises.",
+        description:
+          "Expert business law consultation for startups and enterprises.",
         isFavorite: false,
       },
       {
@@ -2385,7 +2475,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.7,
         reviews: 89,
-        description: "Professional contract review and legal document analysis.",
+        description:
+          "Professional contract review and legal document analysis.",
         isFavorite: false,
       },
       {
@@ -2399,7 +2490,8 @@ export const mockBusinesses = [
         sales: 123,
         rating: 4.9,
         reviews: 34,
-        description: "Intellectual property protection and trademark registration.",
+        description:
+          "Intellectual property protection and trademark registration.",
         isFavorite: true,
       },
       {
@@ -2435,7 +2527,8 @@ export const mockBusinesses = [
         sales: 789,
         rating: 4.6,
         reviews: 167,
-        description: "WiFi-controlled LED light strips with color changing and app control.",
+        description:
+          "WiFi-controlled LED light strips with color changing and app control.",
         isFavorite: false,
       },
       {
@@ -2449,7 +2542,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.8,
         reviews: 123,
-        description: "Modern abstract wall art set of 3 pieces for contemporary homes.",
+        description:
+          "Modern abstract wall art set of 3 pieces for contemporary homes.",
         isFavorite: true,
       },
       {
@@ -2479,7 +2573,8 @@ export const mockBusinesses = [
         sales: 1234,
         rating: 4.7,
         reviews: 267,
-        description: "Set of 4 luxury throw pillows in coordinating colors and textures.",
+        description:
+          "Set of 4 luxury throw pillows in coordinating colors and textures.",
         isFavorite: false,
       },
       {
@@ -2493,7 +2588,8 @@ export const mockBusinesses = [
         sales: 890,
         rating: 4.6,
         reviews: 234,
-        description: "Modern geometric area rug available in multiple sizes and colors.",
+        description:
+          "Modern geometric area rug available in multiple sizes and colors.",
         isFavorite: false,
       },
       {
@@ -2507,7 +2603,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.8,
         reviews: 123,
-        description: "Professional interior design consultation and space planning.",
+        description:
+          "Professional interior design consultation and space planning.",
         isFavorite: false,
       },
       {
@@ -2521,7 +2618,8 @@ export const mockBusinesses = [
         sales: 234,
         rating: 4.7,
         reviews: 67,
-        description: "Professional home staging for real estate sales and rentals.",
+        description:
+          "Professional home staging for real estate sales and rentals.",
         isFavorite: false,
       },
     ],
@@ -2537,7 +2635,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.5,
         reviews: 98,
-        description: "Energy-efficient blackout curtains with thermal insulation properties.",
+        description:
+          "Energy-efficient blackout curtains with thermal insulation properties.",
         isFavorite: false,
       },
       {
@@ -2551,7 +2650,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.7,
         reviews: 78,
-        description: "Contemporary table lamp with adjustable brightness and USB charging.",
+        description:
+          "Contemporary table lamp with adjustable brightness and USB charging.",
         isFavorite: false,
       },
       {
@@ -2565,7 +2665,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.6,
         reviews: 123,
-        description: "Multi-functional storage ottoman that doubles as seating and storage.",
+        description:
+          "Multi-functional storage ottoman that doubles as seating and storage.",
         isFavorite: true,
       },
       {
@@ -2593,7 +2694,8 @@ export const mockBusinesses = [
         sales: 789,
         rating: 4.4,
         reviews: 167,
-        description: "Set of 3 ceramic plant pots with drainage holes and saucers.",
+        description:
+          "Set of 3 ceramic plant pots with drainage holes and saucers.",
         isFavorite: false,
       },
       {
@@ -2607,7 +2709,8 @@ export const mockBusinesses = [
         sales: 156,
         rating: 4.9,
         reviews: 45,
-        description: "Luxury velvet accent chair with gold metal legs for living room.",
+        description:
+          "Luxury velvet accent chair with gold metal legs for living room.",
         isFavorite: false,
       },
     ],
@@ -2623,7 +2726,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.8,
         reviews: 123,
-        description: "Professional interior design consultation and space planning.",
+        description:
+          "Professional interior design consultation and space planning.",
         isFavorite: false,
       },
       {
@@ -2637,7 +2741,8 @@ export const mockBusinesses = [
         sales: 234,
         rating: 4.7,
         reviews: 67,
-        description: "Professional home staging for real estate sales and rentals.",
+        description:
+          "Professional home staging for real estate sales and rentals.",
         isFavorite: false,
       },
       {
@@ -2651,7 +2756,8 @@ export const mockBusinesses = [
         sales: 789,
         rating: 4.6,
         reviews: 156,
-        description: "Expert color consultation and paint selection for your space.",
+        description:
+          "Expert color consultation and paint selection for your space.",
         isFavorite: false,
       },
       {
@@ -2701,7 +2807,8 @@ export const mockBusinesses = [
         sales: 1234,
         rating: 4.5,
         reviews: 267,
-        description: "Strong magnetic phone mount for dashboard with 360-degree rotation.",
+        description:
+          "Strong magnetic phone mount for dashboard with 360-degree rotation.",
         isFavorite: false,
       },
       {
@@ -2715,7 +2822,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.7,
         reviews: 123,
-        description: "1080p HD dash cam with night vision and automatic recording.",
+        description:
+          "1080p HD dash cam with night vision and automatic recording.",
         isFavorite: true,
       },
       {
@@ -2729,7 +2837,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.8,
         reviews: 156,
-        description: "Complete car detailing service including interior and exterior cleaning.",
+        description:
+          "Complete car detailing service including interior and exterior cleaning.",
         isFavorite: true,
       },
     ],
@@ -2745,7 +2854,8 @@ export const mockBusinesses = [
         sales: 890,
         rating: 4.8,
         reviews: 234,
-        description: "Complete emergency kit with jumper cables, tools, and safety equipment.",
+        description:
+          "Complete emergency kit with jumper cables, tools, and safety equipment.",
         isFavorite: false,
       },
       {
@@ -2759,7 +2869,8 @@ export const mockBusinesses = [
         sales: 2345,
         rating: 4.6,
         reviews: 456,
-        description: "High-performance synthetic motor oil for enhanced engine protection.",
+        description:
+          "High-performance synthetic motor oil for enhanced engine protection.",
         isFavorite: false,
       },
       {
@@ -2773,7 +2884,8 @@ export const mockBusinesses = [
         sales: 1234,
         rating: 4.5,
         reviews: 234,
-        description: "Quick and professional oil change service with quality oil.",
+        description:
+          "Quick and professional oil change service with quality oil.",
         isFavorite: false,
       },
       {
@@ -2787,7 +2899,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.6,
         reviews: 78,
-        description: "Professional tire installation and wheel alignment service.",
+        description:
+          "Professional tire installation and wheel alignment service.",
         isFavorite: false,
       },
     ],
@@ -2803,7 +2916,8 @@ export const mockBusinesses = [
         sales: 1567,
         rating: 4.3,
         reviews: 345,
-        description: "Set of 6 long-lasting car air fresheners in various scents.",
+        description:
+          "Set of 6 long-lasting car air fresheners in various scents.",
         isFavorite: false,
       },
       {
@@ -2817,7 +2931,8 @@ export const mockBusinesses = [
         sales: 789,
         rating: 4.5,
         reviews: 167,
-        description: "Accurate digital tire pressure gauge with LED display and auto-shutoff.",
+        description:
+          "Accurate digital tire pressure gauge with LED display and auto-shutoff.",
         isFavorite: false,
       },
       {
@@ -2831,7 +2946,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.4,
         reviews: 98,
-        description: "Water-resistant universal car seat covers for front and rear seats.",
+        description:
+          "Water-resistant universal car seat covers for front and rear seats.",
         isFavorite: false,
       },
       {
@@ -2845,7 +2961,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.6,
         reviews: 78,
-        description: "Powerful cordless car vacuum with multiple attachments and long battery.",
+        description:
+          "Powerful cordless car vacuum with multiple attachments and long battery.",
         isFavorite: true,
       },
       {
@@ -2859,7 +2976,8 @@ export const mockBusinesses = [
         sales: 2234,
         rating: 4.2,
         reviews: 456,
-        description: "All-season windshield washer fluid with anti-freeze protection.",
+        description:
+          "All-season windshield washer fluid with anti-freeze protection.",
         isFavorite: false,
       },
       {
@@ -2873,7 +2991,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.7,
         reviews: 123,
-        description: "Heavy-duty jumper cables with tangle-free design and storage case.",
+        description:
+          "Heavy-duty jumper cables with tangle-free design and storage case.",
         isFavorite: false,
       },
     ],
@@ -2889,7 +3008,8 @@ export const mockBusinesses = [
         sales: 1234,
         rating: 4.5,
         reviews: 234,
-        description: "Quick and professional oil change service with quality oil.",
+        description:
+          "Quick and professional oil change service with quality oil.",
         isFavorite: false,
       },
       {
@@ -2917,7 +3037,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.8,
         reviews: 156,
-        description: "Complete car detailing service including interior and exterior cleaning.",
+        description:
+          "Complete car detailing service including interior and exterior cleaning.",
         isFavorite: true,
       },
       {
@@ -2931,7 +3052,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.6,
         reviews: 78,
-        description: "Professional tire installation and wheel alignment service.",
+        description:
+          "Professional tire installation and wheel alignment service.",
         isFavorite: false,
       },
       {
@@ -2967,7 +3089,8 @@ export const mockBusinesses = [
         sales: 678,
         rating: 4.7,
         reviews: 145,
-        description: "Mental stimulation puzzle toy to keep dogs engaged and entertained.",
+        description:
+          "Mental stimulation puzzle toy to keep dogs engaged and entertained.",
         isFavorite: false,
       },
       {
@@ -2981,7 +3104,8 @@ export const mockBusinesses = [
         sales: 1234,
         rating: 4.5,
         reviews: 267,
-        description: "Odor-control clumping cat litter made from natural materials.",
+        description:
+          "Odor-control clumping cat litter made from natural materials.",
         isFavorite: true,
       },
       {
@@ -2995,7 +3119,8 @@ export const mockBusinesses = [
         sales: 234,
         rating: 4.7,
         reviews: 67,
-        description: "Professional pet training and behavior modification sessions.",
+        description:
+          "Professional pet training and behavior modification sessions.",
         isFavorite: true,
       },
     ],
@@ -3011,7 +3136,8 @@ export const mockBusinesses = [
         sales: 1567,
         rating: 4.6,
         reviews: 345,
-        description: "Non-slip stainless steel food and water bowl set for pets.",
+        description:
+          "Non-slip stainless steel food and water bowl set for pets.",
         isFavorite: false,
       },
       {
@@ -3025,7 +3151,8 @@ export const mockBusinesses = [
         sales: 890,
         rating: 4.4,
         reviews: 234,
-        description: "Durable retractable dog leash with comfortable grip and safety lock.",
+        description:
+          "Durable retractable dog leash with comfortable grip and safety lock.",
         isFavorite: false,
       },
       {
@@ -3053,7 +3180,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.9,
         reviews: 123,
-        description: "Comprehensive veterinary health checkup and wellness exam.",
+        description:
+          "Comprehensive veterinary health checkup and wellness exam.",
         isFavorite: false,
       },
     ],
@@ -3069,7 +3197,8 @@ export const mockBusinesses = [
         sales: 345,
         rating: 4.7,
         reviews: 78,
-        description: "Airline-approved pet carrier with comfortable padding and ventilation.",
+        description:
+          "Airline-approved pet carrier with comfortable padding and ventilation.",
         isFavorite: false,
       },
       {
@@ -3083,7 +3212,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.6,
         reviews: 123,
-        description: "Tall sisal scratching post with multiple levels and hanging toys.",
+        description:
+          "Tall sisal scratching post with multiple levels and hanging toys.",
         isFavorite: false,
       },
       {
@@ -3097,7 +3227,8 @@ export const mockBusinesses = [
         sales: 234,
         rating: 4.8,
         reviews: 67,
-        description: "Orthopedic memory foam dog bed with removable washable cover.",
+        description:
+          "Orthopedic memory foam dog bed with removable washable cover.",
         isFavorite: true,
       },
       {
@@ -3111,7 +3242,8 @@ export const mockBusinesses = [
         sales: 789,
         rating: 4.5,
         reviews: 167,
-        description: "Gentle organic pet shampoo with natural ingredients and pleasant scent.",
+        description:
+          "Gentle organic pet shampoo with natural ingredients and pleasant scent.",
         isFavorite: false,
       },
       {
@@ -3125,7 +3257,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.7,
         reviews: 98,
-        description: "Automatic pet water fountain with filter system and quiet operation.",
+        description:
+          "Automatic pet water fountain with filter system and quiet operation.",
         isFavorite: false,
       },
       {
@@ -3139,7 +3272,8 @@ export const mockBusinesses = [
         sales: 1123,
         rating: 4.4,
         reviews: 245,
-        description: "Assorted healthy pet treats made with natural ingredients and flavors.",
+        description:
+          "Assorted healthy pet treats made with natural ingredients and flavors.",
         isFavorite: false,
       },
     ],
@@ -3169,7 +3303,8 @@ export const mockBusinesses = [
         sales: 456,
         rating: 4.9,
         reviews: 123,
-        description: "Comprehensive veterinary health checkup and wellness exam.",
+        description:
+          "Comprehensive veterinary health checkup and wellness exam.",
         isFavorite: false,
       },
       {
@@ -3183,7 +3318,8 @@ export const mockBusinesses = [
         sales: 234,
         rating: 4.7,
         reviews: 67,
-        description: "Professional pet training and behavior modification sessions.",
+        description:
+          "Professional pet training and behavior modification sessions.",
         isFavorite: true,
       },
       {
@@ -3197,7 +3333,8 @@ export const mockBusinesses = [
         sales: 567,
         rating: 4.6,
         reviews: 89,
-        description: "Safe and comfortable pet boarding services with playtime.",
+        description:
+          "Safe and comfortable pet boarding services with playtime.",
         isFavorite: false,
       },
       {
@@ -3211,107 +3348,111 @@ export const mockBusinesses = [
         sales: 123,
         rating: 4.8,
         reviews: 34,
-        description: "24/7 emergency veterinary care and urgent medical treatment.",
+        description:
+          "24/7 emergency veterinary care and urgent medical treatment.",
         isFavorite: false,
       },
     ],
   },
-]
+];
 
 // Favorites management with localStorage persistence
-const FAVORITES_STORAGE_KEY = 'fusumi-favorites'
+const FAVORITES_STORAGE_KEY = "fusumi-favorites";
 
 // Get favorites from localStorage
 const getFavoritesFromStorage = (): Set<string> => {
-  if (typeof window === 'undefined') return new Set() // SSR safety
-  
+  if (typeof window === "undefined") return new Set(); // SSR safety
+
   try {
-    const stored = localStorage.getItem(FAVORITES_STORAGE_KEY)
-    return stored ? new Set(JSON.parse(stored)) : new Set()
+    const stored = localStorage.getItem(FAVORITES_STORAGE_KEY);
+    return stored ? new Set(JSON.parse(stored)) : new Set();
   } catch {
-    return new Set()
+    return new Set();
   }
-}
+};
 
 // Save favorites to localStorage
 const saveFavoritesToStorage = (favorites: Set<string>) => {
-  if (typeof window === 'undefined') return // SSR safety
-  
+  if (typeof window === "undefined") return; // SSR safety
+
   try {
-    localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(Array.from(favorites)))
+    localStorage.setItem(
+      FAVORITES_STORAGE_KEY,
+      JSON.stringify(Array.from(favorites))
+    );
   } catch (error) {
-    console.warn('Failed to save favorites to localStorage:', error)
+    console.warn("Failed to save favorites to localStorage:", error);
   }
-}
+};
 
 // Global favorites state
-let globalFavorites = getFavoritesFromStorage()
+let globalFavorites = getFavoritesFromStorage();
 
 // Function to toggle favorite status with localStorage persistence
 export const toggleFavorite = (productId: string): boolean => {
   if (globalFavorites.has(productId)) {
-    globalFavorites.delete(productId)
+    globalFavorites.delete(productId);
   } else {
-    globalFavorites.add(productId)
+    globalFavorites.add(productId);
   }
-  
+
   // Save to localStorage
-  saveFavoritesToStorage(globalFavorites)
-  
-  const isFavorite = globalFavorites.has(productId)
-  return isFavorite
-}
+  saveFavoritesToStorage(globalFavorites);
+
+  const isFavorite = globalFavorites.has(productId);
+  return isFavorite;
+};
 
 // Function to get favorite status of a product
 export const getFavoriteStatus = (productId: string): boolean => {
-  return globalFavorites.has(productId)
-}
+  return globalFavorites.has(productId);
+};
 
 // Function to get all current favorites
 export const getAllFavorites = (): string[] => {
-  return Array.from(globalFavorites)
-}
+  return Array.from(globalFavorites);
+};
 
 // Function to clear all favorites
 export const clearAllFavorites = (): void => {
-  globalFavorites.clear()
-  saveFavoritesToStorage(globalFavorites)
-}
+  globalFavorites.clear();
+  saveFavoritesToStorage(globalFavorites);
+};
 
 // Function to initialize favorites (call this when app starts)
 export const initializeFavorites = (): void => {
-  globalFavorites = getFavoritesFromStorage()
-}
+  globalFavorites = getFavoritesFromStorage();
+};
 
 // Helper function to get products with favorite status applied
 export const getProductsWithFavorites = (products: any[]): any[] => {
-  return products.map(product => ({
+  return products.map((product) => ({
     ...product,
-    isFavorite: getFavoriteStatus(product.id)
-  }))
-}
+    isFavorite: getFavoriteStatus(product.id),
+  }));
+};
 
 // Helper function to get business data with favorites applied
 export const getBusinessWithFavorites = (businessId: string) => {
-  const business = mockBusinesses.find(b => b.id === businessId)
-  if (!business) return null
-  
+  const business = mockBusinesses.find((b) => b.id === businessId);
+  if (!business) return null;
+
   return {
     ...business,
     trending: getProductsWithFavorites(business.trending),
     bestSellers: getProductsWithFavorites(business.bestSellers),
     goods: getProductsWithFavorites(business.goods),
-    services: getProductsWithFavorites(business.services)
-  }
-}
+    services: getProductsWithFavorites(business.services),
+  };
+};
 
 // Helper function to get all businesses with favorites applied
 export const getAllBusinessesWithFavorites = () => {
-  return mockBusinesses.map(business => ({
+  return mockBusinesses.map((business) => ({
     ...business,
     trending: getProductsWithFavorites(business.trending),
     bestSellers: getProductsWithFavorites(business.bestSellers),
     goods: getProductsWithFavorites(business.goods),
-    services: getProductsWithFavorites(business.services)
-  }))
-}
+    services: getProductsWithFavorites(business.services),
+  }));
+};
