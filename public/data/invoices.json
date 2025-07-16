@@ -131,6 +131,71 @@
             "businessId": "bus-004",
             "createdAt": "2024-01-25T11:20:00.000Z",
             "updatedAt": "2024-02-01T11:20:00.000Z"
+        },
+        {
+            "id": "inv-009",
+            "ownerAddress": "0x1234567890abcdef1234567890abcdef12345678",
+            "debtorAddress": "0x987654321fedcba0987654321fedcba",
+            "description": "Advanced web analytics implementation and SEO optimization",
+            "paidStatus": "PENDING",
+            "startDate": "2024-03-01T00:00:00.000Z",
+            "endDate": "2024-04-01T00:00:00.000Z",
+            "attachments": [
+                "invoice_009.pdf",
+                "analytics_plan.pdf"
+            ],
+            "businessId": "bus-001",
+            "createdAt": "2024-03-01T09:30:00.000Z",
+            "updatedAt": "2024-03-01T09:30:00.000Z"
+        },
+        {
+            "id": "inv-010",
+            "ownerAddress": "0x9876543210fedcba9876543210fedcba98765432",
+            "debtorAddress": "0x123jendjknefjnfnj924121123123",
+            "description": "Seasonal organic produce subscription - March 2024",
+            "paidStatus": "PAID",
+            "startDate": "2024-03-01T00:00:00.000Z",
+            "endDate": "2024-03-31T23:59:59.000Z",
+            "attachments": [
+                "invoice_010.pdf",
+                "organic_certs_march.pdf"
+            ],
+            "businessId": "bus-002",
+            "createdAt": "2024-03-01T12:15:00.000Z",
+            "updatedAt": "2024-03-15T12:15:00.000Z"
+        },
+        {
+            "id": "inv-011",
+            "ownerAddress": "0x5555666677778888999900001111222233334444",
+            "debtorAddress": "0xuts109rqp876onm543lkj210ihg987fed654cba321",
+            "description": "Enterprise cloud security audit and implementation",
+            "paidStatus": "OVERDUE",
+            "startDate": "2024-02-10T00:00:00.000Z",
+            "endDate": "2024-03-10T00:00:00.000Z",
+            "attachments": [
+                "invoice_011.pdf",
+                "security_audit.pdf",
+                "implementation_guide.pdf"
+            ],
+            "businessId": "bus-003",
+            "createdAt": "2024-02-10T16:20:00.000Z",
+            "updatedAt": "2024-03-15T16:20:00.000Z"
+        },
+        {
+            "id": "inv-012",
+            "ownerAddress": "0xaaabbbbccccddddeeeeffffgggghhhhiiiijjjj",
+            "debtorAddress": "0x0011223344556677889900112233445566778899",
+            "description": "Bulk eco-friendly packaging materials for Q2 2024",
+            "paidStatus": "PENDING",
+            "startDate": "2024-03-15T00:00:00.000Z",
+            "endDate": "2024-06-15T00:00:00.000Z",
+            "attachments": [
+                "invoice_012.pdf",
+                "packaging_specs_q2.pdf"
+            ],
+            "businessId": "bus-004",
+            "createdAt": "2024-03-15T14:45:00.000Z",
+            "updatedAt": "2024-03-15T14:45:00.000Z"
         }
     ],
     "products": [
@@ -279,6 +344,30 @@
             "invoiceId": "inv-008",
             "productId": "prod-004",
             "quantity": 500
+        },
+        {
+            "id": "ip-009",
+            "invoiceId": "inv-009",
+            "productId": "prod-001",
+            "quantity": 1
+        },
+        {
+            "id": "ip-010",
+            "invoiceId": "inv-010",
+            "productId": "prod-002",
+            "quantity": 5
+        },
+        {
+            "id": "ip-011",
+            "invoiceId": "inv-011",
+            "productId": "prod-003",
+            "quantity": 2
+        },
+        {
+            "id": "ip-012",
+            "invoiceId": "inv-012",
+            "productId": "prod-004",
+            "quantity": 2000
         }
     ]
 }

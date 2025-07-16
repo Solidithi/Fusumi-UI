@@ -6,34 +6,86 @@ import { InvoiceTable } from "@/components/shared/InvoiceTable";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { SearchBar } from "@/components/shared/SearchBar";
 import { Sidebar } from "@/components/ui/SideBar";
-import { mockDashboardStats, mockInvoiceData } from "@/lib/data";
-import { FilterType } from "@/types/dashboard";
+import { PaidStatus } from "@/types/project";
+import { useEnhancedInvoiceData } from "@/hooks/useEnhancedInvoiceData";
+import { calculateDashboardStats } from "@/utils/dashboardStats";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 export function DashboardContent() {
-  const [activeFilter, setActiveFilter] = useState<FilterType>("paid");
+  const [activeFilter, setActiveFilter] = useState<PaidStatus>(PaidStatus.PAID);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sidebarExpanded, setSidebarExpanded] = useState(true); // Add sidebar state
+  const [sidebarExpanded, setSidebarExpanded] = useState(true);
 
-  const filteredInvoices = mockInvoiceData.filter((invoice: any) => {
-    const matchesFilter =
-      activeFilter === "total" || invoice.status === activeFilter;
-    const matchesSearch =
-      invoice.addressOwner.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      invoice.addressDebtor.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      invoice.fieldCompany.toLowerCase().includes(searchTerm.toLowerCase());
+  const { enhancedInvoices, loading, error } = useEnhancedInvoiceData();
 
-    return matchesFilter && matchesSearch;
-  });
+  // Calculate dashboard stats from enhanced invoices
+  const dashboardStats = useMemo(() => {
+    return calculateDashboardStats(enhancedInvoices);
+  }, [enhancedInvoices]);
+
+  // Debug logging (can be removed in production)
+  useEffect(() => {
+    if (enhancedInvoices.length > 0) {
+      console.log('✅ Enhanced invoices loaded:', enhancedInvoices.length);
+      console.log('📊 Dashboard stats:', dashboardStats);
+    }
+  }, [enhancedInvoices, dashboardStats]);
+
+  const filteredInvoices = useMemo(() => {
+    if (!enhancedInvoices.length) return [];
+
+    return enhancedInvoices.filter((invoice) => {
+      const statusFilter =
+        activeFilter === PaidStatus.TOTAL ||
+        (activeFilter === PaidStatus.PAID && invoice.paidStatus === "PAID") ||
+        (activeFilter === PaidStatus.OVERDUE &&
+          invoice.paidStatus === "OVERDUE") ||
+        (activeFilter === PaidStatus.PENDING &&
+          invoice.paidStatus === "PENDING");
+
+      const searchFilter =
+        searchTerm === "" ||
+        invoice.ownerAlias?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        invoice.ownerName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        invoice.debtorAlias?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        invoice.debtorName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        invoice.businessName
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        invoice.description?.toLowerCase().includes(searchTerm.toLowerCase());
+
+      return statusFilter && searchFilter;
+    });
+  }, [enhancedInvoices, activeFilter, searchTerm]);
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-white flex">
+        <Sidebar
+          isExpanded={sidebarExpanded}
+          onToggle={() => setSidebarExpanded(!sidebarExpanded)}
+          activePage="home"
+        />
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-xl font-semibold text-red-600 mb-2">
+              Error Loading Data
+            </h2>
+            <p className="text-gray-600">{error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white flex">
       {/* Sidebar */}
-      <Sidebar 
-        isExpanded={sidebarExpanded} 
+      <Sidebar
+        isExpanded={sidebarExpanded}
         onToggle={() => setSidebarExpanded(!sidebarExpanded)}
-        activePage="home" // Set active page to "home" for dashboard
+        activePage="home"
       />
 
       {/* Main Content */}
@@ -50,7 +102,7 @@ export function DashboardContent() {
               subtitle="Welcome back! Here's what's happening with your business today."
               isBusiness={true}
             />
-            <StatsCards stats={mockDashboardStats} />
+            <StatsCards stats={dashboardStats} />
 
             <motion.div
               className="flex flex-col md:flex-row md:items-center md:justify-between mb-6"
@@ -62,10 +114,29 @@ export function DashboardContent() {
                 activeFilter={activeFilter}
                 onFilterChange={setActiveFilter}
               />
-              <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+              <SearchBar
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+                placeholder="Search invoices by name, business, or description..."
+              />
             </motion.div>
 
-            <InvoiceTable invoices={filteredInvoices} />
+            {/* Enhanced Invoice Table */}
+            {loading ? (
+              <motion.div
+                className="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <div className="inline-flex items-center space-x-2">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                  <span className="text-gray-600">Loading invoice data...</span>
+                </div>
+              </motion.div>
+            ) : (
+              <InvoiceTable invoices={filteredInvoices} />
+            )}
           </div>
         </motion.div>
       </div>
