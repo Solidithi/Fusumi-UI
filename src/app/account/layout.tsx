@@ -26,7 +26,7 @@ export default function AccountLayout({
       >
         {/* Optionally, you can render custom sidebar items here */}
       </Sidebar>
-      <main className="flex-1 p-8 bg-gray-50">{children}</main>
+      <main className="flex-1 p-8 bg-gray-100">{children}</main>
     </div>
   );
 }
