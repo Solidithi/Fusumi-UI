@@ -1,22 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import type { OfferDatas } from "@/types/offer";
+import type { Offer } from "@/types/offer";
 import { OfferCard } from "@/components/offer/OfferCard";
 
 interface OffersGridProps {
-  offers: OfferDatas[];
-  onView?: (offer: OfferDatas) => void;
-  onEdit?: (offer: OfferDatas) => void;
-  onDelete?: (offerId: string) => void;
+  offers: Offer[];
+  onView?: (offer: Offer) => void;
 }
 
-export function OffersGrid({
-  offers,
-  onView,
-  onEdit,
-  onDelete,
-}: OffersGridProps) {
+export function OffersGrid({ offers, onView }: OffersGridProps) {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -53,14 +46,7 @@ export function OffersGrid({
       animate="visible"
     >
       {offers.map((offer, index) => (
-        <OfferCard
-          key={offer.id}
-          offer={offer}
-          index={index}
-          onView={onView}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
+        <OfferCard key={offer.id} offer={offer} index={index} onView={onView} />
       ))}
     </motion.div>
   );

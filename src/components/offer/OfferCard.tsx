@@ -22,17 +22,9 @@ export interface OfferCardProps {
   offer: any;
   index: number;
   onView?: (offer: Offer) => void;
-  onEdit?: (offer: Offer) => void;
-  onDelete?: (offerId: string) => void;
 }
 
-export function OfferCard({
-  offer,
-  index,
-  onView,
-  onEdit,
-  onDelete,
-}: OfferCardProps) {
+export function OfferCard({ offer, index, onView }: OfferCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   const cardVariants = {

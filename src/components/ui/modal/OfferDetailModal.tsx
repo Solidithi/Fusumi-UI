@@ -17,7 +17,7 @@ import {
   Clock,
   Badge,
 } from "lucide-react";
-import type { OfferDatas } from "@/types/offer";
+import type { Offer } from "@/types/offer";
 import { Portal } from "../Portal";
 import { Separator } from "@radix-ui/react-separator";
 import { AnimatedButton } from "../Button";
@@ -26,17 +26,13 @@ import Image from "next/image";
 interface OfferDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
-  offer: OfferDatas;
-  onEdit?: (offer: OfferDatas) => void;
-  onDelete?: (offerId: string) => void;
+  offer: Offer;
 }
 
 export function OfferDetailModal({
   isOpen,
   onClose,
   offer,
-  onEdit,
-  onDelete,
 }: OfferDetailModalProps) {
   const overlayVariants = {
     hidden: { opacity: 0 },
@@ -182,24 +178,6 @@ export function OfferDetailModal({
 
                   <div className="flex items-center space-x-2">
                     <AnimatedButton
-                      variant="outline"
-                      size="sm"
-                      onClick={() => onEdit?.(offer)}
-                      className="hover:bg-green-50 hover:text-green-600 hover:border-green-200 rounded-lg p-2"
-                    >
-                      <Edit className="w-4 h-4 mr-2" />
-                      Edit
-                    </AnimatedButton>
-                    <AnimatedButton
-                      variant="outline"
-                      size="sm"
-                      onClick={() => onDelete?.(offer.id)}
-                      className="hover:bg-red-50 hover:text-red-600 hover:border-red-200 rounded-lg p-2"
-                    >
-                      <Trash2 className="w-4 h-4 mr-2 rounded-lg" />
-                      Delete
-                    </AnimatedButton>
-                    <AnimatedButton
                       //   variant="ghost"
                       size="sm"
                       onClick={onClose}
@@ -275,7 +253,7 @@ export function OfferDetailModal({
                   </div>
                   <div className="bg-white rounded-lg p-4 border">
                     <p className="font-mono text-sm text-gray-900 break-all">
-                      {offer.invoiceAddress}
+                      {offer.invoiceId}
                     </p>
                     <div className="flex items-center space-x-2 mt-3">
                       <AnimatedButton
@@ -464,20 +442,6 @@ export function OfferDetailModal({
                       </div>
                     </div>
 
-                    {offer.updatedAt !== offer.createdAt && (
-                      <div className="flex items-center space-x-4">
-                        <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                        <div className="flex-1">
-                          <p className="font-medium text-gray-900">
-                            Last Updated
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            {formatDateTime(offer.updatedAt)}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-
                     <div className="flex items-center space-x-4">
                       <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
                       <div className="flex-1">
@@ -515,12 +479,6 @@ export function OfferDetailModal({
                     className="px-6 bg-slate-100 py-2 rounded-xl"
                   >
                     Close
-                  </AnimatedButton>
-                  <AnimatedButton
-                    onClick={() => onEdit?.(offer)}
-                    className="bg-[#2a849a] hover:bg-[#2a849a]/90 text-white px-6 py-2 rounded-xl"
-                  >
-                    Edit Offer
                   </AnimatedButton>
                 </motion.div>
               </motion.div>
