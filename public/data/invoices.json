@@ -23,7 +23,7 @@
       "ownerAddress": "0x9876543210fedcba9876543210fedcba98765432",
       "debtorAddress": "0xfedcba9876543210fedcba9876543210fedcba98",
       "description": "Organic vegetables monthly subscription - January 2024",
-      "paidStatus": "UNPAID",
+      "paidStatus": "PENDING",
       "startDate": "2024-02-01T00:00:00.000Z",
       "endDate": "2024-02-28T23:59:59.000Z",
       "attachments": ["invoice_002.pdf", "delivery_schedule.pdf"],
@@ -69,7 +69,7 @@
       "ownerAddress": "0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t",
       "debtorAddress": "0xt9s8r7q6p5o4n3m2l1k0j9i8h7g6f5e4d3c2b1a",
       "description": "Mobile app development for iOS and Android platforms",
-      "paidStatus": "UNPAID",
+      "paidStatus": "PENDING",
       "startDate": "2024-02-15T00:00:00.000Z",
       "endDate": "2024-06-15T00:00:00.000Z",
       "attachments": [
