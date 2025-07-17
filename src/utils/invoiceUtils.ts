@@ -34,7 +34,7 @@ export async function loadInvoiceProductsData(): Promise<any[]> {
 }
 
 export async function loadProductsData(): Promise<any[]> {
-  const response = await fetch("/data/invoices.json");
+  const response = await fetch("/data/products.json");
   const data = await response.json();
   return data.products;
 }

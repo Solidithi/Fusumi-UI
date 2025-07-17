@@ -32,9 +32,9 @@ export interface ServiceDetailData {
 
 export interface RepayModalData {
   invoiceId: string;
-  addressOwner: string;
-  addressDebtor: string;
+  addressOwner?: string;
+  addressDebtor?: string;
   unitDebt: number;
-  fieldCompany: string;
-  endDate: string;
+  fieldCompany?: string;
+  endDate?: string;
 }
