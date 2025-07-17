@@ -1,21 +1,22 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+
+import { AnimatePresence, motion } from "framer-motion";
 import {
-  X,
-  Edit,
-  Trash2,
-  Download,
-  Calendar,
-  DollarSign,
-  FileText,
-  User,
-  MapPin,
-  Building,
-  Phone,
-  Mail,
-  Clock,
   Badge,
+  Building,
+  Calendar,
+  Clock,
+  DollarSign,
+  Download,
+  Edit,
+  FileText,
+  Mail,
+  MapPin,
+  Phone,
+  Trash2,
+  User,
+  X,
 } from "lucide-react";
 import type { Coral } from "@/types/coral";
 import { Portal } from "../Portal";

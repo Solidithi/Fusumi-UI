@@ -1,14 +1,14 @@
 "use client";
 
+import { OfferDetailModal } from "@/components/ui/modal/OfferDetailModal";
 import { useState, useMemo } from "react";
+import { Sidebar } from "@/components/ui/SideBar";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/app/hooks/useUser";
 import type { EnhancedCoral, Coral } from "@/types/coral";
 import { OffersGrid } from "../../../components/offer/OfferGrid";
 import { OffersHeader } from "../../../components/offer/OfferHeader";
-import { OfferDetailModal } from "@/components/ui/modal/OfferDetailModal";
-import { Sidebar } from "@/components/ui/SideBar";
 import { toEnhancedCoral } from "@/utils/coralUtils";
 import coralsData from "@/../public/data/corals.json";
 
@@ -57,8 +57,7 @@ export function OffersContent() {
           .includes(searchTerm.toLowerCase()) ||
         offer.invoiceId?.toLowerCase().includes(searchTerm.toLowerCase());
 
-      const matchesStatus =
-        statusFilter === "all" || offer.status === statusFilter;
+      const matchesStatus = statusFilter === "all"; // Remove status filter for now since offers don't have status
       return matchesSearch && matchesStatus;
     });
   }, [searchTerm, statusFilter]);

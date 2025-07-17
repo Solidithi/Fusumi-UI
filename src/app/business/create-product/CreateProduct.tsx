@@ -163,6 +163,28 @@ export default function CreateProduct() {
     //     ],
     //   },
     // });
+    const response = await signAndSubmitTransaction({
+      sender: account.address,
+      data: {
+        function: `${fusumi_deployer_address}::fusumi::load_cargo`,
+        typeArguments: [],
+        functionArguments: [
+          // productId,
+          // productName,
+          // productType,
+          // price.toString(),
+          // unitOfMeasure,
+          // description,
+          // images.length > 0 ? images : ["placeholder"],
+          // startDateTimestamp,
+          // endDateTimestamp,
+        ],
+      },
+    });
+
+    console.log(`Created Product! ${response.hash}`);
+    const wait = await aptos.waitForTransaction({ transactionHash: response.hash });
+    console.log(`Transaction status: ${wait.success ? "Success" : "Failed"}`);
 
     // Console log all entered values
     console.log("=== PRODUCT CREATION DATA ===");

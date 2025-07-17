@@ -63,11 +63,32 @@ export default function KYBPage() {
     if (account == null) {
       throw new Error("Unable to find account to sign transaction");
     }
+    // const response = await signAndSubmitTransaction({
+    //   sender: account.address,
+    //   data: {
+    //     function: `${fusumi_deployer_address}::debt_factory::add_business`,
+    //     functionArguments: [account.address],
+    //   },
+    // });
     const response = await signAndSubmitTransaction({
       sender: account.address,
       data: {
-        function: `${fusumi_deployer_address}::debt_factory::add_business`,
-        functionArguments: [account.address],
+        function: `${fusumi_deployer_address}::fusumi::anchoring_ship`,
+        functionArguments: [
+          // businessName,
+          // registrationNumber,
+          // incorporationDate,
+          // businessType,
+          // officialWebsite,
+          // businessLogo,
+          // legalRepFullName,
+          // legalRepId,
+          // legalRepPosition,
+          // legalRepNationality,
+          // taxId,
+          // financialProfile,
+          // documentUrls,
+        ],
       },
     });
     console.log(response);
