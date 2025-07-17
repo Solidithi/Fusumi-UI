@@ -1,6 +1,7 @@
 {
   "businesses": [
     {
+      "id": "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
       "businessName": "Test Business API",
       "registrationNumber": "REG-API-123",
       "incorporationDate": "2025-07-17T00:00:00.000Z",
@@ -22,10 +23,12 @@
       "description": "API test business entry",
       "rating": 5,
       "totalReviews": 1,
+      "walletAddress": "0x1234567890abcdef1234567890abcdef12345678",
       "createdAt": "2025-07-17T00:00:00.000Z",
       "updatedAt": "2025-07-17T00:00:00.000Z"
     },
     {
+      "id": "0x9876543210fedcba9876543210fedcba98765432",
       "businessName": "Second KYB Company",
       "registrationNumber": "KYB-2025-002",
       "incorporationDate": "2025-02-20T00:00:00.000Z",
@@ -46,10 +49,12 @@
       "description": "Submitted via KYB form",
       "rating": 0,
       "totalReviews": 0,
+      "walletAddress": "0x9876543210fedcba9876543210fedcba98765432",
       "createdAt": "2025-07-17T08:30:00.000Z",
       "updatedAt": "2025-07-17T08:30:00.000Z"
     },
     {
+      "id": "0x0000000000000000000000000000000000000000000000000000000000000003",
       "businessName": "Ye pay",
       "registrationNumber": "203948230948",
       "incorporationDate": "2009-02-09T00:00:00.000Z",
