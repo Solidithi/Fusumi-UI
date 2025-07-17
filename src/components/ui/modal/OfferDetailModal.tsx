@@ -27,16 +27,12 @@ interface OfferDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   offer: OfferDatas;
-  onEdit?: (offer: OfferDatas) => void;
-  onDelete?: (offerId: string) => void;
 }
 
 export function OfferDetailModal({
   isOpen,
   onClose,
   offer,
-  onEdit,
-  onDelete,
 }: OfferDetailModalProps) {
   const overlayVariants = {
     hidden: { opacity: 0 },
@@ -181,24 +177,6 @@ export function OfferDetailModal({
                   </div>
 
                   <div className="flex items-center space-x-2">
-                    <AnimatedButton
-                      variant="outline"
-                      size="sm"
-                      onClick={() => onEdit?.(offer)}
-                      className="hover:bg-green-50 hover:text-green-600 hover:border-green-200 rounded-lg p-2"
-                    >
-                      <Edit className="w-4 h-4 mr-2" />
-                      Edit
-                    </AnimatedButton>
-                    <AnimatedButton
-                      variant="outline"
-                      size="sm"
-                      onClick={() => onDelete?.(offer.id)}
-                      className="hover:bg-red-50 hover:text-red-600 hover:border-red-200 rounded-lg p-2"
-                    >
-                      <Trash2 className="w-4 h-4 mr-2 rounded-lg" />
-                      Delete
-                    </AnimatedButton>
                     <AnimatedButton
                       //   variant="ghost"
                       size="sm"
@@ -515,12 +493,6 @@ export function OfferDetailModal({
                     className="px-6 bg-slate-100 py-2 rounded-xl"
                   >
                     Close
-                  </AnimatedButton>
-                  <AnimatedButton
-                    onClick={() => onEdit?.(offer)}
-                    className="bg-[#2a849a] hover:bg-[#2a849a]/90 text-white px-6 py-2 rounded-xl"
-                  >
-                    Edit Offer
                   </AnimatedButton>
                 </motion.div>
               </motion.div>

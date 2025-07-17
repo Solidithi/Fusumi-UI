@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import type { OfferDatas } from "@/types/offer";
+import type { Offer } from "@/types/offer";
 import { OffersGrid } from "../../../components/offer/OfferGrid";
 import { OffersHeader } from "../../../components/offer/OfferHeader";
 import { OfferDetailModal } from "@/components/ui/modal/OfferDetailModal";
@@ -14,11 +14,11 @@ export function OffersContent() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [selectedOffer, setSelectedOffer] = useState<OfferDatas | null>(null);
+  const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [sidebarExpanded, setSidebarExpanded] = useState(true); // Add sidebar state
 
-  // Map offersData to match OfferDatas type
+  // Map offers to match custom type
   const normalizedOffers = useMemo(() => {
     return offersData.map((offer: any) => ({
       ...offer,
@@ -45,24 +45,9 @@ export function OffersContent() {
     });
   }, [searchTerm, statusFilter, normalizedOffers]);
 
-  const handleView = (offer: OfferDatas) => {
+  const handleView = (offer: Offer) => {
     setSelectedOffer(offer);
     setShowDetailModal(true);
-  };
-
-  const handleEdit = (offer: OfferDatas) => {
-    console.log("Edit offer:", offer);
-    // Navigate to edit page
-    router.push(`/offers/edit/${offer.id}`);
-  };
-
-  const handleDelete = (offerId: string) => {
-    console.log("Delete offer:", offerId);
-    // Show confirmation dialog and delete
-    if (confirm("Are you sure you want to delete this offer?")) {
-      // Delete logic here
-      alert("Offer deleted successfully!");
-    }
   };
 
   const handleCreateNew = () => {
@@ -99,12 +84,7 @@ export function OffersContent() {
               onCreateNew={handleCreateNew}
             />
 
-            <OffersGrid
-              offers={filteredOffers}
-              onView={handleView}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
+            <OffersGrid offers={filteredOffers} onView={handleView} />
           </div>
         </motion.div>
 
@@ -114,8 +94,6 @@ export function OffersContent() {
             isOpen={showDetailModal}
             onClose={handleCloseModal}
             offer={selectedOffer}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
           />
         )}
       </div>
