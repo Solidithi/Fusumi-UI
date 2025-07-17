@@ -12,7 +12,16 @@ import type {
 export async function loadUsersData(): Promise<UserProfile[]> {
   const response = await fetch("/data/users.json");
   const data = await response.json();
-  return data.users;
+  
+  // Transform the original user data format to UserProfile format
+  return data.map((user: any) => ({
+    address: user.address,
+    alias: user.alias,
+    type: user.role === "business" ? "business" : "customer",
+    name: user.fullName || user.username,
+    businessId: user.belongsToBusiness,
+    joinedAt: "2023-01-01T00:00:00.000Z", // Default date since not in original data
+  }));
 }
 
 export async function loadBusinessesData(): Promise<BusinessProfile[]> {
