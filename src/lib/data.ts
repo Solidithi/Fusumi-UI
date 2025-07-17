@@ -2,7 +2,7 @@ import type { DashboardStats, InvoiceData } from "@/types/dashboard";
 import { OfferData, ServiceData } from "@/types/market";
 import { InvoiceDetailData, ServiceDetailData } from "@/types/modal";
 import type { NFTData } from "@/types/nft";
-import { OfferDatas } from "@/types/offer";
+import { OfferDatas } from "@/types/coral";
 import { ServiceSubscriptionData } from "@/types/subscription";
 // -------------------------------------------------DASHBOARD-------------------------------------------------
 export const mockDashboardStats: DashboardStats = {

@@ -4,19 +4,19 @@ import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/app/hooks/useUser";
-import type { EnhancedOffer, Offer } from "@/types/offer";
+import type { EnhancedCoral, Coral } from "@/types/coral";
 import { OffersGrid } from "../../../components/offer/OfferGrid";
 import { OffersHeader } from "../../../components/offer/OfferHeader";
 import { OfferDetailModal } from "@/components/ui/modal/OfferDetailModal";
 import { Sidebar } from "@/components/ui/SideBar";
-import { toEnhancedOffer } from "@/utils/offerUtils";
-import offersData from "@/../public/data/offers.json";
+import { toEnhancedCoral } from "@/utils/coralUtils";
+import coralsData from "@/../public/data/corals.json";
 
 export function OffersContent() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
+  const [selectedOffer, setSelectedOffer] = useState<Coral | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [sidebarExpanded, setSidebarExpanded] = useState(true); // Add sidebar state
 
@@ -24,30 +24,30 @@ export function OffersContent() {
 
   const ourOffersEnhanced = useMemo(() => {
     const isUserWorkingForBusiness = currentUser?.belongsToBusiness;
-    const results: EnhancedOffer[] = [];
+    const results: EnhancedCoral[] = [];
 
     // For enterprise employee user, filter by user's business ID
     if (isUserWorkingForBusiness) {
       const businessId = currentUser.belongsToBusiness;
-      offersData.forEach((offer: Offer) => {
+      coralsData.forEach((offer: Coral) => {
         if (offer.sellerId === businessId) {
-          results.push(toEnhancedOffer(offer));
+          results.push(toEnhancedCoral(offer));
         }
       });
     } else {
       // For personal offers, filter by user's address (offer's sellerId)
-      offersData.forEach((offer: Offer) => {
+      coralsData.forEach((offer: Coral) => {
         if (offer.sellerId === currentUser?.id) {
-          results.push(toEnhancedOffer(offer));
+          results.push(toEnhancedCoral(offer));
         }
       });
     }
 
     return results;
-  }, [offersData, currentUser]);
+  }, [coralsData, currentUser]);
 
   const filteredOffers = useMemo(() => {
-    return ourOffersEnhanced.filter((offer: EnhancedOffer) => {
+    return ourOffersEnhanced.filter((offer: EnhancedCoral) => {
       const matchesSearch =
         offer.contactInfo?.name
           ?.toLowerCase()
@@ -63,7 +63,7 @@ export function OffersContent() {
     });
   }, [searchTerm, statusFilter]);
 
-  const handleView = (offer: Offer) => {
+  const handleView = (offer: Coral) => {
     setSelectedOffer(offer);
     setShowDetailModal(true);
   };

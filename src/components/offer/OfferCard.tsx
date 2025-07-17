@@ -16,12 +16,12 @@ import {
 import { formatAddress } from "@/utils/address";
 import { Card, CardContent } from "../ui/Card";
 import { AnimatedButton } from "../ui/Button";
-import { Offer } from "@/types/offer";
+import { Coral } from "@/types/coral";
 import Image from "next/image";
 export interface OfferCardProps {
   offer: any;
   index: number;
-  onView?: (offer: Offer) => void;
+  onView?: (offer: Coral) => void;
 }
 
 export function OfferCard({ offer, index, onView }: OfferCardProps) {

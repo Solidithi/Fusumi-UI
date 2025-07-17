@@ -7,7 +7,7 @@ import { FilterTabs } from "@/components/shared/FilterTab";
 import { MarketplaceTab } from "@/types/market";
 import { CoralGrid } from "@/components/coral/CoralGrid";
 import CarouselWithProgress, { Image } from "@/components/shared/Carousel";
-import { Offer } from "@/types/offer";
+import { Coral } from "@/types/coral";
 
 const ITEMS_PER_PAGE = 8; // Changed to 8 items per load
 const SERVICES_PER_PAGE = 8; // Changed to 8 services per page
@@ -19,12 +19,12 @@ export function MarketplaceContent() {
     useState(ITEMS_PER_PAGE);
   useState(SERVICES_PER_PAGE);
   const [loading, setLoading] = useState(false);
-  const [offers, setOffers] = useState<Offer[]>([]);
+  const [offers, setOffers] = useState<Coral[]>([]);
 
   // Load offers data on component mount
   const loadOffersData = async () => {
     try {
-      const response = await fetch("/data/offers.json");
+      const response = await fetch("/data/corals.json");
       const offersData = await response.json();
       setOffers(offersData);
     } catch (error) {
@@ -39,7 +39,7 @@ export function MarketplaceContent() {
 
   const filteredOffers = useMemo(() => {
     return offers.filter(
-      (offer: Offer) =>
+      (offer: Coral) =>
         offer.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         offer.sellerId.toLowerCase().includes(searchTerm.toLowerCase()) ||
         offer.category?.toLowerCase().includes(searchTerm.toLowerCase())

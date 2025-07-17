@@ -1,12 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import type { Offer } from "@/types/offer";
+import type { Coral } from "@/types/coral";
 import { OfferCard } from "@/components/offer/OfferCard";
 
 interface OffersGridProps {
-  offers: Offer[];
-  onView?: (offer: Offer) => void;
+  offers: Coral[];
+  onView?: (offer: Coral) => void;
 }
 
 export function OffersGrid({ offers, onView }: OffersGridProps) {

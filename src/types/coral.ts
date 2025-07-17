@@ -1,4 +1,4 @@
-import offers from "@/../public/data/offers.json";
+import corals from "@/../public/data/corals.json";
 
 export interface OfferDatas {
   id: string;
@@ -19,10 +19,10 @@ export interface OfferDatas {
   updatedAt: string;
 }
 
-export type Offer = (typeof offers)[0];
+export type Coral = (typeof corals)[0];
 
-export type OfferStatus = "active" | "pending" | "expired" | "draft";
+export type CoralStatus = "active" | "pending" | "expired" | "draft";
 
-export type EnhancedOffer = Offer & {
-  status: OfferStatus;
+export type EnhancedCoral = Coral & {
+  status: CoralStatus;
 };

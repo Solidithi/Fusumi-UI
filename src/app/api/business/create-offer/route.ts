@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Create Offer
-    const offersPath = path.join(process.cwd(), "public/data/offers.json");
+    const offersPath = path.join(process.cwd(), "public/data/corals.json");
     let offers = [];
     try {
       offers = JSON.parse(fs.readFileSync(offersPath, "utf-8"));

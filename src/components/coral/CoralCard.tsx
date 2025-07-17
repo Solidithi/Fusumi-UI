@@ -7,14 +7,14 @@ import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { Clock, Coins, Star, Zap } from "lucide-react";
 import { CoralDetailModal } from "../ui/modal/CoralDetailModal";
-import type { Offer } from "@/types/offer";
+import type { Coral } from "@/types/coral";
 import { getBusinessById } from "@/utils/businessUtils";
 import { BusinessId } from "@/types/business";
 import { getUserByAddress } from "@/utils/userUtils";
 import { formatAddress } from "@/utils/address";
 
-interface NFTCardProps {
-  nft: Offer;
+interface CoralCardProps {
+  coral: Coral;
   index: number;
 }
 
@@ -97,7 +97,7 @@ const AnimatedButton = ({
   );
 };
 
-export function NFTCard({ nft, index }: NFTCardProps) {
+export function CoralCard({ coral: nft, index }: CoralCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [timeLeft, setTimeLeft] = useState(calculateTimeRemaining(nft.endDate));

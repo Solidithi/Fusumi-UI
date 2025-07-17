@@ -3,10 +3,10 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { CoralCard } from "./NFTCard";
-import { Offer } from "@/types/offer";
+import { Coral } from "@/types/coral";
 
 interface CoralGridProps {
-  coralOffers: Offer[];
+  coralOffers: Coral[];
   displayedCount: number;
   totalCount: number;
   onLoadMore: () => void;
