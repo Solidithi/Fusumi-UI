@@ -44,6 +44,8 @@ export default function CreateOffer() {
   const [agreementsData, setAgreementsData] = useState<string[]>([]);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [isPartialSale, setIsPartialSale] = useState(false);
+  const [sharePercentage, setSharePercentage] = useState(100);
   const { account, wallet } = useWallet();
 
   // Mock business ID - in production, this would come from user session/auth
@@ -73,12 +75,17 @@ export default function CreateOffer() {
       console.log("Missing required fields");
       return;
     }
+
+    const finalSharePercentage = isPartialSale ? sharePercentage : 100;
+    
     try {
       const response = await axios.post("/api/business/create-offer", {
         invoiceAddress: invoiceId,
         businessAddress:
           "0x1eff35f3cdb05773359ca60a10d2beceacbd8a3b5018f12a1f3b33b8853d686d",
         pricing,
+        sharePercentage: finalSharePercentage,
+        isPartialSale,
         contactInfo: contactData,
         agreements: agreementsData,
         startDate,
@@ -86,6 +93,15 @@ export default function CreateOffer() {
       });
       if (response.status === 200) {
         console.log("Offer created successfully");
+        // Reset form
+        setInvoiceId("");
+        setPricing(0);
+        setContactData(null);
+        setAgreementsData([]);
+        setStartDate("");
+        setEndDate("");
+        setIsPartialSale(false);
+        setSharePercentage(100);
       } else {
         console.log("Failed to create offer");
       }
@@ -149,6 +165,62 @@ export default function CreateOffer() {
                     {invoiceId ? "Preview Invoice" : "Select Invoice First"}
                   </Button>
                 </div>
+              </motion.div>
+
+              {/* Partial Sale Section */}
+              <motion.div
+                className="space-y-4"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.65, duration: 0.5 }}
+              >
+                <div className="flex items-center space-x-3">
+                  <input
+                    type="checkbox"
+                    id="partial-sale"
+                    checked={isPartialSale}
+                    onChange={(e) => setIsPartialSale(e.target.checked)}
+                    className="h-5 w-5 text-[#3587A3] border-white/30 rounded focus:ring-white/50 focus:ring-2"
+                  />
+                  <Label
+                    htmlFor="partial-sale"
+                    className="text-sm font-semibold text-white/90 cursor-pointer"
+                  >
+                    Partial Sale (Optional)
+                  </Label>
+                </div>
+                
+                {isPartialSale && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="space-y-2"
+                  >
+                    <Label
+                      htmlFor="share-percentage"
+                      className="text-sm font-semibold text-white/90"
+                    >
+                      Share Percentage to Sell
+                    </Label>
+                    <div className="flex items-center space-x-2">
+                      <Input
+                        id="share-percentage"
+                        type="number"
+                        min="1"
+                        max="99"
+                        placeholder="Enter percentage (1-99)"
+                        className="bg-white/90 border-white/30 text-gray-700 focus:border-white focus:ring-white/50 transition-all duration-300"
+                        value={sharePercentage}
+                        onChange={(e) => setSharePercentage(Number(e.target.value))}
+                      />
+                      <span className="text-white/90 text-sm font-medium">%</span>
+                    </div>
+                    <div className="text-xs text-white/70 mt-1">
+                      You will retain {100 - sharePercentage}% of the NFT value
+                    </div>
+                  </motion.div>
+                )}
               </motion.div>
 
               {/* Second Row - Pricing and Contact Info */}
