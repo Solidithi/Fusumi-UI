@@ -17,7 +17,7 @@ import {
   Clock,
   Badge,
 } from "lucide-react";
-import type { OfferDatas } from "@/types/offer";
+import type { Offer } from "@/types/offer";
 import { Portal } from "../Portal";
 import { Separator } from "@radix-ui/react-separator";
 import { AnimatedButton } from "../Button";
@@ -26,7 +26,7 @@ import Image from "next/image";
 interface OfferDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
-  offer: OfferDatas;
+  offer: Offer;
 }
 
 export function OfferDetailModal({
@@ -253,7 +253,7 @@ export function OfferDetailModal({
                   </div>
                   <div className="bg-white rounded-lg p-4 border">
                     <p className="font-mono text-sm text-gray-900 break-all">
-                      {offer.invoiceAddress}
+                      {offer.invoiceId}
                     </p>
                     <div className="flex items-center space-x-2 mt-3">
                       <AnimatedButton
@@ -441,20 +441,6 @@ export function OfferDetailModal({
                         </p>
                       </div>
                     </div>
-
-                    {offer.updatedAt !== offer.createdAt && (
-                      <div className="flex items-center space-x-4">
-                        <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                        <div className="flex-1">
-                          <p className="font-medium text-gray-900">
-                            Last Updated
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            {formatDateTime(offer.updatedAt)}
-                          </p>
-                        </div>
-                      </div>
-                    )}
 
                     <div className="flex items-center space-x-4">
                       <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
