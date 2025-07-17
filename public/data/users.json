@@ -6,7 +6,7 @@
     "alias": "Fusumi Employee",
     "address": "0xec447b2ace49374fdca1330f30d45bd9cc13cbda55f5b04a0bfb40a550aefa0a",
     "contactAddress": "15 Main St, Springfield",
-    "belongsToBusiness": "1",
+    "belongsToBusiness": "bus-001",
     "role": "normal",
     "email": "employee@fusumi.com",
     "fullName": "Kazami Fumishi",

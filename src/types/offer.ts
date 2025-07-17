@@ -1,4 +1,5 @@
 import offers from "@/../public/data/offers.json";
+
 export interface OfferDatas {
   id: string;
   invoiceAddress: string;
@@ -19,3 +20,9 @@ export interface OfferDatas {
 }
 
 export type Offer = (typeof offers)[0];
+
+export type OfferStatus = "active" | "pending" | "expired" | "draft";
+
+export type EnhancedOffer = Offer & {
+  status: OfferStatus;
+};
