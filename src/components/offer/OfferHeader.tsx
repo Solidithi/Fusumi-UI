@@ -2,9 +2,9 @@
 
 import { AnimatedButton } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-// import { Input } from "@/components/ui/Input";
+import { useUser } from "@/app/hooks/useUser";
 import { motion } from "framer-motion";
-import { Plus, Search } from "lucide-react";
+import { Filter, Plus, Search } from "lucide-react";
 
 interface OffersHeaderProps {
   searchTerm: string;
@@ -23,6 +23,8 @@ export function OffersHeader({
   totalCount,
   onCreateNew,
 }: OffersHeaderProps) {
+  const currentUser = useUser();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -57,7 +59,25 @@ export function OffersHeader({
       <motion.div variants={itemVariants as any}>
         <h1 className="text-3xl font-bold text-gray-900 mb-2">My Offers</h1>
         <p className="text-gray-600">
-          Manage your business offers and proposals
+          {currentUser?.belongsToBusiness ? (
+            <span className="flex flex-col">
+              <span className="font-semibold text-[#2a849a]">
+                Business Account
+              </span>
+              <span className="text-sm text-gray-500">
+                Manage your business offers and proposals
+              </span>
+            </span>
+          ) : (
+            <span className="flex flex-col">
+              <span className="font-semibold text-[#2a849a]">
+                Personal Account
+              </span>
+              <span className="text-sm text-gray-500">
+                Manage your personal offers and proposals
+              </span>
+            </span>
+          )}
           {totalCount > 0 && (
             <motion.span
               className="ml-2 text-[#2a849a] font-medium"
@@ -88,25 +108,11 @@ export function OffersHeader({
           />
         </div>
 
-        {/* Status Filter */}
-        {/* <Select value={statusFilter} onValueChange={onStatusFilterChange}>
-          <SelectTrigger className="w-40">
-            <Filter className="w-4 h-4 mr-2" />
-            <SelectValue placeholder="All Status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="active">Active</SelectItem>
-            <SelectItem value="pending">Pending</SelectItem>
-            <SelectItem value="expired">Expired</SelectItem>
-            <SelectItem value="draft">Draft</SelectItem>
-          </SelectContent>
-        </Select> */}
-        <div className="w-36">
+        <div className="w-36 relative">
           <select
             value={statusFilter}
             onChange={(e) => onStatusFilterChange(e.target.value)}
-            className="w-full py-2  text-center  rounded-full bg-white text-black border border-gray-300 appearance-none pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full py-2 text-center rounded-full bg-white text-black border border-gray-300 appearance-none pr-8 pl-8 focus:outline-none focus:ring-2 focus:ring-blue-500 items-center"
           >
             <option value="all">All Status</option>
             <option value="active">Active</option>
@@ -114,23 +120,26 @@ export function OffersHeader({
             <option value="expired">Expired</option>
             <option value="draft">Draft</option>
           </select>
-        </div>
-
-        {/* Icon bên phải giống như `Filter` */}
-        <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-black">
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L15 13.414V19a1 1 0 01-1.447.894l-4-2A1 1 0 019 17v-3.586L3.293 6.707A1 1 0 013 6V4z"
-            />
-          </svg>
+          {/* Filter icon inside select container, left side */}
+          <span className="absolute left-2 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400">
+            <Filter className="w-4 h-4" />
+          </span>
+          {/* Dropdown arrow (optional, for better UX) */}
+          <span className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400">
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </span>
         </div>
 
         {/* Create New Button */}

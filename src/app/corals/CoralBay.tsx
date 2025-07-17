@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 import { SearchBar } from "@/components/shared/SearchBar";
 import { FilterTabs } from "@/components/shared/FilterTab";
 import { MarketplaceTab } from "@/types/market";
-import { mockNFTData } from "@/lib/data";
-import { NFTGrid } from "@/components/nft/NFTGrid";
+import { CoralGrid } from "@/components/coral/CoralGrid";
 import CarouselWithProgress, { Image } from "@/components/shared/Carousel";
+import { Offer } from "@/types/offer";
 
 const ITEMS_PER_PAGE = 8; // Changed to 8 items per load
 const SERVICES_PER_PAGE = 8; // Changed to 8 services per page
@@ -17,18 +17,34 @@ export function MarketplaceContent() {
   const [searchTerm, setSearchTerm] = useState("");
   const [displayedOfferCount, setDisplayedOfferCount] =
     useState(ITEMS_PER_PAGE);
-  const [displayedServiceCount, setDisplayedServiceCount] =
-    useState(SERVICES_PER_PAGE);
+  useState(SERVICES_PER_PAGE);
   const [loading, setLoading] = useState(false);
+  const [offers, setOffers] = useState<Offer[]>([]);
+
+  // Load offers data on component mount
+  const loadOffersData = async () => {
+    try {
+      const response = await fetch("/data/offers.json");
+      const offersData = await response.json();
+      setOffers(offersData);
+    } catch (error) {
+      console.error("Error loading offers data:", error);
+    }
+  };
+
+  // Load data on mount
+  useMemo(() => {
+    loadOffersData();
+  }, []);
 
   const filteredOffers = useMemo(() => {
-    return mockNFTData.filter(
-      (offer: any) =>
+    return offers.filter(
+      (offer: Offer) =>
         offer.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        offer.owner.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        offer.sellerId.toLowerCase().includes(searchTerm.toLowerCase()) ||
         offer.category?.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }, [searchTerm]);
+  }, [searchTerm, offers]);
 
   const handleLoadMoreOffers = () => {
     if (loading) return;
@@ -45,14 +61,12 @@ export function MarketplaceContent() {
   const handleSearchChange = (term: string) => {
     setSearchTerm(term);
     setDisplayedOfferCount(ITEMS_PER_PAGE);
-    setDisplayedServiceCount(SERVICES_PER_PAGE);
   };
 
   const handleTabChange = (tab: MarketplaceTab) => {
     setActiveTab(tab);
     setSearchTerm("");
     setDisplayedOfferCount(ITEMS_PER_PAGE);
-    setDisplayedServiceCount(SERVICES_PER_PAGE);
   };
 
   const containerVariants = {
@@ -170,8 +184,8 @@ export function MarketplaceContent() {
           transition={{ duration: 0.5 }}
         >
           {filteredOffers.length > 0 ? (
-            <NFTGrid
-              nfts={filteredOffers}
+            <CoralGrid
+              coralOffers={filteredOffers}
               displayedCount={displayedOfferCount}
               totalCount={filteredOffers.length}
               onLoadMore={handleLoadMoreOffers}

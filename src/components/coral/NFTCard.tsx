@@ -1,251 +1,3 @@
-// "use client";
-
-// import { motion } from "framer-motion";
-// import { useEffect, useState } from "react";
-// import Image from "next/image";
-// // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-// import { Clock, Coins } from "lucide-react";
-// import type { NFTData } from "@/types/nft";
-// import { AnimatedButton } from "../ui/Button";
-// import { calculateTimeRemaining, isExpired } from "@/utils/time";
-// import { InvoiceDetailModal } from "../ui/modal/InvoiceDetailModal";
-// import { getInvoiceDetail } from "@/lib/data";
-
-// interface NFTCardProps {
-//   nft: NFTData;
-//   index: number;
-// }
-
-// export function NFTCard({ nft, index }: NFTCardProps) {
-//   const [imageLoaded, setImageLoaded] = useState(false);
-//   const [showModal, setShowModal] = useState(false);
-
-//   // const timeRemaining = calculateTimeRemaining(nft.startDate, nft.endDate);
-//   const [timeLeft, setTimeLeft] = useState(calculateTimeRemaining(nft.endDate));
-//   const expired = isExpired(nft.endDate);
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       setTimeLeft(calculateTimeRemaining(nft.endDate));
-//     }, 1000);
-
-//     return () => clearInterval(interval); // cleanup khi component unmount
-//   }, [nft.endDate]);
-//   const cardVariants = {
-//     hidden: {
-//       opacity: 0,
-//       y: 50,
-//       scale: 0.9,
-//     },
-//     visible: {
-//       opacity: 1,
-//       y: 0,
-//       scale: 1,
-//       transition: {
-//         duration: 0.5,
-//         delay: index * 0.05,
-//         ease: "easeOut",
-//       },
-//     },
-//   };
-
-//   const imageVariants = {
-//     hidden: { opacity: 0, scale: 1.1 },
-//     visible: {
-//       opacity: 1,
-//       scale: 1,
-//       transition: {
-//         duration: 0.6,
-//         ease: "easeOut",
-//       },
-//     },
-//   };
-
-//   const handleCardClick = () => {
-//     setShowModal(true);
-//   };
-
-//   const handleBuyClick = (e: React.MouseEvent) => {
-//     e.stopPropagation;
-//     // Handle buy action
-//     console.log("Buy clicked for offer:", nft.id);
-//   };
-
-//   return (
-//     <div className="">
-//       <motion.div
-//         className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group hover:shadow-lg transition-shadow duration-300"
-//         variants={cardVariants as any}
-//         initial="hidden"
-//         animate="visible"
-//         whileHover={{
-//           y: -4,
-//           transition: { duration: 0.2 },
-//         }}
-//         onClick={handleCardClick}
-//       >
-//         {/* NFT Image */}
-//         <div className="relative aspect-square overflow-hidden">
-//           {/* Background gradient matching Figma */}
-//           {/* <div className="absolute inset-0 bg-gradient-to-br from-orange-400 via-orange-500 to-red-500" /> */}
-
-//           <motion.div
-//             className="absolute inset-0 flex items-center justify-center"
-//             variants={imageVariants as any}
-//             initial="hidden"
-//             animate="visible"
-//           >
-//             <Image
-//               src={nft.image}
-//               alt={nft.title}
-//               width={300}
-//               height={300}
-//               // fill
-//               className="object-cover"
-//               onLoad={() => setImageLoaded(true)}
-//             />
-//           </motion.div>
-
-//           {/* Rarity Badge */}
-//           {/* <motion.div
-//           className="absolute top-3 left-3 px-3 py-1 bg-[#2a849a] rounded-full text-xs font-medium text-white"
-//           initial={{ opacity: 0, scale: 0 }}
-//           animate={{ opacity: 1, scale: 1 }}
-//           transition={{ delay: 0.3 + index * 0.05 }}
-//         >
-//           {nft.rarity?.toUpperCase() || "COMMON"}
-//         </motion.div> */}
-
-//           {/* Time Remaining Badge */}
-//           {/* <motion.div
-//           className={`absolute top-3 right-3 px-2 py-1 rounded-full text-xs font-medium ${
-//             expired
-//               ? "bg-red-500 text-white"
-//               : "bg-black/70 text-white backdrop-blur-sm"
-//           }`}
-//           initial={{ opacity: 0, scale: 0 }}
-//           animate={{ opacity: 1, scale: 1 }}
-//           transition={{ delay: 0.4 + index * 0.05 }}
-//         >
-//           <div className="flex items-center space-x-1">
-//             <Clock className="w-3 h-3" />
-//             <span className="font-mono text-xs">
-//               {expired ? "EXPIRED" : timeRemaining}
-//             </span>
-//           </div>
-//         </motion.div> */}
-//         </div>
-
-//         {/* Card Content */}
-//         <div className="p-4 space-y-3">
-//           {/* Title */}
-//           <motion.h3
-//             className="font-semibold text-gray-900 text-sm"
-//             initial={{ opacity: 0 }}
-//             animate={{ opacity: 1 }}
-//             transition={{ delay: 0.2 + index * 0.05 }}
-//           >
-//             {nft.title}
-//           </motion.h3>
-
-//           {/* Owner Info */}
-//           <motion.div
-//             className="flex items-center space-x-2"
-//             initial={{ opacity: 0, x: -10 }}
-//             animate={{ opacity: 1, x: 0 }}
-//             transition={{ delay: 0.3 + index * 0.05 }}
-//           >
-//             {/* <Avatar className="w-5 h-5"> */}
-//             <Image
-//               src="https://i.pinimg.com/736x/09/0b/bc/090bbcffd9c72bc9dbcc34506b7cdcc4.jpg"
-//               alt={nft.owner}
-//               width={200}
-//               height={200}
-//               className="w-5 h-5 rounded-full object-cover"
-//             />
-//             {/* <AvatarFallback className="text-xs bg-gray-200">
-//               {nft.owner[0]}
-//             </AvatarFallback> */}
-//             {/* </Avatar> */}
-//             <span className="text-xs text-gray-500">Owned by</span>
-//             <span className="text-xs font-medium text-gray-900">
-//               {nft.owner}
-//             </span>
-//           </motion.div>
-
-//           {/* Token Count with new symbol */}
-//           <motion.div
-//             className="flex items-center space-x-1"
-//             initial={{ opacity: 0 }}
-//             animate={{ opacity: 1 }}
-//             transition={{ delay: 0.4 + index * 0.05 }}
-//           >
-//             <Coins className="w-4 h-4 text-[#2a849a]" />
-//             <span className="text-sm font-semibold text-gray-900">
-//               {nft.tokenCount} Token
-//             </span>
-//           </motion.div>
-
-//           {/* Time Display */}
-//           <motion.div
-//             className="flex items-center justify-between text-xs"
-//             initial={{ opacity: 0 }}
-//             animate={{ opacity: 1 }}
-//             transition={{ delay: 0.5 + index * 0.05 }}
-//           >
-//             <div className="flex items-center space-x-1">
-//               <Clock className="w-3 h-3 text-gray-400" />
-//               <span className="text-gray-500">Duration:</span>
-//             </div>
-//             <span
-//               className={`font-mono font-medium ${
-//                 expired ? "text-red-500" : "text-gray-700"
-//               }`}
-//             >
-//               {/* {timeRemaining} */}
-//               {timeLeft}
-//             </span>
-//           </motion.div>
-
-//           {/* Buy AnimatedButton */}
-//           <motion.div
-//             initial={{ opacity: 0, y: 10 }}
-//             animate={{ opacity: 1, y: 0 }}
-//             transition={{ delay: 0.6 + index * 0.05 }}
-//           >
-//             <AnimatedButton
-//               className={`w-full rounded-lg font-medium py-2 ${
-//                 expired
-//                   ? "bg-gray-400 hover:bg-gray-400 cursor-not-allowed"
-//                   : "bg-[#2a849a] hover:bg-[#2a849a]/90"
-//               } text-white`}
-//               disabled={expired}
-//               onClick={(e) => {
-//                 e.stopPropagation();
-//                 handleBuyClick(e); // hoặc logic khác
-//               }}
-//               // whileHover={expired ? {} : { scale: 1.02 }}
-//               // whileTap={expired ? {} : { scale: 0.98 }}
-//               // transition={{ duration: 0.2 }}
-//               // asChild
-//             >
-//               {expired ? "Expired" : "Buy"}
-//             </AnimatedButton>
-//           </motion.div>
-//         </div>
-//       </motion.div>
-//       <InvoiceDetailModal
-//         isOpen={showModal}
-//         onClose={() => setShowModal(false)}
-//         invoiceData={getInvoiceDetail(nft.id)}
-//         onClick={(e) => {
-//           e.stopPropagation();
-//           handleBuyClick(e); // hoặc logic khác
-//         }}
-//       />
-//     </div>
-//   );
-// }
-
 "use client";
 
 import type React from "react";
@@ -253,23 +5,16 @@ import type React from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import { Clock, Coins, Sparkles, Star, Zap } from "lucide-react";
-import { InvoiceDetailModal } from "../ui/modal/InvoiceDetailModal";
-import { getInvoiceDetail } from "@/lib/data";
+import { Clock, Coins, Star, Zap } from "lucide-react";
+import { CoralDetailModal } from "../ui/modal/CoralDetailModal";
+import type { Offer } from "@/types/offer";
+import { getBusinessById } from "@/utils/businessUtils";
+import { BusinessId } from "@/types/business";
+import { getUserByAddress } from "@/utils/userUtils";
+import { formatAddress } from "@/utils/address";
 
-// Mock types for the example
-interface NFTData {
-  id: string;
-  title: string;
-  image: string;
-  owner: string;
-  tokenCount: number;
-  endDate: string;
-  rarity?: string;
-}
-
-interface NFTCardProps {
-  nft: NFTData;
+interface CoralCardProps {
+  nft: Offer;
   index: number;
 }
 
@@ -352,12 +97,27 @@ const AnimatedButton = ({
   );
 };
 
-export function NFTCard({ nft, index }: NFTCardProps) {
+export function CoralCard({ nft, index }: CoralCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [timeLeft, setTimeLeft] = useState(calculateTimeRemaining(nft.endDate));
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  const getSellerName = (sellerId: string): string => {
+    if (sellerId.startsWith("bus-")) {
+      return (
+        getBusinessById(sellerId as BusinessId)?.businessName ||
+        "Unknown Business"
+      );
+    }
+
+    // For individual sellers, return name if known
+    const userAddr = sellerId.startsWith("0x") ? sellerId : undefined;
+    if (!userAddr) return "Unknown Seller";
+
+    return getUserByAddress(userAddr)?.username || formatAddress(userAddr);
+  };
 
   const expired = isExpired(nft.endDate);
 
@@ -525,8 +285,8 @@ export function NFTCard({ nft, index }: NFTCardProps) {
               transition={{ duration: 0.8, delay: 0.2 + index * 0.1 }}
             >
               <Image
-                src={nft.image || "/placeholder.svg"}
-                alt={nft.title}
+                src={nft.debtNftImageUrl || "/placeholder.svg"}
+                alt={""}
                 width={300}
                 height={300}
                 className="object-cover w-full h-full"
@@ -628,7 +388,7 @@ export function NFTCard({ nft, index }: NFTCardProps) {
             </div>
             <div className="flex flex-col items-end min-w-[90px]">
               <span className="text-[11px] font-semibold text-blue-700">
-                Your Share
+                Share of Root NFT
               </span>
               <span className="text-[13px] font-bold text-blue-900">
                 {(splitInfo.ownerShare * 100).toFixed(1)}%
@@ -662,7 +422,7 @@ export function NFTCard({ nft, index }: NFTCardProps) {
               >
                 <Image
                   src="https://i.pinimg.com/736x/09/0b/bc/090bbcffd9c72bc9dbcc34506b7cdcc4.jpg"
-                  alt={nft.owner}
+                  alt={""}
                   width={32}
                   height={32}
                   className="w-8 h-8 rounded-full object-cover ring-2 ring-blue-500/50"
@@ -674,9 +434,9 @@ export function NFTCard({ nft, index }: NFTCardProps) {
                 />
               </motion.div>
               <div>
-                <span className="text-xs text-gray-500">Owned by</span>
+                <span className="text-xs text-gray-500">Sold by</span>
                 <div className="text-sm font-semibold text-gray-900">
-                  {nft.owner}
+                  {getSellerName(nft.sellerId)}
                 </div>
               </div>
             </motion.div>
@@ -699,7 +459,7 @@ export function NFTCard({ nft, index }: NFTCardProps) {
                 <Coins className="w-5 h-5 text-blue-600" />
               </motion.div>
               <span className="text-lg font-bold text-gray-900">
-                {nft.tokenCount} Tokens
+                {nft.pricing} USD
               </span>
               <motion.div
                 animate={{ scale: [1, 1.2, 1] }}
@@ -750,36 +510,15 @@ export function NFTCard({ nft, index }: NFTCardProps) {
           </div>
         </div>
       </motion.div>
-      <InvoiceDetailModal
+      <CoralDetailModal
+        nft={nft}
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        invoiceData={getInvoiceDetail(nft.id)}
         onClick={(e: any) => {
           e.stopPropagation();
           handleBuyClick(e); // hoặc logic khác
         }}
       />
-    </div>
-  );
-}
-
-// Example usage component
-export default function Component() {
-  const mockNFT: NFTData = {
-    id: "1",
-    title: "Cosmic Dragon #1234",
-    image: "/placeholder.svg?height=300&width=300",
-    owner: "CryptoArtist",
-    tokenCount: 150,
-    endDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours from now
-    rarity: "legendary",
-  };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-8">
-      <div className="max-w-sm mx-auto">
-        <NFTCard nft={mockNFT} index={0} />
-      </div>
     </div>
   );
 }

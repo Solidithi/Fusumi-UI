@@ -2,11 +2,11 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
-import type { NFTData } from "@/types/nft";
-import { NFTCard } from "./NFTCard";
+import { CoralCard } from "./NFTCard";
+import { Offer } from "@/types/offer";
 
 interface NFTGridProps {
-  nfts: NFTData[];
+  nfts: Offer[];
   displayedCount: number;
   totalCount: number;
   onLoadMore: () => void;
@@ -67,7 +67,7 @@ export function NFTGrid({
         animate="visible"
       >
         {nfts.slice(0, displayedCount).map((nft, index) => (
-          <NFTCard key={nft.id} nft={nft} index={index} />
+          <CoralCard key={nft.id} nft={nft} index={index} />
         ))}
       </motion.div>
 

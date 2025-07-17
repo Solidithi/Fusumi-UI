@@ -1,6 +1,6 @@
 import React from "react";
 import { Footer } from "@/components/layout/Footer";
-import { MarketplaceContent } from "./Market";
+import { MarketplaceContent } from "./CoralBay";
 
 const page = () => {
   return (
