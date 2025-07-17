@@ -1,2 +1,2 @@
-
-export const fusumi_deployer_address: string = "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38"
+export const fusumi_deployer_address: string = process.env.NEXT_PUBLIC_FUSUMI_DEPLOYER_ADDRESS || "";
+// console.log("Fusumi Deployer Address:", fusumi_deployer_address);

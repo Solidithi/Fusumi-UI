@@ -1,19 +1,19 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/ButtonBussiness";
+import { Card, CardContent } from "@/components/ui/Card";
+import { FileUpload } from "@/components/ui/FilesUpload";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { Textarea } from "@/components/ui/TextArea";
-import { Card, CardContent } from "@/components/ui/Card";
 import { Sidebar } from "@/components/ui/SideBar";
-import { FileUpload } from "@/components/ui/FilesUpload";
-import { useState } from "react";
-import { Building2, ChevronLeft, ChevronRight } from "lucide-react";
-import axios from "axios";
+import { Textarea } from "@/components/ui/TextArea";
+import { fusumi_deployer_address } from "@/utils/deployerAddress";
 import { aptos } from "@/utils/indexer";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import { fusumi_deployer_address } from "@/utils/deployerAddress";
+import axios from "axios";
+import { motion } from "framer-motion";
+import { Building2, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 
 const formVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -64,11 +64,12 @@ export default function KYBPage() {
     if (account == null) {
       throw new Error("Unable to find account to sign transaction");
     }
+    // 1. Submit to blockchain
     const response = await signAndSubmitTransaction({
       sender: account.address,
       data: {
-        function: `${fusumi_deployer_address}::debt_factory::add_business`,
-        functionArguments: [account.address],
+        function: `${fusumi_deployer_address}::dock::anchoring_ship`,
+        functionArguments: [],
       },
     });
     console.log(response);
@@ -76,40 +77,45 @@ export default function KYBPage() {
       const txn = await aptos.waitForTransaction({
         transactionHash: response.hash,
       });
-
       console.log("Transaction txn", txn);
     } catch (error) {
       console.error(error);
     }
 
-    // const payload = {
-    //   businessName,
-    //   registrationNumber,
-    //   incorporationDate: new Date(incorporationDate).toISOString(),
-    //   businessType,
-    //   officialWebsite,
-    //   businessLogo,
-    //   legalRepFullName,
-    //   legalRepId,
-    //   legalRepPosition,
-    //   legalRepNationality,
-    //   taxId,
-    //   financialProfile: financialProfile
-    //     ? financialProfile.split(",").map((s) => s.trim())
-    //     : [],
-    //   documentUrls,
-    // };
+    // 2. Save to businesses.json via API
+    const payload = {
+      businessName,
+      registrationNumber,
+      incorporationDate: new Date(incorporationDate).toISOString(),
+      businessType,
+      officialWebsite,
+      businessLogo,
+      legalRepFullName,
+      legalRepId,
+      legalRepPosition,
+      legalRepNationality,
+      taxId,
+      financialProfile: financialProfile
+        ? financialProfile.split(",").map((s) => s.trim())
+        : [],
+      documentUrls,
+      description: "Submitted via KYB form",
+      rating: 0,
+      totalReviews: 0,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
 
-    // console.log("Payload:", payload);
-
-    // try {
-    //   const response = await axios.post("/api/business/kyb", payload);
-    //   console.log("API Response:", response.data);
-    //   alert("Successfully!");
-    // } catch (err) {
-    //   console.error(err);
-    //   alert("Server error!");
-    // }
+    try {
+      const apiRes = await axios.post("/api/business", {
+        businesses: [payload],
+      });
+      console.log("API Response:", apiRes.data);
+      alert("Business information saved successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Server error while saving business info!");
+    }
   };
 
   return (

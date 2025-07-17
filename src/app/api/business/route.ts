@@ -33,8 +33,21 @@ export async function POST(request: NextRequest) {
       );
     }
     
+    // Read existing businesses
+    let existingData: { businesses: any[] } = { businesses: [] };
+    try {
+      const fileContents = fs.readFileSync(BUSINESSES_FILE_PATH, 'utf8');
+      existingData = JSON.parse(fileContents);
+    } catch (error) {
+      // File doesn't exist or is empty, use default structure
+      existingData = { businesses: [] };
+    }
+    
+    // Append new businesses to existing ones
+    existingData.businesses.push(...data.businesses);
+    
     // Write to file
-    fs.writeFileSync(BUSINESSES_FILE_PATH, JSON.stringify(data, null, 2));
+    fs.writeFileSync(BUSINESSES_FILE_PATH, JSON.stringify(existingData, null, 2));
     
     return NextResponse.json({ success: true, message: 'Businesses data saved successfully' });
   } catch (error) {
