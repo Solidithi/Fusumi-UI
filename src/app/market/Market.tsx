@@ -2,16 +2,11 @@
 
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-// import { MarketplaceTabs } from "./marketplace-tabs";
-// import { OfferGrid } from "./offer-grid";
-import NextImage from "next/image";
 import { SearchBar } from "@/components/shared/SearchBar";
 import { FilterTabs } from "@/components/shared/FilterTab";
-import { MarketplaceTabs } from "@/components/market/MarketTabs";
 import { MarketplaceTab } from "@/types/market";
-import { mockNFTData, mockOfferData, mockServiceData } from "@/lib/data";
+import { mockNFTData } from "@/lib/data";
 import { NFTGrid } from "@/components/nft/NFTGrid";
-import { ServiceList } from "@/components/market/ServiceList";
 import CarouselWithProgress, { Image } from "@/components/shared/Carousel";
 
 const ITEMS_PER_PAGE = 8; // Changed to 8 items per load
@@ -35,15 +30,6 @@ export function MarketplaceContent() {
     );
   }, [searchTerm]);
 
-  const filteredServices = useMemo(() => {
-    return mockServiceData.filter(
-      (service: any) =>
-        service.businessName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        service.serviceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        service.category?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [searchTerm]);
-
   const handleLoadMoreOffers = () => {
     if (loading) return;
 
@@ -51,18 +37,6 @@ export function MarketplaceContent() {
     setTimeout(() => {
       setDisplayedOfferCount((prev) =>
         Math.min(prev + ITEMS_PER_PAGE, filteredOffers.length)
-      );
-      setLoading(false);
-    }, 300);
-  };
-
-  const handleLoadMoreServices = () => {
-    if (loading) return;
-
-    setLoading(true);
-    setTimeout(() => {
-      setDisplayedServiceCount((prev) =>
-        Math.min(prev + SERVICES_PER_PAGE, filteredServices.length)
       );
       setLoading(false);
     }, 300);
@@ -195,59 +169,27 @@ export function MarketplaceContent() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {activeTab === "offer" ? (
-            filteredOffers.length > 0 ? (
-              <NFTGrid
-                nfts={filteredOffers}
-                displayedCount={displayedOfferCount}
-                totalCount={filteredOffers.length}
-                onLoadMore={handleLoadMoreOffers}
-                loading={loading}
-              />
-            ) : (
-              <motion.div
-                className="text-center py-16"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                <div className="text-gray-400 text-6xl mb-4">🔍</div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  No offers found
-                </h3>
-                <p className="text-gray-600">Try adjusting your search terms</p>
-              </motion.div>
-            )
-          ) : filteredServices.length > 0 ? (
-            // <ServiceList
-            //   services={filteredServices}
-            //   displayedCount={displayedServiceCount}
-            //   totalCount={filteredServices.length}
-            //   onLoadMore={handleLoadMoreServices}
-            //   loading={loading}
-            // />
-            <div className="">
-              <div className="text-gray-400 text-6xl mb-4">🔍</div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                No offers found
-              </h3>
-              <p className="text-gray-600">Try adjusting your search terms</p>
-            </div>
+          {filteredOffers.length > 0 ? (
+            <NFTGrid
+              nfts={filteredOffers}
+              displayedCount={displayedOfferCount}
+              totalCount={filteredOffers.length}
+              onLoadMore={handleLoadMoreOffers}
+              loading={loading}
+            />
           ) : (
-            // <div className="">
-            //   <div className="text-gray-400 text-6xl mb-4">🔍</div>
-            //   <h3 className="text-xl font-semibold text-gray-900 mb-2">
-            //     No offers found
-            //   </h3>
-            //   <p className="text-gray-600">Try adjusting your search terms</p>
-            // </div>
-            <div className="">
+            <motion.div
+              className="text-center py-16"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
               <div className="text-gray-400 text-6xl mb-4">🔍</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
                 No offers found
               </h3>
               <p className="text-gray-600">Try adjusting your search terms</p>
-            </div>
+            </motion.div>
           )}
         </motion.div>
       </div>
