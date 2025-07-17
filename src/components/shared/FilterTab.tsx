@@ -3,7 +3,13 @@
 import { FilterType } from "@/types/dashboard";
 import { PaidStatus } from "@/types/project";
 import { motion } from "framer-motion";
-import { FileText, CheckCircle, Clock } from "lucide-react";
+import {
+  FileText,
+  CheckCircle,
+  Clock,
+  XCircle,
+  AlertTriangle,
+} from "lucide-react";
 
 interface FilterTabsProps {
   activeFilter: PaidStatus;
@@ -14,8 +20,9 @@ export function FilterTabs({ activeFilter, onFilterChange }: FilterTabsProps) {
   const tabs = [
     { id: "TOTAL" as PaidStatus, label: "Total", icon: FileText },
     { id: "PAID" as PaidStatus, label: "Paid", icon: CheckCircle },
-    { id: "OVERDUE" as PaidStatus, label: "Unpaid", icon: Clock },
+    { id: "UNPAID" as PaidStatus, label: "Unpaid", icon: XCircle },
     { id: "PENDING" as PaidStatus, label: "Pending", icon: Clock },
+    { id: "OVERDUE" as PaidStatus, label: "Overdue", icon: AlertTriangle },
   ];
 
   return (

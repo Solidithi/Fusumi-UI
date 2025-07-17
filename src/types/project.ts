@@ -8,6 +8,7 @@ export enum PaidStatus {
   TOTAL = "TOTAL",
   PENDING = "PENDING",
   PAID = "PAID",
+  UNPAID = "UNPAID",
   OVERDUE = "OVERDUE",
 }
 

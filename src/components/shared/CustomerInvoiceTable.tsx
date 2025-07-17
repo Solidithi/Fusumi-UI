@@ -238,7 +238,7 @@ export function CustomerInvoiceTable({
                 </div>
 
                 {/* Action */}
-                {invoice.paidStatus === "OVERDUE" ? (
+                {invoice.paidStatus === "UNPAID" ? (
                   <AnimatedButton
                     onClick={() => handleRepayClick(invoice)}
                     className="bg-[#2a849a] text-white rounded-xl p-3"
@@ -252,11 +252,15 @@ export function CustomerInvoiceTable({
                   >
                     Pending
                   </AnimatedButton>
-                ) : (
+                ) : invoice.paidStatus === "OVERDUE" ? (
                   <AnimatedButton
-                    className="bg-slate-400 text-white rounded-xl p-3 cursor-not-allowed"
+                    className="bg-red-900 text-white rounded-xl p-3 cursor-not-allowed"
                     disabled
                   >
+                    Pending
+                  </AnimatedButton>
+                ) : (
+                  <AnimatedButton className="bg-slate-400 text-white rounded-xl p-3 cursor-not-allowed">
                     Repay
                   </AnimatedButton>
                 )}

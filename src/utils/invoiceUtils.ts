@@ -12,47 +12,97 @@ import type {
 export async function loadUsersData(): Promise<UserProfile[]> {
   const response = await fetch("/data/users.json");
   const data = await response.json();
-  return data.users;
+  return Array.isArray(data) ? data : data.users || [];
 }
 
 export async function loadBusinessesData(): Promise<BusinessProfile[]> {
-  const response = await fetch("/data/businesses.json");
-  const data = await response.json();
-  return data.businesses;
+  try {
+    const response = await fetch("/data/businesses.json");
+    if (!response.ok) {
+      throw new Error(`Failed to fetch businesses: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.businesses || [];
+  } catch (error) {
+    console.error("Error loading businesses data:", error);
+    return [];
+  }
 }
 
 export async function loadInvoicesData(): Promise<any[]> {
-  const response = await fetch("/data/invoices.json");
-  const data = await response.json();
-  return data.invoices;
+  try {
+    const response = await fetch("/data/invoices.json");
+    if (!response.ok) {
+      throw new Error(`Failed to fetch invoices: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.invoices || [];
+  } catch (error) {
+    console.error("Error loading invoices data:", error);
+    return [];
+  }
 }
 
 export async function loadInvoiceProductsData(): Promise<any[]> {
-  const response = await fetch("/data/invoices.json");
-  const data = await response.json();
-  return data.invoiceProducts;
+  try {
+    const response = await fetch("/data/invoices.json");
+    if (!response.ok) {
+      throw new Error(`Failed to fetch invoice products: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.invoiceProducts || [];
+  } catch (error) {
+    console.error("Error loading invoice products data:", error);
+    return [];
+  }
 }
 
 export async function loadProductsData(): Promise<any[]> {
-  const response = await fetch("/data/products.json");
-  const data = await response.json();
-  return data.products;
+  try {
+    const response = await fetch("/data/products.json");
+    if (!response.ok) {
+      throw new Error(`Failed to fetch products: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.products || [];
+  } catch (error) {
+    console.error("Error loading products data:", error);
+    return [];
+  }
 }
 
 // Address resolution utilities
 export function createAddressLookup(
   users: UserProfile[]
 ): Map<string, UserProfile> {
+  if (!Array.isArray(users)) {
+    console.warn(
+      "createAddressLookup: users is not an array, returning empty Map"
+    );
+    return new Map();
+  }
   return new Map(users.map((user) => [user.address, user]));
 }
 
 export function createBusinessLookup(
   businesses: BusinessProfile[]
 ): Map<string, BusinessProfile> {
+  if (!Array.isArray(businesses)) {
+    console.warn(
+      "createBusinessLookup: businesses is not an array, returning empty Map"
+    );
+    return new Map();
+  }
   return new Map(businesses.map((business) => [business.id, business]));
 }
 
 export function createProductLookup(products: any[]): Map<string, any> {
+  if (!Array.isArray(products)) {
+    console.warn(
+      "createProductLookup: products is not an array, returning empty Map"
+    );
+    return new Map();
+  }
   return new Map(products.map((product) => [product.id, product]));
 }
 
@@ -108,6 +158,7 @@ export function enhanceInvoiceData(
       debtorName: debtor?.name,
       debtorType: debtor?.type,
       businessName: business?.businessName,
+      businessType: business?.businessType,
     };
   });
 }

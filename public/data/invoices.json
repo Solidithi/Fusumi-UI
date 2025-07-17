@@ -1,174 +1,186 @@
 {
-  "invoices": [
-    {
-      "id": "inv-001",
-      "ownerAddress": "0x1234567890abcdef1234567890abcdef12345678",
-      "debtorAddress": "0xabcdef1234567890abcdef1234567890abcdef12",
-      "description": "Web development project - Phase 1 including frontend design and backend API",
-      "paidStatus": "PAID",
-      "startDate": "2024-01-15T00:00:00.000Z",
-      "endDate": "2024-02-15T00:00:00.000Z",
-      "attachments": [
-        "invoice_001.pdf",
-        "receipt_001.pdf",
-        "project_details.pdf"
-      ],
-      "businessId": "bus-001",
-      "createdAt": "2024-01-15T10:00:00.000Z",
-      "updatedAt": "2025-07-17T10:06:27.892Z"
-    },
-    {
-      "id": "inv-002",
-      "ownerAddress": "0x9876543210fedcba9876543210fedcba98765432",
-      "debtorAddress": "0xfedcba9876543210fedcba9876543210fedcba98",
-      "description": "Organic vegetables monthly subscription - January 2024",
-      "paidStatus": "PENDING",
-      "startDate": "2024-02-01T00:00:00.000Z",
-      "endDate": "2024-02-28T23:59:59.000Z",
-      "attachments": ["invoice_002.pdf", "delivery_schedule.pdf"],
-      "businessId": "bus-002",
-      "createdAt": "2024-02-01T11:00:00.000Z",
-      "updatedAt": "2024-02-01T11:00:00.000Z"
-    },
-    {
-      "id": "inv-003",
-      "ownerAddress": "0x5555666677778888999900001111222233334444",
-      "debtorAddress": "0x4444333322221111000099998888777766665555",
-      "description": "Cloud infrastructure setup and migration services",
-      "paidStatus": "OVERDUE",
-      "startDate": "2024-01-20T00:00:00.000Z",
-      "endDate": "2024-03-20T00:00:00.000Z",
-      "attachments": [
-        "invoice_003.pdf",
-        "migration_plan.pdf",
-        "completion_cert.pdf"
-      ],
-      "businessId": "bus-003",
-      "createdAt": "2024-01-20T08:30:00.000Z",
-      "updatedAt": "2024-03-21T08:30:00.000Z"
-    },
-    {
-      "id": "inv-004",
-      "ownerAddress": "0xaaabbbbccccddddeeeeffffgggghhhhiiiijjjj",
-      "debtorAddress": "0xjjjjiiiihhhhggggffffeeeedddccccbbbbaaaa",
-      "description": "Eco-friendly packaging materials supply contract",
-      "paidStatus": "PAID",
-      "startDate": "2024-01-10T00:00:00.000Z",
-      "endDate": "2024-02-10T00:00:00.000Z",
-      "attachments": ["invoice_004.pdf", "material_specs.pdf"],
-      "businessId": "bus-001",
-      "createdAt": "2024-01-10T09:15:00.000Z",
-      "updatedAt": "2025-07-17T10:16:55.245Z"
-    },
-    {
-      "id": "inv-005",
-      "ownerAddress": "0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t",
-      "debtorAddress": "0xt9s8r7q6p5o4n3m2l1k0j9i8h7g6f5e4d3c2b1a",
-      "description": "Mobile app development for iOS and Android platforms",
-      "paidStatus": "OVERDUE",
-      "startDate": "2024-02-15T00:00:00.000Z",
-      "endDate": "2024-06-15T00:00:00.000Z",
-      "attachments": [
-        "invoice_005.pdf",
-        "app_wireframes.pdf",
-        "development_timeline.pdf"
-      ],
-      "businessId": "bus-001",
-      "createdAt": "2024-02-15T14:00:00.000Z",
-      "updatedAt": "2024-02-15T14:00:00.000Z"
-    },
-    {
-      "id": "inv-006",
-      "ownerAddress": "0xffeeddccbbaa9988776655443322110088776655",
-      "debtorAddress": "0x5566778800112233445566778899aabbccddeeff",
-      "description": "Premium organic fruit basket subscription - February 2024",
-      "paidStatus": "PAID",
-      "startDate": "2024-02-05T00:00:00.000Z",
-      "endDate": "2024-03-05T00:00:00.000Z",
-      "attachments": ["invoice_006.pdf", "organic_certificates.pdf"],
-      "businessId": "bus-002",
-      "createdAt": "2024-02-05T10:30:00.000Z",
-      "updatedAt": "2024-02-10T10:30:00.000Z"
-    },
-    {
-      "id": "inv-007",
-      "ownerAddress": "0x123abc456def789ghi012jkl345mno678pqr901stu",
-      "debtorAddress": "0xuts109rqp876onm543lkj210ihg987fed654cba321",
-      "description": "AWS cloud consulting and optimization services",
-      "paidStatus": "PENDING",
-      "startDate": "2024-02-20T00:00:00.000Z",
-      "endDate": "2024-04-20T00:00:00.000Z",
-      "attachments": ["invoice_007.pdf", "optimization_report.pdf"],
-      "businessId": "bus-003",
-      "createdAt": "2024-02-20T13:45:00.000Z",
-      "updatedAt": "2024-02-20T13:45:00.000Z"
-    },
-    {
-      "id": "inv-008",
-      "ownerAddress": "0x9988776655443322110099887766554433221100",
-      "debtorAddress": "0x0011223344556677889900112233445566778899",
-      "description": "Sustainable manufacturing equipment lease agreement",
-      "paidStatus": "PAID",
-      "startDate": "2024-01-25T00:00:00.000Z",
-      "endDate": "2024-07-25T00:00:00.000Z",
-      "attachments": [
-        "invoice_008.pdf",
-        "equipment_specs.pdf",
-        "lease_agreement.pdf"
-      ],
-      "businessId": "bus-002",
-      "createdAt": "2024-01-25T11:20:00.000Z",
-      "updatedAt": "2024-02-01T11:20:00.000Z"
-    }
-  ],
-  "invoiceProducts": [
-    {
-      "id": "ip-001",
-      "invoiceId": "inv-001",
-      "productId": "p2",
-      "quantity": 1
-    },
-    {
-      "id": "ip-002",
-      "invoiceId": "inv-002",
-      "productId": "p12",
-      "quantity": 4
-    },
-    {
-      "id": "ip-003",
-      "invoiceId": "inv-003",
-      "productId": "p1",
-      "quantity": 1
-    },
-    {
-      "id": "ip-004",
-      "invoiceId": "inv-004",
-      "productId": "p12",
-      "quantity": 10
-    },
-    {
-      "id": "ip-005",
-      "invoiceId": "inv-005",
-      "productId": "p2",
-      "quantity": 1
-    },
-    {
-      "id": "ip-006",
-      "invoiceId": "inv-006",
-      "productId": "p12",
-      "quantity": 6
-    },
-    {
-      "id": "ip-007",
-      "invoiceId": "inv-007",
-      "productId": "p1",
-      "quantity": 1
-    },
-    {
-      "id": "ip-008",
-      "invoiceId": "inv-008",
-      "productId": "p10",
-      "quantity": 2
-    }
-  ]
+    "invoices": [
+        {
+            "id": "inv-001",
+            "ownerAddress": "0x1234567890abcdef1234567890abcdef12345678",
+            "debtorAddress": "0xabcdef1234567890abcdef1234567890abcdef12",
+            "description": "Web development project - Phase 1 including frontend design and backend API",
+            "paidStatus": "UNPAID",
+            "startDate": "2024-01-15T00:00:00.000Z",
+            "endDate": "2024-02-15T00:00:00.000Z",
+            "attachments": [
+                "invoice_001.pdf",
+                "receipt_001.pdf",
+                "project_details.pdf"
+            ],
+            "businessId": "bus-001",
+            "createdAt": "2024-01-15T10:00:00.000Z",
+            "updatedAt": "2025-07-17T10:06:27.892Z"
+        },
+        {
+            "id": "inv-002",
+            "ownerAddress": "0x9876543210fedcba9876543210fedcba98765432",
+            "debtorAddress": "0xfedcba9876543210fedcba9876543210fedcba98",
+            "description": "Organic vegetables monthly subscription - January 2024",
+            "paidStatus": "PENDING",
+            "startDate": "2024-02-01T00:00:00.000Z",
+            "endDate": "2024-02-28T23:59:59.000Z",
+            "attachments": [
+                "invoice_002.pdf",
+                "delivery_schedule.pdf"
+            ],
+            "businessId": "bus-002",
+            "createdAt": "2024-02-01T11:00:00.000Z",
+            "updatedAt": "2024-02-01T11:00:00.000Z"
+        },
+        {
+            "id": "inv-003",
+            "ownerAddress": "0x5555666677778888999900001111222233334444",
+            "debtorAddress": "0x4444333322221111000099998888777766665555",
+            "description": "Cloud infrastructure setup and migration services",
+            "paidStatus": "OVERDUE",
+            "startDate": "2024-01-20T00:00:00.000Z",
+            "endDate": "2024-03-20T00:00:00.000Z",
+            "attachments": [
+                "invoice_003.pdf",
+                "migration_plan.pdf",
+                "completion_cert.pdf"
+            ],
+            "businessId": "bus-003",
+            "createdAt": "2024-01-20T08:30:00.000Z",
+            "updatedAt": "2024-03-21T08:30:00.000Z"
+        },
+        {
+            "id": "inv-004",
+            "ownerAddress": "0xaaabbbbccccddddeeeeffffgggghhhhiiiijjjj",
+            "debtorAddress": "0xjjjjiiiihhhhggggffffeeeedddccccbbbbaaaa",
+            "description": "Eco-friendly packaging materials supply contract",
+            "paidStatus": "PAID",
+            "startDate": "2024-01-10T00:00:00.000Z",
+            "endDate": "2024-02-10T00:00:00.000Z",
+            "attachments": [
+                "invoice_004.pdf",
+                "material_specs.pdf"
+            ],
+            "businessId": "bus-001",
+            "createdAt": "2024-01-10T09:15:00.000Z",
+            "updatedAt": "2025-07-17T10:16:55.245Z"
+        },
+        {
+            "id": "inv-005",
+            "ownerAddress": "0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t",
+            "debtorAddress": "0xt9s8r7q6p5o4n3m2l1k0j9i8h7g6f5e4d3c2b1a",
+            "description": "Mobile app development for iOS and Android platforms",
+            "paidStatus": "PAID",
+            "startDate": "2024-02-15T00:00:00.000Z",
+            "endDate": "2024-06-15T00:00:00.000Z",
+            "attachments": [
+                "invoice_005.pdf",
+                "app_wireframes.pdf",
+                "development_timeline.pdf"
+            ],
+            "businessId": "bus-001",
+            "createdAt": "2024-02-15T14:00:00.000Z",
+            "updatedAt": "2025-07-17T12:59:39.985Z"
+        },
+        {
+            "id": "inv-006",
+            "ownerAddress": "0xffeeddccbbaa9988776655443322110088776655",
+            "debtorAddress": "0x5566778800112233445566778899aabbccddeeff",
+            "description": "Premium organic fruit basket subscription - February 2024",
+            "paidStatus": "PAID",
+            "startDate": "2024-02-05T00:00:00.000Z",
+            "endDate": "2024-03-05T00:00:00.000Z",
+            "attachments": [
+                "invoice_006.pdf",
+                "organic_certificates.pdf"
+            ],
+            "businessId": "bus-002",
+            "createdAt": "2024-02-05T10:30:00.000Z",
+            "updatedAt": "2024-02-10T10:30:00.000Z"
+        },
+        {
+            "id": "inv-007",
+            "ownerAddress": "0x123abc456def789ghi012jkl345mno678pqr901stu",
+            "debtorAddress": "0xuts109rqp876onm543lkj210ihg987fed654cba321",
+            "description": "AWS cloud consulting and optimization services",
+            "paidStatus": "PENDING",
+            "startDate": "2024-02-20T00:00:00.000Z",
+            "endDate": "2024-04-20T00:00:00.000Z",
+            "attachments": [
+                "invoice_007.pdf",
+                "optimization_report.pdf"
+            ],
+            "businessId": "bus-003",
+            "createdAt": "2024-02-20T13:45:00.000Z",
+            "updatedAt": "2024-02-20T13:45:00.000Z"
+        },
+        {
+            "id": "inv-008",
+            "ownerAddress": "0x9988776655443322110099887766554433221100",
+            "debtorAddress": "0x0011223344556677889900112233445566778899",
+            "description": "Sustainable manufacturing equipment lease agreement",
+            "paidStatus": "PAID",
+            "startDate": "2024-01-25T00:00:00.000Z",
+            "endDate": "2024-07-25T00:00:00.000Z",
+            "attachments": [
+                "invoice_008.pdf",
+                "equipment_specs.pdf",
+                "lease_agreement.pdf"
+            ],
+            "businessId": "bus-002",
+            "createdAt": "2024-01-25T11:20:00.000Z",
+            "updatedAt": "2024-02-01T11:20:00.000Z"
+        }
+    ],
+    "invoiceProducts": [
+        {
+            "id": "ip-001",
+            "invoiceId": "inv-001",
+            "productId": "p2",
+            "quantity": 1
+        },
+        {
+            "id": "ip-002",
+            "invoiceId": "inv-002",
+            "productId": "p12",
+            "quantity": 4
+        },
+        {
+            "id": "ip-003",
+            "invoiceId": "inv-003",
+            "productId": "p1",
+            "quantity": 1
+        },
+        {
+            "id": "ip-004",
+            "invoiceId": "inv-004",
+            "productId": "p12",
+            "quantity": 10
+        },
+        {
+            "id": "ip-005",
+            "invoiceId": "inv-005",
+            "productId": "p2",
+            "quantity": 1
+        },
+        {
+            "id": "ip-006",
+            "invoiceId": "inv-006",
+            "productId": "p12",
+            "quantity": 6
+        },
+        {
+            "id": "ip-007",
+            "invoiceId": "inv-007",
+            "productId": "p1",
+            "quantity": 1
+        },
+        {
+            "id": "ip-008",
+            "invoiceId": "inv-008",
+            "productId": "p10",
+            "quantity": 2
+        }
+    ]
 }

@@ -15,7 +15,7 @@ export interface EnhancedInvoiceData {
   ownerAddress: string;
   debtorAddress: string;
   description: string;
-  paidStatus: "PAID" | "PENDING" | "OVERDUE";
+  paidStatus: "PAID" | "PENDING" | "OVERDUE" | "UNPAID";
   startDate: string;
   endDate: string;
   attachments: string[];

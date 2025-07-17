@@ -39,6 +39,7 @@ export function DashboardContent() {
       const statusFilter =
         activeFilter === PaidStatus.TOTAL ||
         (activeFilter === PaidStatus.PAID && invoice.paidStatus === "PAID") ||
+        (activeFilter === PaidStatus.UNPAID && (invoice.paidStatus === "PENDING" || invoice.paidStatus === "OVERDUE")) ||
         (activeFilter === PaidStatus.OVERDUE &&
           invoice.paidStatus === "OVERDUE") ||
         (activeFilter === PaidStatus.PENDING &&
