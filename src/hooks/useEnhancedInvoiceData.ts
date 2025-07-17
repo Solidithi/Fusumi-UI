@@ -77,7 +77,11 @@ export function useEnhancedInvoiceData() {
         setError(null);
       } catch (err) {
         console.error("❌ Failed to load enhanced invoice data:", err);
-        setError(`Failed to load invoice data: ${err instanceof Error ? err.message : 'Unknown error'}`);
+        setError(
+          `Failed to load invoice data: ${
+            err instanceof Error ? err.message : "Unknown error"
+          }`
+        );
         setEnhancedInvoices([]);
       } finally {
         setLoading(false);

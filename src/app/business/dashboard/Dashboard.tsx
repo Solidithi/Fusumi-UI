@@ -27,8 +27,8 @@ export function DashboardContent() {
   // Debug logging (can be removed in production)
   useEffect(() => {
     if (enhancedInvoices.length > 0) {
-      console.log('✅ Enhanced invoices loaded:', enhancedInvoices.length);
-      console.log('📊 Dashboard stats:', dashboardStats);
+      console.log("✅ Enhanced invoices loaded:", enhancedInvoices.length);
+      console.log("📊 Dashboard stats:", dashboardStats);
     }
   }, [enhancedInvoices, dashboardStats]);
 
@@ -39,7 +39,8 @@ export function DashboardContent() {
       const statusFilter =
         activeFilter === PaidStatus.TOTAL ||
         (activeFilter === PaidStatus.PAID && invoice.paidStatus === "PAID") ||
-        (activeFilter === PaidStatus.UNPAID && (invoice.paidStatus === "PENDING" || invoice.paidStatus === "OVERDUE")) ||
+        (activeFilter === PaidStatus.UNPAID &&
+          invoice.paidStatus === "UNPAID") ||
         (activeFilter === PaidStatus.OVERDUE &&
           invoice.paidStatus === "OVERDUE") ||
         (activeFilter === PaidStatus.PENDING &&
