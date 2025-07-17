@@ -1,3 +1,4 @@
+import offers from "@/../public/data/offers.json";
 export interface OfferDatas {
   id: string;
   invoiceAddress: string;
@@ -17,10 +18,4 @@ export interface OfferDatas {
   updatedAt: string;
 }
 
-export interface OfferCardProps {
-  offer: OfferDatas;
-  index: number;
-  onView?: (offer: OfferDatas) => void;
-  onEdit?: (offer: OfferDatas) => void;
-  onDelete?: (offerId: string) => void;
-}
+export type Offer = (typeof offers)[0];

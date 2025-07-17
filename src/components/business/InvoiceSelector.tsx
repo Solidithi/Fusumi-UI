@@ -19,7 +19,7 @@ interface Invoice {
   ownerAddress: string;
   debtorAddress: string;
   description: string;
-  paidStatus: "PENDING" | "PAID" | "OVERDUE";
+  paidStatus: "PENDING" | "UNPAID" | "PAID" | "OVERDUE";
   startDate: string;
   endDate: string;
   attachments: string[];
@@ -37,6 +37,7 @@ interface InvoiceSelectorProps {
 const statusColors = {
   PENDING: "bg-yellow-100 text-yellow-800",
   PAID: "bg-green-100 text-green-800",
+  UNPAID: "bg-red-100 text-red-800",
   OVERDUE: "bg-red-100 text-red-800",
 };
 
@@ -44,6 +45,7 @@ const statusIcons = {
   PENDING: Clock,
   PAID: CheckCircle,
   OVERDUE: XCircle,
+  UNPAID: XCircle,
 };
 
 export function InvoiceSelector({
@@ -83,8 +85,8 @@ export function InvoiceSelector({
       // Filter invoices for the current business and active status
       const businessInvoices = data.invoices.filter(
         (invoice: Invoice) =>
-          invoice.businessId === businessId &&
-          (invoice.paidStatus === "PENDING" || invoice.paidStatus === "OVERDUE")
+          // invoice.businessId === businessId &&
+          invoice.paidStatus === "PENDING" || invoice.paidStatus === "UNPAID"
       );
 
       setInvoices(businessInvoices);

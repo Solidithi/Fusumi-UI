@@ -12,22 +12,23 @@ import {
   createAddressLookup,
   createBusinessLookup,
   enhanceInvoiceData,
-} from '@/utils/invoiceUtils';
+} from "@/utils/invoiceUtils";
 
 export async function testInvoiceDataLoading() {
   try {
-    console.log('🔍 Testing invoice data loading...');
-    
-    // Load all data
-    const [users, businesses, invoices, invoiceProducts, products] = await Promise.all([
-      loadUsersData(),
-      loadBusinessesData(),
-      loadInvoicesData(),
-      loadInvoiceProductsData(),
-      loadProductsData(),
-    ]);
+    console.log("🔍 Testing invoice data loading...");
 
-    console.log('📊 Data loaded successfully:');
+    // Load all data
+    const [users, businesses, invoices, invoiceProducts, products] =
+      await Promise.all([
+        loadUsersData(),
+        loadBusinessesData(),
+        loadInvoicesData(),
+        loadInvoiceProductsData(),
+        loadProductsData(),
+      ]);
+
+    console.log("📊 Data loaded successfully:");
     console.log(`- Users: ${users.length}`);
     console.log(`- Businesses: ${businesses.length}`);
     console.log(`- Invoices: ${invoices.length}`);
@@ -47,7 +48,7 @@ export async function testInvoiceDataLoading() {
       businessLookup
     );
 
-    console.log('✅ Enhanced invoice data:');
+    console.log("✅ Enhanced invoice data:");
     enhanced.forEach((invoice, index) => {
       console.log(`${index + 1}. ${invoice.description}`);
       console.log(`   Owner: ${invoice.ownerAlias || invoice.ownerAddress}`);
@@ -55,7 +56,7 @@ export async function testInvoiceDataLoading() {
       console.log(`   Business: ${invoice.businessName}`);
       console.log(`   Status: ${invoice.paidStatus}`);
       console.log(`   Value: $${invoice.totalValue?.toLocaleString()}`);
-      console.log('');
+      console.log("");
     });
 
     // Count by status
@@ -64,19 +65,19 @@ export async function testInvoiceDataLoading() {
       return acc;
     }, {} as Record<string, number>);
 
-    console.log('📈 Status Summary:');
+    console.log("📈 Status Summary:");
     console.log(`- PAID: ${statusCounts.PAID || 0}`);
     console.log(`- PENDING: ${statusCounts.PENDING || 0}`);
     console.log(`- OVERDUE: ${statusCounts.OVERDUE || 0}`);
 
     return enhanced;
   } catch (error) {
-    console.error('❌ Error testing invoice data:', error);
+    console.error("❌ Error testing invoice data:", error);
     throw error;
   }
 }
 
 // Export for use in development
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   (window as any).testInvoiceData = testInvoiceDataLoading;
 }

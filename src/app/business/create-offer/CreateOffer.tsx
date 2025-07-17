@@ -12,7 +12,15 @@ import { InvoiceSelector } from "@/components/business/InvoiceSelector";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { motion } from "framer-motion";
 import { Eye, FileText, User } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useUser } from "@/app/hooks/useUser";
+import {
+  calculateOfferPricing,
+  calcRemainingPercentageOfRootNft,
+  getInvoiceAmount,
+} from "@/utils/nftHierarchy";
+import { enhanceInvoiceData } from "@/utils/invoiceUtils";
+import { useToast } from "@/hooks/animation-hook/useToast";
 import axios from "axios";
 
 const formVariants = {
@@ -33,23 +41,74 @@ export interface ContactInfo {
 }
 
 export default function CreateOffer() {
+  const currentUser = useUser();
+
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const [invoicePreviewOpen, setInvoicePreviewOpen] = useState(false);
   const [contactInfoOpen, setContactInfoOpen] = useState(false);
   const [agreementsOpen, setAgreementsOpen] = useState(false);
 
   const [invoiceId, setInvoiceId] = useState("");
-  const [pricing, setPricing] = useState(0);
-  const [contactData, setContactData] = useState<ContactInfo | null>(null);
+  const [sharePercentage, setSharePercentage] = useState(100);
+  const [isPartialSale, setIsPartialSale] = useState(false);
+  const [maxAvailablePercentage, setMaxAvailablePercentage] = useState(100);
+  const [invoiceAmount, setInvoiceAmount] = useState(0);
+  const [contactData, setContactData] = useState<ContactInfo | null>({
+    name: currentUser?.fullName || "",
+    email: currentUser?.email || "",
+    phone: currentUser?.phone || "",
+    company: currentUser?.company || "",
+    address: currentUser?.contactAddress || "",
+  });
   const [agreementsData, setAgreementsData] = useState<string[]>([]);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [isPartialSale, setIsPartialSale] = useState(false);
-  const [sharePercentage, setSharePercentage] = useState(100);
   const { account, wallet } = useWallet();
+
+  const { toast } = useToast();
+
+  const canCreateOffer =
+    invoiceId && sharePercentage > 0 && startDate && endDate;
 
   // Mock business ID - in production, this would come from user session/auth
   const businessId = "bus-001";
+
+  // Calculate pricing automatically based on share percentage
+  const calculatedPricing =
+    invoiceAmount && sharePercentage
+      ? (invoiceAmount * sharePercentage) / 100
+      : 0;
+
+  // Load invoice data and calculate available percentage when invoice is selected
+  useEffect(() => {
+    if (invoiceId) {
+      const amount = getInvoiceAmount(invoiceId);
+      setInvoiceAmount(amount);
+
+      // Load existing offers to calculate remaining percentage
+      fetch("/data/offers.json")
+        .then((res) => res.json())
+        .then((offers) => {
+          const remaining = calcRemainingPercentageOfRootNft(offers, invoiceId);
+          setMaxAvailablePercentage(remaining);
+
+          // Adjust share percentage if it exceeds available
+          if (sharePercentage > remaining) {
+            setSharePercentage(remaining);
+          }
+        })
+        .catch((err) => console.error("Failed to load offers:", err));
+    }
+  }, [invoiceId, sharePercentage]);
+
+  // Reset share percentage when switching between full and partial sale
+  useEffect(() => {
+    if (isPartialSale) {
+      setSharePercentage(Math.min(50, maxAvailablePercentage));
+    } else {
+      setSharePercentage(maxAvailablePercentage);
+    }
+  }, [isPartialSale, maxAvailablePercentage]);
 
   const handleContactSave = (contactInfo: ContactInfo) => {
     setContactData(contactInfo);
@@ -68,7 +127,7 @@ export default function CreateOffer() {
     }
     if (
       invoiceId === "" ||
-      pricing === 0 ||
+      sharePercentage === 0 ||
       startDate === "" ||
       endDate === ""
     ) {
@@ -76,14 +135,16 @@ export default function CreateOffer() {
       return;
     }
 
-    const finalSharePercentage = isPartialSale ? sharePercentage : 100;
-    
+    const finalSharePercentage = isPartialSale
+      ? sharePercentage
+      : maxAvailablePercentage;
+
     try {
       const response = await axios.post("/api/business/create-offer", {
         invoiceAddress: invoiceId,
         businessAddress:
           "0x1eff35f3cdb05773359ca60a10d2beceacbd8a3b5018f12a1f3b33b8853d686d",
-        pricing,
+        pricing: calculatedPricing,
         sharePercentage: finalSharePercentage,
         isPartialSale,
         contactInfo: contactData,
@@ -95,13 +156,25 @@ export default function CreateOffer() {
         console.log("Offer created successfully");
         // Reset form
         setInvoiceId("");
-        setPricing(0);
-        setContactData(null);
+        setSharePercentage(100);
+        setContactData({
+          name: currentUser?.fullName || "",
+          email: currentUser?.email || "",
+          phone: currentUser?.phone || "",
+          company: currentUser?.company || "",
+          address: currentUser?.contactAddress || "",
+        });
         setAgreementsData([]);
         setStartDate("");
         setEndDate("");
         setIsPartialSale(false);
-        setSharePercentage(100);
+        setMaxAvailablePercentage(100);
+        setInvoiceAmount(0);
+
+        toast({
+          title: "Offer Created",
+          description: "Your offer has been created successfully.",
+        });
       } else {
         console.log("Failed to create offer");
       }
@@ -181,6 +254,7 @@ export default function CreateOffer() {
                     checked={isPartialSale}
                     onChange={(e) => setIsPartialSale(e.target.checked)}
                     className="h-5 w-5 text-[#3587A3] border-white/30 rounded focus:ring-white/50 focus:ring-2"
+                    disabled={!invoiceId}
                   />
                   <Label
                     htmlFor="partial-sale"
@@ -189,13 +263,13 @@ export default function CreateOffer() {
                     Partial Sale (Optional)
                   </Label>
                 </div>
-                
+
                 {isPartialSale && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="space-y-2"
+                    className="space-y-3"
                   >
                     <Label
                       htmlFor="share-percentage"
@@ -203,49 +277,88 @@ export default function CreateOffer() {
                     >
                       Share Percentage to Sell
                     </Label>
-                    <div className="flex items-center space-x-2">
-                      <Input
-                        id="share-percentage"
-                        type="number"
-                        min="1"
-                        max="99"
-                        placeholder="Enter percentage (1-99)"
-                        className="bg-white/90 border-white/30 text-gray-700 focus:border-white focus:ring-white/50 transition-all duration-300"
-                        value={sharePercentage}
-                        onChange={(e) => setSharePercentage(Number(e.target.value))}
-                      />
-                      <span className="text-white/90 text-sm font-medium">%</span>
-                    </div>
-                    <div className="text-xs text-white/70 mt-1">
-                      You will retain {100 - sharePercentage}% of the NFT value
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <Input
+                          id="share-percentage"
+                          type="number"
+                          min="1"
+                          max={maxAvailablePercentage}
+                          placeholder={`Enter percentage (1-${maxAvailablePercentage})`}
+                          className="bg-white/90 border-white/30 text-gray-700 focus:border-white focus:ring-white/50 transition-all duration-300"
+                          value={sharePercentage}
+                          onChange={(e) =>
+                            setSharePercentage(
+                              Math.min(
+                                Number(e.target.value),
+                                maxAvailablePercentage
+                              )
+                            )
+                          }
+                        />
+                        <span className="text-white/90 text-sm font-medium">
+                          %
+                        </span>
+                      </div>
+                      <div className="text-xs text-white/70 space-y-1">
+                        <div>Maximum available: {maxAvailablePercentage}%</div>
+                        <div>
+                          You will retain {100 - sharePercentage}% of the NFT
+                          value
+                        </div>
+                      </div>
                     </div>
                   </motion.div>
                 )}
               </motion.div>
 
-              {/* Second Row - Pricing and Contact Info */}
+              {/* Second Row - Pricing Overview and Contact Info */}
               <motion.div
                 className="grid grid-cols-1 md:grid-cols-2 gap-6"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.5 }}
               >
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="pricing"
-                    className="text-sm font-semibold text-white/90"
-                  >
-                    Pricing
+                <div className="space-y-3">
+                  <Label className="text-sm font-semibold text-white/90">
+                    Pricing Overview
                   </Label>
-                  <Input
-                    id="pricing"
-                    type="number"
-                    step="0.01"
-                    placeholder="Enter pricing amount"
-                    className="bg-white/90 border-white/30 text-gray-700 focus:border-white focus:ring-white/50 transition-all duration-300"
-                    value={pricing}
-                    onChange={(e) => setPricing(Number(e.target.value))}
-                  />
+                  <div className="bg-white/10 border border-white/20 rounded-lg p-4 space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-white/70 text-sm">
+                        Original Invoice Value:
+                      </span>
+                      <span className="text-white font-medium">
+                        ${invoiceAmount.toFixed(2)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-white/70 text-sm">
+                        Share Being Sold:
+                      </span>
+                      <span className="text-white font-medium">
+                        {sharePercentage}%
+                      </span>
+                    </div>
+                    <div className="border-t border-white/20 pt-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-white/90 text-sm font-semibold">
+                          Sale Value:
+                        </span>
+                        <span className="text-white font-bold text-lg">
+                          ${calculatedPricing.toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-white/70 text-sm">
+                        Remaining Ownership:
+                      </span>
+                      <span className="text-white/80 font-medium">
+                        {100 - sharePercentage}%
+                      </span>
+                    </div>
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label
@@ -338,8 +451,9 @@ export default function CreateOffer() {
                 <Button
                   className="px-12 py-3 bg-gradient-to-r from-[#2a6b7f] to-[#3587A3] hover:from-[#1f5a6b] hover:to-[#2a6b7f] text-white font-semibold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                   onClick={handleCreateOffer}
+                  disabled={!canCreateOffer}
                 >
-                  CREATE
+                  CREATE OFFER
                 </Button>
               </motion.div>
             </CardContent>

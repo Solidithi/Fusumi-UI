@@ -65,8 +65,12 @@ export function InvoiceTable({ invoices }: InvoiceTableProps) {
   // Filter and sort invoices
   const processedInvoices = useMemo(() => {
     const filtered = invoices.filter((invoice) => {
-      if (debtorTypeFilter === "all") return true;
-      return invoice.debtorType === debtorTypeFilter;
+      // Debtor type filter
+      if (debtorTypeFilter !== "all" && invoice.debtorType !== debtorTypeFilter) {
+        return false;
+      }
+      
+      return true;
     });
     return sortInvoices(filtered, sortConfig);
   }, [invoices, sortConfig, debtorTypeFilter]);
@@ -114,11 +118,12 @@ export function InvoiceTable({ invoices }: InvoiceTableProps) {
   };
 
   const columns = [
-    { key: "NFT Holder", label: "Address Owner", sortable: false },
+    { key: "ownerAddress", label: "NFT Holder", sortable: false },
     { key: "addressDebtor", label: "Debtor", sortable: false },
-    { key: "unitDebt", label: "Debt Amount", sortable: true },
-    { key: "endIn", label: "Payment Due", sortable: true },
-    { key: "fieldCompany", label: "Field Company" },
+    { key: "totalValue", label: "Debt Amount", sortable: true },
+    { key: "createdAt", label: "Invoice Date", sortable: true },
+    { key: "endDate", label: "Payment Due", sortable: true },
+    { key: "paidStatus", label: "Status", sortable: false },
   ];
 
   return (
@@ -128,12 +133,12 @@ export function InvoiceTable({ invoices }: InvoiceTableProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.4 }}
     >
-      {/* Debtor Filter Section */}
+      {/* Filter Section */}
       <div className="bg-gray-50 border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
             <span className="text-sm font-medium text-gray-700">
-              Filter Debtor Type:
+              Debtor Type:
             </span>
             <select
               value={debtorTypeFilter}
@@ -184,20 +189,6 @@ export function InvoiceTable({ invoices }: InvoiceTableProps) {
       >
         {processedInvoices.map(
           (invoice: EnhancedInvoiceData, index: number) => {
-            const ownerInfo = getFullAddressInfo(
-              invoice.ownerAddress,
-              invoice.ownerAlias,
-              invoice.ownerName,
-              invoice.ownerType
-            );
-
-            const debtorInfo = getFullAddressInfo(
-              invoice.debtorAddress,
-              invoice.debtorAlias,
-              invoice.debtorName,
-              invoice.debtorType
-            );
-
             const statusColors = getStatusBadgeColor(invoice.paidStatus);
 
             return (
@@ -209,38 +200,38 @@ export function InvoiceTable({ invoices }: InvoiceTableProps) {
                 transition={{ duration: 0.02 }}
               >
                 <div className="grid grid-cols-6 gap-4 items-center">
-                  {/* NFT Holder */}
+                  {/* NFT Holder - Show alias if available, otherwise address */}
                   <div className="flex flex-col">
                     <span
                       className="text-sm font-medium text-gray-900 truncate"
-                      title={ownerInfo.title}
+                      title={invoice.ownerAlias || invoice.ownerAddress}
                     >
-                      {ownerInfo.display}
+                      {invoice.ownerAlias || `${invoice.ownerAddress.slice(0, 6)}...${invoice.ownerAddress.slice(-4)}`}
                     </span>
-                    {ownerInfo.type && (
+                    {invoice.ownerType && (
                       <span className="text-xs text-gray-500 capitalize">
-                        {ownerInfo.type}
+                        {invoice.ownerType}
                       </span>
                     )}
                   </div>
 
-                  {/* Debtor */}
+                  {/* Debtor - Show name/alias instead of address */}
                   <div className="flex flex-col">
                     <span
                       className="text-sm font-medium text-gray-900 truncate"
-                      title={debtorInfo.title}
+                      title={invoice.debtorAlias || invoice.debtorName || invoice.debtorAddress}
                     >
-                      {debtorInfo.display}
+                      {invoice.debtorAlias || invoice.debtorName || `${invoice.debtorAddress.slice(0, 6)}...${invoice.debtorAddress.slice(-4)}`}
                     </span>
-                    {debtorInfo.type && (
+                    {invoice.debtorType && (
                       <span
                         className={`text-xs font-medium capitalize ${
-                          debtorInfo.type === "business"
+                          invoice.debtorType === "business"
                             ? "text-blue-600"
                             : "text-green-600"
                         }`}
                       >
-                        {debtorInfo.type}
+                        {invoice.debtorType}
                       </span>
                     )}
                   </div>
@@ -250,7 +241,7 @@ export function InvoiceTable({ invoices }: InvoiceTableProps) {
                     {formatCurrency(invoice.totalValue || 0)}
                   </div>
 
-                  {/* Created Date */}
+                  {/* Invoice Date */}
                   <div className="text-sm text-gray-600">
                     {formatDate(invoice.createdAt)}
                   </div>

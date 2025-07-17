@@ -2,10 +2,6 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-// import { Card, CardContent } from "@/components/ui/card";
-// import { AnimatedButton } from "@/components/ui/button";
-// import { Badge } from "@/components/ui/badge";
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Eye,
   Edit,
@@ -18,10 +14,17 @@ import {
   Badge,
 } from "lucide-react";
 import { formatAddress } from "@/utils/address";
-import { OfferCardProps } from "@/types/offer";
 import { Card, CardContent } from "../ui/Card";
 import { AnimatedButton } from "../ui/Button";
+import { Offer } from "@/types/offer";
 import Image from "next/image";
+export interface OfferCardProps {
+  offer: any;
+  index: number;
+  onView?: (offer: Offer) => void;
+  onEdit?: (offer: Offer) => void;
+  onDelete?: (offerId: string) => void;
+}
 
 export function OfferCard({
   offer,
@@ -134,7 +137,7 @@ export function OfferCard({
               </span>
             </div>
             <p className="text-sm font-mono text-gray-900 bg-gray-50 p-2 rounded">
-              {formatAddress(offer.invoiceAddress || "0x")}
+              {formatAddress(offer.invoiceId || "Unknown")}
             </p>
           </div>
 

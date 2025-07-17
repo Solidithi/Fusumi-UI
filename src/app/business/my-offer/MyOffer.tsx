@@ -7,8 +7,8 @@ import type { OfferDatas } from "@/types/offer";
 import { OffersGrid } from "../../../components/offer/OfferGrid";
 import { OffersHeader } from "../../../components/offer/OfferHeader";
 import { OfferDetailModal } from "@/components/ui/modal/OfferDetailModal";
-import offersData from "@/../public/data/offers.json";
 import { Sidebar } from "@/components/ui/SideBar";
+import offersData from "@/../public/data/offers.json";
 
 export function OffersContent() {
   const router = useRouter();
@@ -37,7 +37,7 @@ export function OffersContent() {
         offer.contactInfo?.company
           ?.toLowerCase()
           .includes(searchTerm.toLowerCase()) ||
-        offer.invoiceAddress.toLowerCase().includes(searchTerm.toLowerCase());
+        offer.invoiceId?.toLowerCase().includes(searchTerm.toLowerCase());
 
       const matchesStatus =
         statusFilter === "all" || offer.status === statusFilter;
@@ -66,7 +66,7 @@ export function OffersContent() {
   };
 
   const handleCreateNew = () => {
-    router.push("/offers/create");
+    router.push("/business/create-offers");
   };
 
   const handleCloseModal = () => {

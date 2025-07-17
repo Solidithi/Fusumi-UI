@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { AnimatedButton } from "../ui/Button";
 
 interface PageHeaderProps {
@@ -11,6 +12,8 @@ interface PageHeaderProps {
 }
 
 export function PageHeader({ title, subtitle, isBusiness }: PageHeaderProps) {
+  const router = useRouter();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -53,12 +56,18 @@ export function PageHeader({ title, subtitle, isBusiness }: PageHeaderProps) {
           className="flex space-x-3 mt-4 md:mt-0"
           variants={itemVariants as any}
         >
-          <AnimatedButton className="bg-[#2a849a] hover:bg-[#2a849a]/90 text-white pr-4 py-3 flex gap-3  justify-between rounded-lg">
+          <AnimatedButton
+            className="bg-[#2a849a] hover:bg-[#2a849a]/90 text-white pr-4 py-3 flex gap-3  justify-between rounded-lg"
+            onClick={() => router.push("/business/create-offer")}
+          >
             <Plus className="" />
             <span>Create offer</span>
           </AnimatedButton>
 
-          <AnimatedButton className="bg-[#2a849a] hover:bg-[#2a849a]/90 text-white pr-4 py-3  flex gap-3  justify-between rounded-lg">
+          <AnimatedButton
+            className="bg-[#2a849a] hover:bg-[#2a849a]/90 text-white pr-4 py-3  flex gap-3  justify-between rounded-lg"
+            onClick={() => router.push("/business/create-invoice")}
+          >
             <Plus className="" />
             <span>Create Invoice</span>
           </AnimatedButton>

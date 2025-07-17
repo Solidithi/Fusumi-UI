@@ -154,76 +154,95 @@ export default function AllProductsPage() {
     const loadProductsData = async () => {
       try {
         setLoading(true);
-        
+
         // Load data from JSON files with cache busting to avoid interception
         const timestamp = Date.now();
         const randomId = Math.random().toString(36).substring(7);
-        
+
         // Use XMLHttpRequest for products to bypass Console Ninja
         const productsData = await new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest();
-          xhr.open('GET', `/data/products.json?nocache=${timestamp}&r=${randomId}&v=3&bypass=true&xhr=1`, true);
-          xhr.onreadystatechange = function() {
+          xhr.open(
+            "GET",
+            `/data/products.json?nocache=${timestamp}&r=${randomId}&v=3&bypass=true&xhr=1`,
+            true
+          );
+          xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
               if (xhr.status === 200) {
                 try {
                   const responseText = xhr.responseText;
-                  console.log('XHR products response (first 200 chars):', responseText.substring(0, 200));
-                  
+                  console.log(
+                    "XHR products response (first 200 chars):",
+                    responseText.substring(0, 200)
+                  );
+
                   // Check if Console Ninja is still intercepting
-                  if (responseText.includes('PRO FEATURE ONLY')) {
-                    console.error('Console Ninja still intercepting XHR products request');
-                    reject(new Error('Products data intercepted via XHR'));
+                  if (responseText.includes("PRO FEATURE ONLY")) {
+                    console.error(
+                      "Console Ninja still intercepting XHR products request"
+                    );
+                    reject(new Error("Products data intercepted via XHR"));
                     return;
                   }
-                  
+
                   const data = JSON.parse(responseText);
                   resolve(data);
                 } catch (parseError) {
-                  console.error('JSON parse error for products:', parseError);
+                  console.error("JSON parse error for products:", parseError);
                   reject(parseError);
                 }
               } else {
-                console.error('XHR products failed:', xhr.status, xhr.statusText);
+                console.error(
+                  "XHR products failed:",
+                  xhr.status,
+                  xhr.statusText
+                );
                 reject(new Error(`XHR products error! status: ${xhr.status}`));
               }
             }
           };
           xhr.send();
         });
-        
+
         // Use regular fetch for businesses (this seems to work)
-        const businessesResponse = await fetch(`/data/businesses.json?t=${timestamp}`);
-        
-        console.log('Businesses response status:', businessesResponse.status);
-        
+        const businessesResponse = await fetch(
+          `/data/businesses.json?t=${timestamp}`
+        );
+
+        console.log("Businesses response status:", businessesResponse.status);
+
         if (!businessesResponse.ok) {
-          throw new Error('Failed to load businesses data');
+          throw new Error("Failed to load businesses data");
         }
-        
+
         const businessesText = await businessesResponse.text();
-        console.log('Businesses text (first 200 chars):', businessesText.substring(0, 200));
-        
+        console.log(
+          "Businesses text (first 200 chars):",
+          businessesText.substring(0, 200)
+        );
+
         const businessesData = JSON.parse(businessesText);
-        
+        console.log("Parsed businesses data:", businessesData);
+
         // Combine the data into the expected format
         const data: ProductsData = {
           businesses: businessesData.businesses || [],
           products: (productsData as any).products || [],
           services: (productsData as any).services || [],
-          reviews: (productsData as any).reviews || []
+          reviews: (productsData as any).reviews || [],
         };
-        
+
         setProductsData(data);
-        
+
         // Load favorites from localStorage
-        const savedFavorites = localStorage.getItem('product-favorites');
+        const savedFavorites = localStorage.getItem("product-favorites");
         if (savedFavorites) {
           setFavorites(new Set(JSON.parse(savedFavorites)));
         }
       } catch (err) {
-        console.error('Error loading data via XHR, using fallback data:', err);
-        
+        console.error("Error loading data via XHR, using fallback data:", err);
+
         // Create minimal demo data with the wallet address we need
         const fallbackData: ProductsData = {
           businesses: [
@@ -246,8 +265,8 @@ export default function AllProductsPage() {
               rating: 4.5,
               totalReviews: 10,
               createdAt: "2024-01-01T00:00:00Z",
-              updatedAt: "2024-01-01T00:00:00Z"
-            }
+              updatedAt: "2024-01-01T00:00:00Z",
+            },
           ],
           products: [
             {
@@ -260,14 +279,15 @@ export default function AllProductsPage() {
               images: [],
               startDate: "2024-01-01T00:00:00Z",
               endDate: "2024-12-31T23:59:59Z",
-              businessId: "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
+              businessId:
+                "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
               category: "Demo Category",
               rating: 4.8,
               reviews: 5,
               sales: 100,
               type: "goods",
               createdAt: "2024-01-01T00:00:00Z",
-              updatedAt: "2024-01-01T00:00:00Z"
+              updatedAt: "2024-01-01T00:00:00Z",
             },
             {
               id: "demo-product-2",
@@ -279,14 +299,15 @@ export default function AllProductsPage() {
               images: [],
               startDate: "2024-01-01T00:00:00Z",
               endDate: "2024-12-31T23:59:59Z",
-              businessId: "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
+              businessId:
+                "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
               category: "Demo Services",
               rating: 4.5,
               reviews: 8,
               sales: 50,
               type: "service",
               createdAt: "2024-01-01T00:00:00Z",
-              updatedAt: "2024-01-01T00:00:00Z"
+              updatedAt: "2024-01-01T00:00:00Z",
             },
             {
               id: "demo-product-3",
@@ -298,22 +319,26 @@ export default function AllProductsPage() {
               images: [],
               startDate: "2024-01-01T00:00:00Z",
               endDate: "2024-12-31T23:59:59Z",
-              businessId: "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
+              businessId:
+                "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
               category: "Demo Category",
               rating: 4.9,
               reviews: 12,
               sales: 75,
               type: "goods",
               createdAt: "2024-01-01T00:00:00Z",
-              updatedAt: "2024-01-01T00:00:00Z"
-            }
+              updatedAt: "2024-01-01T00:00:00Z",
+            },
           ],
           services: [],
-          reviews: []
+          reviews: [],
         };
-        
+
         setProductsData(fallbackData);
-        console.log('Set fallback data with business ID:', fallbackData.businesses[0].id);
+        console.log(
+          "Set fallback data with business ID:",
+          fallbackData.businesses[0].id
+        );
       } finally {
         setLoading(false);
       }
@@ -324,49 +349,64 @@ export default function AllProductsPage() {
 
   // Save favorites to localStorage
   useEffect(() => {
-    localStorage.setItem('product-favorites', JSON.stringify(Array.from(favorites)));
+    localStorage.setItem(
+      "product-favorites",
+      JSON.stringify(Array.from(favorites))
+    );
   }, [favorites]);
 
   // Create business objects with products grouped
   const businesses = useMemo(() => {
     if (!productsData) return [];
-    
-    return productsData.businesses.map(business => {
-      const businessProducts = productsData.products.filter(p => p.businessId === business.id);
-      const businessServices = productsData.services.filter(s => s.businessId === business.id);
-      
+
+    return productsData.businesses.map((business) => {
+      const businessProducts = productsData.products.filter(
+        (p) => p.businessId === business.id
+      );
+      const businessServices = productsData.services.filter(
+        (s) => s.businessId === business.id
+      );
+
       return {
         ...business,
         name: business.businessName,
-        logo: business.businessLogo || `https://ui-avatars.com/api/?name=${encodeURIComponent(business.businessName)}&background=3587A3&color=fff&size=64`,
-        trending: businessProducts.filter(p => p.rating >= 4.5).slice(0, 3),
-        bestSellers: businessProducts.sort((a, b) => b.sales - a.sales).slice(0, 3),
-        goods: businessProducts.filter(p => p.type === 'goods'),
-        services: businessProducts.filter(p => p.type === 'service').concat(
-          businessServices.map(s => ({
-            ...s,
-            id: `service-${s.id}`, // Prefix to ensure unique IDs
-            name: s.name,
-            productName: s.name,
-            price: s.price,
-            description: s.description,
-            image: s.imageUrl || '/placeholder-service.jpg',
-            images: s.imageUrl ? [s.imageUrl] : [],
-            rating: 4.5, // Default rating for services
-            reviews: Math.floor(Math.random() * 100) + 10,
-            category: 'Service',
-            type: 'service' as const,
-            sales: Math.floor(Math.random() * 200) + 50,
-            business: business.businessName,
-            businessId: s.businessId,
-            productType: 'SERVICE' as const,
-            unitOfMeasure: 'per service',
-            startDate: s.startDate,
-            endDate: s.endDate,
-            createdAt: s.createdAt,
-            updatedAt: s.updatedAt
-          }))
-        )
+        logo:
+          business.businessLogo ||
+          `https://ui-avatars.com/api/?name=${encodeURIComponent(
+            business.businessName
+          )}&background=3587A3&color=fff&size=64`,
+        trending: businessProducts.filter((p) => p.rating >= 4.5).slice(0, 3),
+        bestSellers: businessProducts
+          .sort((a, b) => b.sales - a.sales)
+          .slice(0, 3),
+        goods: businessProducts.filter((p) => p.type === "goods"),
+        services: businessProducts
+          .filter((p) => p.type === "service")
+          .concat(
+            businessServices.map((s) => ({
+              ...s,
+              id: `service-${s.id}`, // Prefix to ensure unique IDs
+              name: s.name,
+              productName: s.name,
+              price: s.price,
+              description: s.description,
+              image: s.imageUrl || "/placeholder-service.jpg",
+              images: s.imageUrl ? [s.imageUrl] : [],
+              rating: 4.5, // Default rating for services
+              reviews: Math.floor(Math.random() * 100) + 10,
+              category: "Service",
+              type: "service" as const,
+              sales: Math.floor(Math.random() * 200) + 50,
+              business: business.businessName,
+              businessId: s.businessId,
+              productType: "SERVICE" as const,
+              unitOfMeasure: "per service",
+              startDate: s.startDate,
+              endDate: s.endDate,
+              createdAt: s.createdAt,
+              updatedAt: s.updatedAt,
+            }))
+          ),
       };
     });
   }, [productsData]);
@@ -391,7 +431,7 @@ export default function AllProductsPage() {
 
   const filteredBusinesses = useMemo(() => {
     if (!businesses) return [];
-    
+
     return businesses
       .map((business: any) => ({
         ...business,
@@ -494,7 +534,7 @@ export default function AllProductsPage() {
   // Get trending businesses (top businesses by average product rating)
   const trendingBusinesses = useMemo(() => {
     if (!businesses) return [];
-    
+
     return businesses
       .map((business: any) => {
         const allProducts = [
@@ -505,8 +545,10 @@ export default function AllProductsPage() {
         ];
         const avgRating =
           allProducts.length > 0
-            ? allProducts.reduce((sum: number, product: any) => sum + product.rating, 0) /
-              allProducts.length
+            ? allProducts.reduce(
+                (sum: number, product: any) => sum + product.rating,
+                0
+              ) / allProducts.length
             : 0;
         const totalReviews = allProducts.reduce(
           (sum: number, product: any) => sum + product.reviews,
@@ -522,14 +564,17 @@ export default function AllProductsPage() {
       .filter(
         (business: any) => business.rating >= 4.5 && business.totalReviews >= 50
       )
-      .sort((a: any, b: any) => b.rating * b.totalReviews - a.rating * a.totalReviews)
+      .sort(
+        (a: any, b: any) =>
+          b.rating * b.totalReviews - a.rating * a.totalReviews
+      )
       .slice(0, 12); // Top 12 trending businesses
   }, [businesses]);
 
   // Get all trending products across all businesses
   const trendingProducts = useMemo(() => {
     if (!businesses) return [];
-    
+
     const allTrendingProducts: any[] = [];
 
     businesses.forEach((business: any) => {
@@ -555,7 +600,9 @@ export default function AllProductsPage() {
     });
 
     // Sort by rating and return top 16
-    return allTrendingProducts.sort((a: any, b: any) => b.rating - a.rating).slice(0, 16);
+    return allTrendingProducts
+      .sort((a: any, b: any) => b.rating - a.rating)
+      .slice(0, 16);
   }, [businesses]);
 
   const handleFavoriteToggle = (productId: string) => {
@@ -566,12 +613,14 @@ export default function AllProductsPage() {
       } else {
         newFavorites.add(productId);
       }
-      
+
       // Emit event for other components
-      window.dispatchEvent(new CustomEvent('favoriteUpdated', {
-        detail: { productId, isFavorite: newFavorites.has(productId) }
-      }));
-      
+      window.dispatchEvent(
+        new CustomEvent("favoriteUpdated", {
+          detail: { productId, isFavorite: newFavorites.has(productId) },
+        })
+      );
+
       return newFavorites;
     });
   };
@@ -582,14 +631,19 @@ export default function AllProductsPage() {
       // For now, just update local state since we're working with static JSON files
       // In a real application, this would save to a backend API
       setProductsData(updatedData);
-      console.log('Data updated locally:', updatedData);
+      console.log("Data updated locally:", updatedData);
     } catch (error) {
-      console.error('Failed to update data:', error);
+      console.error("Failed to update data:", error);
     }
   };
 
   // Function to add a new review to local data
-  const addReview = (productId: string, rating: number, comment: string, user: string = 'Anonymous User') => {
+  const addReview = (
+    productId: string,
+    rating: number,
+    comment: string,
+    user: string = "Anonymous User"
+  ) => {
     if (!productsData) return;
 
     const newReview: Review = {
@@ -598,17 +652,17 @@ export default function AllProductsPage() {
       user,
       rating,
       comment,
-      date: new Date().toLocaleDateString()
+      date: new Date().toLocaleDateString(),
     };
 
     // Update local products data with new review
     const updatedProductsData = {
       ...productsData,
-      reviews: [...(productsData.reviews || []), newReview]
+      reviews: [...(productsData.reviews || []), newReview],
     };
 
     setProductsData(updatedProductsData);
-    console.log('Review added successfully:', newReview);
+    console.log("Review added successfully:", newReview);
   };
 
   // Update handleViewDetails:
@@ -635,7 +689,7 @@ export default function AllProductsPage() {
   const handleSubmitReview = (rating: number, comment: string) => {
     // Add the review to our data
     addReview(reviewModal.productId, rating, comment);
-    
+
     console.log("New review:", {
       rating,
       comment,
@@ -685,7 +739,9 @@ export default function AllProductsPage() {
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
             <div className="text-red-500 text-6xl mb-4">⚠️</div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Error Loading Data</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              Error Loading Data
+            </h2>
             <p className="text-gray-600 mb-4">{error}</p>
             <button
               onClick={() => window.location.reload()}
@@ -722,165 +778,171 @@ export default function AllProductsPage() {
             </motion.div>
           </div>
 
-      {/* Hero Carousel */}
-      <motion.div
-        className="mb-8"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.6 }}
-        whileHover={{ scale: 1.02 }}
-      >
-        <CarouselWithProgress images={carouselImages} />
-      </motion.div>
+          {/* Hero Carousel */}
+          <motion.div
+            className="mb-8"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            whileHover={{ scale: 1.02 }}
+          >
+            <CarouselWithProgress images={carouselImages} />
+          </motion.div>
 
-      <div className="max-w-7xl mx-auto px-6 pb-8">
-        {/* Search and Filters */}
-        <motion.div
-          className="flex flex-col md:flex-row gap-4 mb-8 items-start md:items-center md:justify-end"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-        >
-          <div className="md:max-w-md">
-            <SearchBar
-              searchTerm={searchTerm}
-              onSearchChange={setSearchTerm}
-              placeholder="Search products, businesses, or categories..."
-            />
-          </div>
-          <div className="md:max-w-xs">
-            <CategorySelect
-              value={selectedCategory}
-              onValueChange={setSelectedCategory}
-              placeholder="Filter by category"
-              showExamples={false}
-            />
-          </div>
-          <ProductFilters activeFilters={filters} onFilterChange={setFilters} />
-        </motion.div>
-
-        {/* Trending Businesses Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          <TrendingBusinessSection
-            businesses={trendingBusinesses}
-            onFavoriteToggle={handleFavoriteToggle}
-            onViewDetails={handleViewDetails}
-          />
-        </motion.div>
-
-        {/* Trending Products Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
-        >
-          <TrendingProductsSection
-            products={trendingProducts}
-            onFavoriteToggle={handleFavoriteToggle}
-            onViewDetails={handleViewDetails}
-          />
-        </motion.div>
-
-        {/* Business Sections */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-12"
-        >
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-3 mb-2">
-              <Building2 className="h-8 w-8 text-[#3587A3]" />
-              <h2 className="text-3xl font-bold text-gray-900">
-                All Businesses
-              </h2>
-            </div>
-            <p className="text-gray-600">
-              Browse products and services from all our partners
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Business Sections List */}
-        <div className="space-y-8">
-          {filteredBusinesses.length > 0 ? (
-            <>
-              {filteredBusinesses
-                .slice(0, displayedBusinessCount)
-                .map((business, index) => {
-                  // Check if this business should animate (first time being rendered)
-                  const shouldAnimate =
-                    shouldAnimateMap.get(business.id) === true;
-
-                  return (
-                    <motion.div
-                      key={`business-${business.id}`}
-                      initial={
-                        shouldAnimate
-                          ? { opacity: 0, y: 30 }
-                          : { opacity: 1, y: 0 }
-                      }
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.6,
-                        ease: [0.6, -0.05, 0.01, 0.99],
-                        delay: shouldAnimate ? (index % 3) * 0.1 : 0, // Stagger animation for new items
-                      }}
-                      onAnimationComplete={() => {
-                        // Mark as animated to prevent re-animation
-                        setShouldAnimateMap((prev) => {
-                          const newMap = new Map(prev);
-                          newMap.set(business.id, false);
-                          return newMap;
-                        });
-                      }}
-                    >
-                      <BusinessSection
-                        business={business}
-                        onFavoriteToggle={handleFavoriteToggle}
-                        onViewDetails={handleViewDetails}
-                        shouldAnimate={shouldAnimate}
-                      />
-                    </motion.div>
-                  );
-                })}
-
-              {/* Loading indicator and intersection observer trigger */}
-              {displayedBusinessCount < filteredBusinesses.length && (
-                <div ref={loadingRef} className="flex justify-center mt-8 py-4">
-                  {loading ? (
-                    <div className="flex items-center space-x-2 text-gray-500">
-                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#2a849a]"></div>
-                      <span>Loading more businesses...</span>
-                    </div>
-                  ) : (
-                    <div className="h-4"></div>
-                  )}
-                </div>
-              )}
-            </>
-          ) : (
+          <div className="max-w-7xl mx-auto px-6 pb-8">
+            {/* Search and Filters */}
             <motion.div
-              className="text-center py-16"
-              initial={{ opacity: 0, y: 30 }}
+              className="flex flex-col md:flex-row gap-4 mb-8 items-start md:items-center md:justify-end"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.6, -0.05, 0.01, 0.99] }}
+              transition={{ duration: 0.6, delay: 0.5 }}
             >
-              <div className="text-gray-400 text-6xl mb-4">🔍</div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                No Offers Found
-              </h3>
-              <p className="text-gray-600">
-                Try adjusting your search terms or filters
-              </p>
+              <div className="md:max-w-md">
+                <SearchBar
+                  searchTerm={searchTerm}
+                  onSearchChange={setSearchTerm}
+                  placeholder="Search products, businesses, or categories..."
+                />
+              </div>
+              <div className="md:max-w-xs">
+                <CategorySelect
+                  value={selectedCategory}
+                  onValueChange={setSelectedCategory}
+                  placeholder="Filter by category"
+                  showExamples={false}
+                />
+              </div>
+              <ProductFilters
+                activeFilters={filters}
+                onFilterChange={setFilters}
+              />
             </motion.div>
-          )}
-        </div>
-      </div>
+
+            {/* Trending Businesses Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              <TrendingBusinessSection
+                businesses={trendingBusinesses}
+                onFavoriteToggle={handleFavoriteToggle}
+                onViewDetails={handleViewDetails}
+              />
+            </motion.div>
+
+            {/* Trending Products Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+            >
+              <TrendingProductsSection
+                products={trendingProducts}
+                onFavoriteToggle={handleFavoriteToggle}
+                onViewDetails={handleViewDetails}
+              />
+            </motion.div>
+
+            {/* Business Sections */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className="mt-12"
+            >
+              <div className="text-center mb-8">
+                <div className="flex items-center justify-center gap-3 mb-2">
+                  <Building2 className="h-8 w-8 text-[#3587A3]" />
+                  <h2 className="text-3xl font-bold text-gray-900">
+                    All Businesses
+                  </h2>
+                </div>
+                <p className="text-gray-600">
+                  Browse products and services from all our partners
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Business Sections List */}
+            <div className="space-y-8">
+              {filteredBusinesses.length > 0 ? (
+                <>
+                  {filteredBusinesses
+                    .slice(0, displayedBusinessCount)
+                    .map((business, index) => {
+                      // Check if this business should animate (first time being rendered)
+                      const shouldAnimate =
+                        shouldAnimateMap.get(business.id) === true;
+
+                      return (
+                        <motion.div
+                          key={`business-${business.id}`}
+                          initial={
+                            shouldAnimate
+                              ? { opacity: 0, y: 30 }
+                              : { opacity: 1, y: 0 }
+                          }
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            duration: 0.6,
+                            ease: [0.6, -0.05, 0.01, 0.99],
+                            delay: shouldAnimate ? (index % 3) * 0.1 : 0, // Stagger animation for new items
+                          }}
+                          onAnimationComplete={() => {
+                            // Mark as animated to prevent re-animation
+                            setShouldAnimateMap((prev) => {
+                              const newMap = new Map(prev);
+                              newMap.set(business.id, false);
+                              return newMap;
+                            });
+                          }}
+                        >
+                          <BusinessSection
+                            business={business}
+                            onFavoriteToggle={handleFavoriteToggle}
+                            onViewDetails={handleViewDetails}
+                            shouldAnimate={shouldAnimate}
+                          />
+                        </motion.div>
+                      );
+                    })}
+
+                  {/* Loading indicator and intersection observer trigger */}
+                  {displayedBusinessCount < filteredBusinesses.length && (
+                    <div
+                      ref={loadingRef}
+                      className="flex justify-center mt-8 py-4"
+                    >
+                      {loading ? (
+                        <div className="flex items-center space-x-2 text-gray-500">
+                          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#2a849a]"></div>
+                          <span>Loading more businesses...</span>
+                        </div>
+                      ) : (
+                        <div className="h-4"></div>
+                      )}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <motion.div
+                  className="text-center py-16"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease: [0.6, -0.05, 0.01, 0.99] }}
+                >
+                  <div className="text-gray-400 text-6xl mb-4">🔍</div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    No Offers Found
+                  </h3>
+                  <p className="text-gray-600">
+                    Try adjusting your search terms or filters
+                  </p>
+                </motion.div>
+              )}
+            </div>
+          </div>
 
           {/* Review Modal */}
           <ReviewModal
