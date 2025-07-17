@@ -40,10 +40,8 @@ export function calcRemainingPercentageOfRootNft(
  * Get invoice amount by invoice ID
  */
 export function getInvoiceAmount(invoiceId: string): number {
-  // Mock invoice data - in production, this would fetch from your API
-  //   const invoice = invoices.find((inv) => inv.id === invoiceId);
   let total = 0;
-  const productMap = new Map<string, typeof products[0]>();
+  const productMap = new Map<string, (typeof products)[0]>();
 
   for (const invoiceProduct of invoiceProducts) {
     if (invoiceProduct.invoiceId !== invoiceId) {
@@ -54,17 +52,16 @@ export function getInvoiceAmount(invoiceId: string): number {
     if (!product) {
       // find product in products.json
       product = products.find((p) => p.id === invoiceProduct.productId);
-	if (!product) {
-      continue; // Skip if product not found
-    }
+      if (!product) {
+        continue; // Skip if product not found
+      }
       productMap.set(invoiceProduct.productId, product);
     }
 
-
-	total += product.price * in
+    total += product.price * invoiceProduct.quantity;
   }
-  return Math.round(Math.random() * 1000);
-  //   return invoice ? invoice.amount : 0;
+
+  return Math.round(total);
 }
 
 /**
