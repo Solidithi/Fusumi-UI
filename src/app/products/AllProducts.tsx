@@ -35,6 +35,7 @@ interface Business {
   description?: string;
   rating?: number;
   totalReviews?: number;
+  walletAddress: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -264,6 +265,7 @@ export default function AllProductsPage() {
               description: "A demo business for testing JSON data loading",
               rating: 4.5,
               totalReviews: 10,
+              walletAddress: "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
               createdAt: "2024-01-01T00:00:00Z",
               updatedAt: "2024-01-01T00:00:00Z",
             },
@@ -361,52 +363,60 @@ export default function AllProductsPage() {
 
     return productsData.businesses.map((business) => {
       const businessProducts = productsData.products.filter(
-        (p) => p.businessId === business.id
+        (p) => p.businessId === business.walletAddress
       );
       const businessServices = productsData.services.filter(
-        (s) => s.businessId === business.id
+        (s) => s.businessId === business.walletAddress
       );
 
       return {
         ...business,
         name: business.businessName,
-        logo:
-          business.businessLogo ||
-          `https://ui-avatars.com/api/?name=${encodeURIComponent(
-            business.businessName
-          )}&background=3587A3&color=fff&size=64`,
-        trending: businessProducts.filter((p) => p.rating >= 4.5).slice(0, 3),
-        bestSellers: businessProducts
-          .sort((a, b) => b.sales - a.sales)
-          .slice(0, 3),
-        goods: businessProducts.filter((p) => p.type === "goods"),
-        services: businessProducts
-          .filter((p) => p.type === "service")
-          .concat(
-            businessServices.map((s) => ({
-              ...s,
-              id: `service-${s.id}`, // Prefix to ensure unique IDs
-              name: s.name,
-              productName: s.name,
-              price: s.price,
-              description: s.description,
-              image: s.imageUrl || "/placeholder-service.jpg",
-              images: s.imageUrl ? [s.imageUrl] : [],
-              rating: 4.5, // Default rating for services
-              reviews: Math.floor(Math.random() * 100) + 10,
-              category: "Service",
-              type: "service" as const,
-              sales: Math.floor(Math.random() * 200) + 50,
-              business: business.businessName,
-              businessId: s.businessId,
-              productType: "SERVICE" as const,
-              unitOfMeasure: "per service",
-              startDate: s.startDate,
-              endDate: s.endDate,
-              createdAt: s.createdAt,
-              updatedAt: s.updatedAt,
-            }))
-          ),
+        logo: business.businessLogo || `https://ui-avatars.com/api/?name=${encodeURIComponent(business.businessName)}&background=3587A3&color=fff&size=64`,
+        trending: businessProducts.filter(p => p.rating >= 4.5).slice(0, 3).map(p => ({
+          ...p,
+          name: p.productName, // Add name field for consistency
+          business: business.businessName
+        })),
+        bestSellers: businessProducts.sort((a, b) => b.sales - a.sales).slice(0, 3).map(p => ({
+          ...p,
+          name: p.productName, // Add name field for consistency
+          business: business.businessName
+        })),
+        goods: businessProducts.filter(p => p.type === 'goods').map(p => ({
+          ...p,
+          name: p.productName, // Add name field for consistency
+          business: business.businessName
+        })),
+        services: businessProducts.filter(p => p.type === 'service').map(p => ({
+          ...p,
+          name: p.productName, // Add name field for consistency
+          business: business.businessName
+        })).concat(
+          businessServices.map(s => ({
+            ...s,
+            id: `service-${s.id}`, // Prefix to ensure unique IDs
+            name: s.name,
+            productName: s.name,
+            price: s.price,
+            description: s.description,
+            image: s.imageUrl || '/placeholder-service.jpg',
+            images: s.imageUrl ? [s.imageUrl] : [],
+            rating: 4.5, // Default rating for services
+            reviews: Math.floor(Math.random() * 100) + 10,
+            category: 'Service',
+            type: 'service' as const,
+            sales: Math.floor(Math.random() * 200) + 50,
+            business: business.businessName,
+            businessId: s.businessId,
+            productType: 'SERVICE' as const,
+            unitOfMeasure: 'per service',
+            startDate: s.startDate,
+            endDate: s.endDate,
+            createdAt: s.createdAt,
+            updatedAt: s.updatedAt
+          }))
+        )
       };
     });
   }, [productsData]);
@@ -978,10 +988,14 @@ function matchesFilters(
   // Search term filter
   if (searchTerm) {
     const searchLower = searchTerm.toLowerCase();
+    const productName = product.name || product.productName || '';
+    const businessName = product.business || '';
+    const categoryName = product.category || '';
+    
     const matchesSearch =
-      product.name.toLowerCase().includes(searchLower) ||
-      product.business.toLowerCase().includes(searchLower) ||
-      product.category.toLowerCase().includes(searchLower);
+      productName.toLowerCase().includes(searchLower) ||
+      businessName.toLowerCase().includes(searchLower) ||
+      categoryName.toLowerCase().includes(searchLower);
 
     if (!matchesSearch) return false;
   }
@@ -1040,11 +1054,11 @@ function convertProductToServiceData(product: any): any {
 
   return {
     id: product.id,
-    serviceName: product.name,
+    serviceName: product.name || product.productName || 'Unknown Service',
     businessName: product.business,
     description:
       product.description ||
-      `Experience our premium ${product.name} service. Quality guaranteed with excellent customer support.`,
+      `Experience our premium ${product.name || product.productName || 'service'} service. Quality guaranteed with excellent customer support.`,
     startDate: new Date().toLocaleDateString(),
     endDate: new Date(
       Date.now() + 30 * 24 * 60 * 60 * 1000
