@@ -3,10 +3,9 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/ButtonBussiness";
 import { Input } from "@/components/ui/Input";
-import { Label } from "@/components/ui/Label";
+import { Sidebar } from "@/components/ui/SideBar";
 import { Textarea } from "@/components/ui/TextArea";
 import { Card, CardContent } from "@/components/ui/Card";
-import { Sidebar } from "@/components/ui/SideBar";
 import { FileUpload } from "@/components/ui/FilesUpload";
 import { useState } from "react";
 import { Building2, ChevronLeft, ChevronRight } from "lucide-react";
@@ -82,23 +81,31 @@ export default function KYBPage() {
       console.error(error);
     }
 
-    // const payload = {
-    //   businessName,
-    //   registrationNumber,
-    //   incorporationDate: new Date(incorporationDate).toISOString(),
-    //   businessType,
-    //   officialWebsite,
-    //   businessLogo,
-    //   legalRepFullName,
-    //   legalRepId,
-    //   legalRepPosition,
-    //   legalRepNationality,
-    //   taxId,
-    //   financialProfile: financialProfile
-    //     ? financialProfile.split(",").map((s) => s.trim())
-    //     : [],
-    //   documentUrls,
-    // };
+    // 2. Save to businesses.json via API
+    const payload = {
+      id: account.address, // Use wallet address as business ID
+      businessName,
+      registrationNumber,
+      incorporationDate: new Date(incorporationDate).toISOString(),
+      businessType,
+      officialWebsite,
+      businessLogo,
+      legalRepFullName,
+      legalRepId,
+      legalRepPosition,
+      legalRepNationality,
+      taxId,
+      financialProfile: financialProfile
+        ? financialProfile.split(",").map((s) => s.trim())
+        : [],
+      documentUrls,
+      description: "Submitted via KYB form",
+      rating: 0,
+      totalReviews: 0,
+      walletAddress: account.address, // Add wallet address to associate business with user
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
 
     // console.log("Payload:", payload);
 
