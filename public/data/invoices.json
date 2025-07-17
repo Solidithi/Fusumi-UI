@@ -13,7 +13,11 @@
                 "receipt_001.pdf",
                 "project_details.pdf"
             ],
+<<<<<<< Updated upstream
             "businessId": "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
+=======
+            "businessId": "0x1234567890abcdef1234567890abcdef12345678",
+>>>>>>> Stashed changes
             "createdAt": "2024-01-15T10:00:00.000Z",
             "updatedAt": "2025-07-17T10:06:27.892Z"
         },
@@ -79,7 +83,11 @@
                 "app_wireframes.pdf",
                 "development_timeline.pdf"
             ],
+<<<<<<< Updated upstream
             "businessId": "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
+=======
+            "businessId": "0x1234567890abcdef1234567890abcdef12345678",
+>>>>>>> Stashed changes
             "createdAt": "2024-02-15T14:00:00.000Z",
             "updatedAt": "2024-02-15T14:00:00.000Z"
         },
@@ -128,9 +136,30 @@
                 "equipment_specs.pdf",
                 "lease_agreement.pdf"
             ],
+<<<<<<< Updated upstream
             "businessId": "0x9876543210fedcba9876543210fedcba98765432",
+=======
+            "businessId": "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
+>>>>>>> Stashed changes
             "createdAt": "2024-01-25T11:20:00.000Z",
             "updatedAt": "2024-02-01T11:20:00.000Z"
+        },
+        {
+            "id": "inv-009",
+            "ownerAddress": "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
+            "debtorAddress": "0x1111222233334444555566667777888899990000",
+            "description": "Professional consulting services - Q3 2025",
+            "paidStatus": "PENDING",
+            "startDate": "2025-07-01T00:00:00.000Z",
+            "endDate": "2025-09-30T00:00:00.000Z",
+            "attachments": [
+                "invoice_009.pdf",
+                "consulting_agreement.pdf",
+                "project_scope.pdf"
+            ],
+            "businessId": "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
+            "createdAt": "2025-07-17T12:00:00.000Z",
+            "updatedAt": "2025-07-17T12:00:00.000Z"
         }
     ],
     "products": [
@@ -279,6 +308,12 @@
             "invoiceId": "inv-008",
             "productId": "prod-004",
             "quantity": 500
+        },
+        {
+            "id": "ip-009",
+            "invoiceId": "inv-009",
+            "productId": "prod-001",
+            "quantity": 1
         }
     ]
 }

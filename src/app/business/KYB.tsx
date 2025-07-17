@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/ButtonBussiness";
 import { Card, CardContent } from "@/components/ui/Card";
 import { FileUpload } from "@/components/ui/FilesUpload";
 import { Input } from "@/components/ui/Input";
-import { Label } from "@/components/ui/Label";
 import { Sidebar } from "@/components/ui/SideBar";
 import { Textarea } from "@/components/ui/TextArea";
 import { fusumi_deployer_address } from "@/utils/deployerAddress";
@@ -84,6 +83,7 @@ export default function KYBPage() {
 
     // 2. Save to businesses.json via API
     const payload = {
+      id: account.address, // Use wallet address as business ID
       businessName,
       registrationNumber,
       incorporationDate: new Date(incorporationDate).toISOString(),
@@ -102,6 +102,7 @@ export default function KYBPage() {
       description: "Submitted via KYB form",
       rating: 0,
       totalReviews: 0,
+      walletAddress: account.address, // Add wallet address to associate business with user
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
