@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import offersData from "@/../public/data/offers.json";
+import { OfferDetailModal } from "@/components/ui/modal/OfferDetailModal";
+import { Sidebar } from "@/components/ui/SideBar";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import type { Offer } from "@/types/offer";
 import { OffersGrid } from "../../../components/offer/OfferGrid";
 import { OffersHeader } from "../../../components/offer/OfferHeader";
-import { OfferDetailModal } from "@/components/ui/modal/OfferDetailModal";
-import { Sidebar } from "@/components/ui/SideBar";
-import offersData from "@/../public/data/offers.json";
+import { useMemo, useState } from "react";
 
 export function OffersContent() {
   const router = useRouter();
@@ -29,7 +29,7 @@ export function OffersContent() {
   }, []);
 
   const filteredOffers = useMemo(() => {
-    return normalizedOffers.filter((offer: any) => {
+    return offersData.filter((offer: Offer) => {
       const matchesSearch =
         offer.contactInfo?.name
           ?.toLowerCase()
@@ -39,11 +39,10 @@ export function OffersContent() {
           .includes(searchTerm.toLowerCase()) ||
         offer.invoiceId?.toLowerCase().includes(searchTerm.toLowerCase());
 
-      const matchesStatus =
-        statusFilter === "all" || offer.status === statusFilter;
+      const matchesStatus = statusFilter === "all"; // Remove status filter for now since offers don't have status
       return matchesSearch && matchesStatus;
     });
-  }, [searchTerm, statusFilter, normalizedOffers]);
+  }, [searchTerm, statusFilter]);
 
   const handleView = (offer: Offer) => {
     setSelectedOffer(offer);

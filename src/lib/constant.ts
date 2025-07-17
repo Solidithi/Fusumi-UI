@@ -2,7 +2,7 @@ export const NAVIGATION_ITEMS = [
   { label: "My Account", href: "/account" },
   { label: "Business", href: "/business/dashboard" },
   { label: "Corals Market", href: "/market" },
-  { label: "Business Offers", href: "/products" },
+  { label: "Business Offers", href: "/offers" },
 ] as const;
 
 export const COLORS = {
