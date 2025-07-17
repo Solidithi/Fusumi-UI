@@ -31,6 +31,7 @@ export interface EnhancedInvoiceData {
   debtorName?: string;
   debtorType?: "business" | "customer";
   businessName?: string;
+  businessType?: string;
 }
 
 export interface UserProfile {

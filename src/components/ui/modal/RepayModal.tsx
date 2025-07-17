@@ -6,31 +6,103 @@ import { X, CheckCircle } from "lucide-react";
 import type { RepayModalData } from "@/types/modal";
 import { AnimatedButton } from "../Button";
 import { Portal } from "../Portal";
+import { aptos } from "@/utils/indexer";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { fusumi_deployer_address } from "@/utils/deployerAddress";
 
 interface RepayModalProps {
   isOpen: boolean;
   onClose: () => void;
   data: RepayModalData;
+  onRepaySuccess?: (invoiceId: string) => void;
 }
 
-export function RepayModal({ isOpen, onClose, data }: RepayModalProps) {
+export function RepayModal({
+  isOpen,
+  onClose,
+  data,
+  onRepaySuccess,
+}: RepayModalProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-
+  const { account, signAndSubmitTransaction } = useWallet();
   const handleDeposit = async () => {
-    setIsProcessing(true);
+    if (!account) {
+      // For testing purposes, allow repay without wallet connection
+      console.log("No wallet connected, proceeding with test repay...");
+      await processPayment(true);
+      return;
+    }
+    try {
+      const tx1 = await signAndSubmitTransaction({
+        sender: account.address,
+        data: {
+          // function:"0xd9768fa77515f3e23654dce4117ff0539d3ffe9fa4ebc87b78034701529d586e::debt_factory::create_debt_collection",
+          function: `${fusumi_deployer_address}::debt_root::deposit_debt_payment`,
+          typeArguments: [],
+          functionArguments: [],
+        },
+      });
 
-    // Simulate payment processing
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+      console.log(`Transaction hash: ${tx1.hash}`);
+      const wait = await aptos.waitForTransaction({
+        transactionHash: tx1.hash,
+      });
+      console.log(`Transaction status: ${wait.success ? "Success" : "Failed"}`);
 
-    setIsProcessing(false);
-    setIsSuccess(true);
+      await processPayment(wait.success);
+    } catch (error) {
+      console.error("Error creating debt collection:", error);
+      alert("Failed to process payment");
+      setIsProcessing(false);
+    }
+  };
 
-    // Auto close after success
-    setTimeout(() => {
-      setIsSuccess(false);
-      onClose();
-    }, 2000);
+  const processPayment = async (success: boolean) => {
+    if (success) {
+      setIsProcessing(true);
+
+      // Simulate payment processing
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // Update invoice status in the JSON file
+      try {
+        const response = await fetch("/api/invoices/update-status", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            invoiceId: data.invoiceId,
+            newStatus: "PAID",
+          }),
+        });
+
+        if (response.ok) {
+          console.log("Invoice status updated in JSON file");
+        } else {
+          console.error("Failed to update invoice status in JSON file");
+        }
+      } catch (error) {
+        console.error("Error updating invoice status:", error);
+      }
+
+      setIsProcessing(false);
+      setIsSuccess(true);
+
+      // Call the success callback to update invoice status
+      if (onRepaySuccess) {
+        onRepaySuccess(data.invoiceId);
+      }
+
+      // Auto close after success
+      setTimeout(() => {
+        setIsSuccess(false);
+        onClose();
+      }, 2000);
+    } else {
+      alert("Transaction failed!");
+    }
   };
 
   if (!isOpen) return null;
@@ -103,7 +175,7 @@ export function RepayModal({ isOpen, onClose, data }: RepayModalProps) {
                     </label>
                     <div className="bg-gray-50 rounded-xl p-4">
                       <p className="text-gray-900 font-mono text-sm break-all">
-                        {data.addressDebtor}
+                        {/* {data.addressDebtor} */} No DATA
                       </p>
                     </div>
                   </div>

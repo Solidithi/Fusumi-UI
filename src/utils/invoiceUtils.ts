@@ -12,7 +12,7 @@ import type {
 export async function loadUsersData(): Promise<UserProfile[]> {
   const response = await fetch("/data/users.json");
   const data = await response.json();
-  
+
   // Transform the original user data format to UserProfile format
   return data.map((user: any) => ({
     address: user.address,
@@ -117,6 +117,7 @@ export function enhanceInvoiceData(
       debtorName: debtor?.name,
       debtorType: debtor?.type,
       businessName: business?.businessName,
+      businessType: business?.businessType,
     };
   });
 }
