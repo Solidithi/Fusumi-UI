@@ -3,11 +3,13 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import type { Offer } from "@/types/offer";
+import { useUser } from "@/app/hooks/useUser";
+import type { EnhancedOffer, Offer } from "@/types/offer";
 import { OffersGrid } from "../../../components/offer/OfferGrid";
 import { OffersHeader } from "../../../components/offer/OfferHeader";
 import { OfferDetailModal } from "@/components/ui/modal/OfferDetailModal";
 import { Sidebar } from "@/components/ui/SideBar";
+import { toEnhancedOffer } from "@/utils/offerUtils";
 import offersData from "@/../public/data/offers.json";
 
 export function OffersContent() {
@@ -18,18 +20,34 @@ export function OffersContent() {
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [sidebarExpanded, setSidebarExpanded] = useState(true); // Add sidebar state
 
-  // Map offers to match custom type
-  const normalizedOffers = useMemo(() => {
-    return offersData.map((offer: any) => ({
-      ...offer,
-      invoiceId: offer.invoiceAddress || offer.invoiceId || "",
-      status: offer.status || "open", // default status
-      updatedAt: offer.updatedAt || offer.createdAt || new Date().toISOString(),
-    }));
-  }, []);
+  const currentUser = useUser();
+
+  const ourOffersEnhanced = useMemo(() => {
+    const isUserWorkingForBusiness = currentUser?.belongsToBusiness;
+    const results: EnhancedOffer[] = [];
+
+    // For enterprise employee user, filter by user's business ID
+    if (isUserWorkingForBusiness) {
+      const businessId = currentUser.belongsToBusiness;
+      offersData.forEach((offer: Offer) => {
+        if (offer.sellerId === businessId) {
+          results.push(toEnhancedOffer(offer));
+        }
+      });
+    } else {
+      // For personal offers, filter by user's address (offer's sellerId)
+      offersData.forEach((offer: Offer) => {
+        if (offer.sellerId === currentUser?.id) {
+          results.push(toEnhancedOffer(offer));
+        }
+      });
+    }
+
+    return results;
+  }, [offersData, currentUser]);
 
   const filteredOffers = useMemo(() => {
-    return normalizedOffers.filter((offer: any) => {
+    return ourOffersEnhanced.filter((offer: EnhancedOffer) => {
       const matchesSearch =
         offer.contactInfo?.name
           ?.toLowerCase()
@@ -43,7 +61,7 @@ export function OffersContent() {
         statusFilter === "all" || offer.status === statusFilter;
       return matchesSearch && matchesStatus;
     });
-  }, [searchTerm, statusFilter, normalizedOffers]);
+  }, [searchTerm, statusFilter]);
 
   const handleView = (offer: Offer) => {
     setSelectedOffer(offer);
