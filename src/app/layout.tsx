@@ -10,6 +10,9 @@ const exo = Exo({ subsets: ["latin"], variable: "--font-exo" });
 export const metadata: Metadata = {
   title: "Fusumi",
   description: "Cash Flow Made Easy",
+  icons: {
+    icon: "/Fusumi_Logo.png",
+  },
 };
 
 export default function RootLayout({
