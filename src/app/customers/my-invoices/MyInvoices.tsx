@@ -1,25 +1,25 @@
 "use client";
-import { FilterTabs } from "@/components/shared/FilterTab";
 import { CustomerInvoiceTable } from "@/components/shared/CustomerInvoiceTable";
+import { FilterTabs } from "@/components/shared/FilterTab";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { SearchBar } from "@/components/shared/SearchBar";
 import { mockInvoiceData } from "@/lib/data";
-import { FilterType } from "@/types/dashboard";
+import { PaidStatus } from "@/types/project";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
 export function MyInvoices() {
-  const [activeFilter, setActiveFilter] = useState<FilterType>("paid");
+  const [activeFilter, setActiveFilter] = useState<PaidStatus>(PaidStatus.PAID);
   const [searchTerm, setSearchTerm] = useState("");
   const [sidebarExpanded, setSidebarExpanded] = useState(true); // Add sidebar state
 
   const filteredInvoices = mockInvoiceData.filter((invoice: any) => {
     const matchesFilter =
-      activeFilter === "total" || invoice.status === activeFilter;
+      activeFilter === PaidStatus.TOTAL || invoice.paidStatus === activeFilter;
     const matchesSearch =
-      invoice.addressOwner.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      invoice.addressDebtor.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      invoice.fieldCompany.toLowerCase().includes(searchTerm.toLowerCase());
+      invoice.ownerAddress?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      invoice.debtorAddress?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      invoice.description?.toLowerCase().includes(searchTerm.toLowerCase());
 
     return matchesFilter && matchesSearch;
   });

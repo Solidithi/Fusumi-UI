@@ -3,29 +3,21 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-import { AnimatedButton } from "../ui/Button";
 import {
   containerVariants,
   headerVariants,
   itemVariants,
 } from "@/lib/animation";
 import { NAVIGATION_ITEMS } from "@/lib/constant";
-import { useRouter } from "next/navigation";
-import { WalletSelector } from "../ui/ConnectWalletButton";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import Logo from "../../../public/Fusumi_Logo.png";
-import usersData from "@/../public/data/users.json";
+import { WalletSelector } from "../ui/ConnectWalletButton";
 
 export function Header() {
   const route = useRouter();
-  // Mock: get current user role (replace with real user context in production)
-  const currentUser = usersData[0]; // or logic to get the logged-in user
-  const userRole = currentUser.role;
-
-  const filteredNavItems =
-    userRole === "business"
-      ? NAVIGATION_ITEMS.filter((item) => item.label !== "My invoices")
-      : NAVIGATION_ITEMS;
+  
+  const filteredNavItems = NAVIGATION_ITEMS;
 
   const handleClick = () => {
     // route.push("/business/dashboard");
