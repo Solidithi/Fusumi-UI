@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 // import { NFTHeader } from "./nft-header";
 import { PageHeader } from "@/components/shared/PageHeader";
-import { NFTGrid } from "@/components/nft/NFTGrid";
+import { NFTGrid } from "@/components/coral/NFTGrid";
 import { mockNFTData } from "@/lib/data";
 import { Sidebar } from "@/components/ui/SideBar";
 
