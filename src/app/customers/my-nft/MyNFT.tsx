@@ -14,7 +14,6 @@ export function MyNFT() {
   const [searchTerm, setSearchTerm] = useState("");
   const [displayedCount, setDisplayedCount] = useState(ITEMS_PER_PAGE);
   const [loading, setLoading] = useState(false);
-  const [sidebarExpanded, setSidebarExpanded] = useState(true);
 
   const filteredNFTs = useMemo(() => {
     return mockNFTData.filter(

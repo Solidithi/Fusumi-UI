@@ -2,15 +2,20 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
-import { CoralCard } from "./NFTCard";
-import { Offer } from "@/types/offer";
+import { NFTCard } from "./NFTCard";
+import { Coral } from "@/types/coral";
 
 interface NFTGridProps {
-  nfts: Offer[];
+  nfts: Coral[];
   displayedCount: number;
   totalCount: number;
   onLoadMore: () => void;
   loading?: boolean;
+  isPurchaseMode?: boolean; // New prop for purchase mode
+  onPurchaseComplete?: (purchaseData: any) => void; // Callback for purchase completion
+  isSellMode?: boolean; // New prop for sell mode
+  onSaleComplete?: (saleData: any) => void; // Callback for sale completion
+  isPreviewMode?: boolean; // New prop for preview mode
 }
 
 export function NFTGrid({
@@ -19,6 +24,11 @@ export function NFTGrid({
   totalCount,
   onLoadMore,
   loading = false,
+  isPurchaseMode = false,
+  onPurchaseComplete,
+  isSellMode = false,
+  onSaleComplete,
+  isPreviewMode = false,
 }: NFTGridProps) {
   const loadingRef = useRef<HTMLDivElement>(null);
 
@@ -67,7 +77,16 @@ export function NFTGrid({
         animate="visible"
       >
         {nfts.slice(0, displayedCount).map((nft, index) => (
-          <CoralCard key={nft.id} nft={nft} index={index} />
+          <NFTCard
+            key={nft.id}
+            nft={nft}
+            index={index}
+            isPurchaseMode={isPurchaseMode}
+            onPurchaseComplete={onPurchaseComplete}
+            isSellMode={isSellMode}
+            onSaleComplete={onSaleComplete}
+            isPreviewMode={isPreviewMode}
+          />
         ))}
       </motion.div>
 

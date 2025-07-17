@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
-import { CoralCard } from "./NFTCard";
+import { NFTCard } from "./NFTCard";
 import { Coral } from "@/types/coral";
 
 interface CoralGridProps {
@@ -67,7 +67,7 @@ export function CoralGrid({
         animate="visible"
       >
         {nfts.slice(0, displayedCount).map((nft, index) => (
-          <CoralCard key={nft.id} nft={nft} index={index} />
+          <NFTCard key={nft.id} nft={nft} index={index} />
         ))}
       </motion.div>
 

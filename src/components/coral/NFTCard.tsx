@@ -2,20 +2,46 @@
 
 import type React from "react";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import { Clock, Coins, Star, Zap } from "lucide-react";
+import {
+  Clock,
+  Coins,
+  Star,
+  Zap,
+  ShoppingCart,
+  Percent,
+  Calculator,
+  CreditCard,
+  Info,
+  CheckCircle,
+  AlertCircle,
+  X,
+  DollarSign,
+} from "lucide-react";
 import { CoralDetailModal } from "../ui/modal/CoralDetailModal";
-import type { Offer } from "@/types/offer";
+import type { Coral } from "@/types/coral";
 import { getBusinessById } from "@/utils/businessUtils";
 import { BusinessId } from "@/types/business";
 import { getUserByAddress } from "@/utils/userUtils";
 import { formatAddress } from "@/utils/address";
+import { formatCurrency } from "@/utils/invoiceUtils";
 
-interface CoralCardProps {
-  nft: Offer;
+interface NFTCardProps {
+  nft: Coral;
   index: number;
+  isPurchaseMode?: boolean; // New prop to indicate if this is in purchase mode
+  onPurchaseComplete?: (purchaseData: any) => void; // Callback for purchase completion
+  isSellMode?: boolean; // New prop to indicate if this is in sell mode
+  onSaleComplete?: (saleData: any) => void; // Callback for sale completion
+  isPreviewMode?: boolean; // New prop for preview mode
 }
 
 // Mock utility functions
@@ -97,11 +123,32 @@ const AnimatedButton = ({
   );
 };
 
-export function CoralCard({ nft, index }: CoralCardProps) {
+export function NFTCard({
+  nft,
+  index,
+  isPurchaseMode = false,
+  onPurchaseComplete,
+  isSellMode = false,
+  onSaleComplete,
+  isPreviewMode = false,
+}: NFTCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [timeLeft, setTimeLeft] = useState(calculateTimeRemaining(nft.endDate));
   const [isHovered, setIsHovered] = useState(false);
+  const [showPurchaseInterface, setShowPurchaseInterface] = useState(false);
+  const [customPercentage, setCustomPercentage] = useState<string>("");
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [purchaseAmount, setPurchaseAmount] = useState(
+    nft.sharePercentage || 100
+  );
+
+  // Sell mode states
+  const [showSellInterface, setShowSellInterface] = useState(false);
+  const [sellPercentage, setSellPercentage] = useState<string>("");
+  const [sellPrice, setSellPrice] = useState<string>("");
+  const [isSellProcessing, setIsSellProcessing] = useState(false);
+  const [sellAmount, setSellAmount] = useState(nft.sharePercentage || 100);
   const cardRef = useRef<HTMLDivElement>(null);
 
   const getSellerName = (sellerId: string): string => {
@@ -190,23 +237,145 @@ export function CoralCard({ nft, index }: CoralCardProps) {
   };
 
   const handleCardClick = () => {
-    setShowModal(true);
+    if (isPurchaseMode && !showPurchaseInterface) {
+      setShowPurchaseInterface(true);
+      setCustomPercentage((nft.sharePercentage || 100).toString());
+    } else if (isSellMode && !showSellInterface) {
+      setShowSellInterface(true);
+      setSellPercentage((nft.sharePercentage || 100).toString());
+      setSellAmount(nft.sharePercentage || 100);
+      // Set price based on the actual share percentage
+      const suggestedPrice = (
+        ((nft.pricing || 0) * (nft.sharePercentage || 100)) /
+        100
+      ).toFixed(2);
+      setSellPrice(suggestedPrice);
+    } else if (!isPurchaseMode && !isSellMode) {
+      setShowModal(true);
+    }
   };
 
   const handleBuyClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log("Buy clicked for offer:", nft.id);
+    if (isPurchaseMode) {
+      setShowPurchaseInterface(true);
+      setCustomPercentage((nft.sharePercentage || 100).toString());
+    } else {
+      console.log("Buy clicked for offer:", nft.id);
+    }
   };
 
-  // Mock split NFT info for demonstration
+  const handlePercentageChange = (value: string) => {
+    setCustomPercentage(value);
+    const percentage = Math.min(
+      Math.max(parseFloat(value) || 0, 0),
+      nft.sharePercentage || 100
+    );
+    setPurchaseAmount(percentage);
+  };
+
+  const handlePurchase = async (percentage: number) => {
+    setIsProcessing(true);
+
+    try {
+      // Simulate purchase process
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      const purchaseData = {
+        nftId: nft.id,
+        percentage: percentage,
+        totalPrice: calculatePurchasePrice(percentage),
+        newNftId: `${nft.id}-split-${Date.now()}`,
+        timestamp: new Date().toISOString(),
+      };
+
+      // Call the callback if provided
+      if (onPurchaseComplete) {
+        onPurchaseComplete(purchaseData);
+      }
+
+      setIsProcessing(false);
+      setShowPurchaseInterface(false);
+
+      // Show success (you could use a toast notification here)
+      alert(
+        `Successfully purchased ${percentage}% share for $${calculatePurchasePrice(
+          percentage
+        ).toFixed(2)}!`
+      );
+    } catch (error) {
+      console.error("Purchase failed:", error);
+      alert("Purchase failed. Please try again.");
+      setIsProcessing(false);
+    }
+  };
+
+  const calculatePurchasePrice = (percentage: number) => {
+    const pricePerPercent = (nft.pricing || 0) / (nft.sharePercentage || 100);
+    return pricePerPercent * percentage;
+  };
+
+  const closePurchaseInterface = () => {
+    setShowPurchaseInterface(false);
+    setCustomPercentage("");
+    setPurchaseAmount(nft.sharePercentage || 100);
+  };
+
+  // Sell mode handlers
+  const handleSell = async (percentage: number, price: number) => {
+    setIsSellProcessing(true);
+
+    try {
+      // Simulate sell listing process
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      const saleData = {
+        nftId: nft.id,
+        percentage: percentage,
+        listingPrice: price,
+        expectedRevenue: price * (percentage / 100),
+        newListingId: `listing-${Date.now()}`,
+        timestamp: new Date().toISOString(),
+      };
+
+      // Call the callback if provided
+      if (onSaleComplete) {
+        onSaleComplete(saleData);
+      }
+
+      setIsSellProcessing(false);
+      setShowSellInterface(false);
+
+      // Show success (you could use a toast notification here)
+      alert(
+        `Successfully listed ${percentage}% share for $${price.toFixed(2)}!`
+      );
+    } catch (error) {
+      console.error("Listing failed:", error);
+      alert("Listing failed. Please try again.");
+      setIsSellProcessing(false);
+    }
+  };
+
+  const calculateSellPrice = (percentage: number, pricePerUnit: number) => {
+    return (pricePerUnit * percentage) / 100;
+  };
+
+  const closeSellInterface = () => {
+    setShowSellInterface(false);
+    setSellPercentage("");
+    setSellPrice("");
+    setSellAmount(nft.sharePercentage || 100);
+  };
+
+  // Dynamic split NFT info based on actual NFT data
   const splitInfo = {
-    isRoot: true, // or false if it's a child NFT
-    parentId: null, // or parent NFT id if child
-    rootId: nft.id, // always the root NFT id
-    share: 0.3, // e.g., 0.3 means 30% share
-    ownerShare: 0.3, // for this user
-    totalShares: 1, // sum of all shares
-    // Add more fields as needed
+    isRoot: nft.isRootNft || false,
+    parentId: nft.rootNftId,
+    rootId: nft.isRootNft ? nft.id : nft.rootNftId,
+    share: (nft.sharePercentage || 100) / 100,
+    ownerShare: (nft.sharePercentage || 100) / 100,
+    totalShares: 1,
   };
 
   return (
@@ -393,6 +562,11 @@ export function CoralCard({ nft, index }: CoralCardProps) {
               <span className="text-[13px] font-bold text-blue-900">
                 {(splitInfo.ownerShare * 100).toFixed(1)}%
               </span>
+              {isPurchaseMode && (
+                <span className="text-[10px] text-green-600 font-medium">
+                  Available for purchase
+                </span>
+              )}
             </div>
           </div>
 
@@ -459,7 +633,7 @@ export function CoralCard({ nft, index }: CoralCardProps) {
                 <Coins className="w-5 h-5 text-blue-600" />
               </motion.div>
               <span className="text-lg font-bold text-gray-900">
-                {nft.pricing} USD
+                {formatCurrency(nft.pricing, { maximumFractionDigits: 2 })} USD
               </span>
               <motion.div
                 animate={{ scale: [1, 1.2, 1] }}
@@ -479,10 +653,12 @@ export function CoralCard({ nft, index }: CoralCardProps) {
                 className={`w-full rounded-xl font-bold py-3 px-6 text-white relative overflow-hidden ${
                   expired
                     ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-[#3587A3] to-[#EDCCBB] hover:from-[#307c96] hover:to-[#cfa895] shadow-lg"
+                    : isPurchaseMode
+                    ? "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 shadow-lg"
+                    : "bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 shadow-lg"
                 }`}
                 disabled={expired}
-                onClick={handleBuyClick}
+                onClick={handleCardClick}
               >
                 {!expired && (
                   <motion.div
@@ -498,6 +674,16 @@ export function CoralCard({ nft, index }: CoralCardProps) {
                       <Clock className="w-4 h-4" />
                       <span>Expired</span>
                     </>
+                  ) : isPurchaseMode ? (
+                    <>
+                      <ShoppingCart className="w-4 h-4" />
+                      <span>Purchase Branch</span>
+                    </>
+                  ) : isSellMode ? (
+                    <>
+                      <DollarSign className="w-4 h-4" />
+                      <span>Sell</span>
+                    </>
                   ) : (
                     <>
                       <Zap className="w-4 h-4" />
@@ -510,15 +696,472 @@ export function CoralCard({ nft, index }: CoralCardProps) {
           </div>
         </div>
       </motion.div>
-      <CoralDetailModal
-        nft={nft}
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        onClick={(e: any) => {
-          e.stopPropagation();
-          handleBuyClick(e); // hoặc logic khác
-        }}
-      />
+
+      {/* Purchase Interface Overlay */}
+      <AnimatePresence>
+        {showPurchaseInterface && isPurchaseMode && (
+          <motion.div
+            className="absolute inset-0 bg-white/95 backdrop-blur-sm rounded-2xl z-10 flex flex-col"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closePurchaseInterface}
+              className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors z-20"
+            >
+              <X className="w-5 h-5 text-gray-500" />
+            </button>
+
+            {/* Purchase Interface Content */}
+            <div className="p-6 flex-1 flex flex-col justify-center space-y-6">
+              {/* Header */}
+              <div className="text-center">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  Purchase Coral Branch
+                </h3>
+                <p className="text-sm text-gray-600">
+                  Customize your share percentage of this coral branch
+                </p>
+              </div>
+
+              {/* Quick Purchase Options */}
+              <div className="grid grid-cols-2 gap-3">
+                <motion.button
+                  onClick={() => {
+                    const fullShare = nft.sharePercentage || 100;
+                    setCustomPercentage(fullShare.toString());
+                    setPurchaseAmount(fullShare);
+                  }}
+                  className="p-3 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <div className="text-left">
+                    <div className="text-sm font-bold text-blue-900">
+                      Full Share
+                    </div>
+                    <div className="text-xs font-semibold text-blue-700">
+                      {nft.sharePercentage}%
+                    </div>
+                    <div className="text-xs text-blue-700">
+                      ${(nft.pricing || 0).toFixed(2)}
+                    </div>
+                  </div>
+                </motion.button>
+
+                <motion.button
+                  onClick={() => {
+                    const halfShare = (nft.sharePercentage || 100) / 2;
+                    setCustomPercentage(halfShare.toString());
+                    setPurchaseAmount(halfShare);
+                  }}
+                  className="p-3 bg-purple-50 border border-purple-200 rounded-lg hover:bg-purple-100 transition-colors"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <div className="text-left">
+                    <div className="text-sm font-bold text-purple-900">
+                      Half Share
+                    </div>
+                    <div className="text-xs font-semibold text-purple-700">
+                      {((nft.sharePercentage || 100) / 2).toFixed(1)}%
+                    </div>
+                    <div className="text-xs text-purple-700">
+                      ${((nft.pricing || 0) / 2).toFixed(2)}
+                    </div>
+                  </div>
+                </motion.button>
+              </div>
+
+              {/* Custom Percentage Input */}
+              <div className="space-y-3">
+                <label className="block text-sm font-medium text-gray-700">
+                  Custom Percentage (Max: {nft.sharePercentage}%)
+                </label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    value={customPercentage}
+                    onChange={(e) => handlePercentageChange(e.target.value)}
+                    max={nft.sharePercentage || 100}
+                    min="0"
+                    step="0.1"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Enter percentage"
+                  />
+                  <Percent className="absolute right-3 top-3 w-5 h-5 text-gray-400" />
+                </div>
+              </div>
+
+              {/* Purchase Summary */}
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm text-gray-600">
+                    Purchase Amount:
+                  </span>
+                  <span className="font-semibold">
+                    {purchaseAmount.toFixed(2)}%
+                  </span>
+                </div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm text-gray-600">Total Price:</span>
+                  <span className="text-lg font-bold text-green-600">
+                    ${calculatePurchasePrice(purchaseAmount).toFixed(2)}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Price per 1%:</span>
+                  <span className="text-xs text-gray-500">
+                    $
+                    {(
+                      (nft.pricing || 0) / (nft.sharePercentage || 100)
+                    ).toFixed(4)}
+                  </span>
+                </div>
+              </div>
+
+              {/* Purchase Buttons */}
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  onClick={closePurchaseInterface}
+                  className="py-3 px-4 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors"
+                >
+                  Cancel
+                </button>
+                <motion.button
+                  onClick={() => handlePurchase(purchaseAmount)}
+                  disabled={isProcessing || purchaseAmount <= 0}
+                  className={`py-3 px-4 rounded-lg font-medium transition-all duration-200 ${
+                    isProcessing || purchaseAmount <= 0
+                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      : "bg-gradient-to-r from-green-500 to-blue-500 text-white hover:from-green-600 hover:to-blue-600"
+                  }`}
+                  whileHover={
+                    !isProcessing && purchaseAmount > 0 ? { scale: 1.02 } : {}
+                  }
+                  whileTap={
+                    !isProcessing && purchaseAmount > 0 ? { scale: 0.98 } : {}
+                  }
+                >
+                  {isProcessing ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <motion.div
+                        className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                        animate={{ rotate: 360 }}
+                        transition={{
+                          duration: 1,
+                          repeat: Number.POSITIVE_INFINITY,
+                          ease: "linear",
+                        }}
+                      />
+                      Processing...
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center gap-2">
+                      <CreditCard className="w-4 h-4" />
+                      Purchase
+                    </div>
+                  )}
+                </motion.button>
+              </div>
+
+              {purchaseAmount <= 0 && (
+                <div className="flex items-center gap-2 text-red-600 justify-center">
+                  <AlertCircle className="w-4 h-4" />
+                  <span className="text-sm">
+                    Please enter a valid percentage greater than 0
+                  </span>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Sell Interface Overlay */}
+      <AnimatePresence>
+        {showSellInterface && isSellMode && (
+          <motion.div
+            className="absolute inset-0 bg-white/95 backdrop-blur-sm rounded-2xl z-10 flex flex-col"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeSellInterface}
+              className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors z-20"
+            >
+              <X className="w-5 h-5 text-gray-500" />
+            </button>
+
+            {/* Sell Interface Content */}
+            <div className="p-4 flex-1 flex flex-col justify-center space-y-4">
+              {/* Header */}
+              <div className="text-center">
+                <h3 className="text-lg font-bold text-gray-900 mb-1">
+                  List Coral Branch for Sale
+                </h3>
+                <p className="text-xs text-gray-600">
+                  Choose how much of your share to sell and set your price
+                </p>
+              </div>
+
+              {/* Quick Sell Options */}
+              <div className="grid grid-cols-2 gap-3">
+                <motion.button
+                  onClick={() => {
+                    const fullShare = nft.sharePercentage || 100;
+                    setSellPercentage(fullShare.toString());
+                    setSellAmount(fullShare);
+                    // Set a more reasonable default price based on the share percentage
+                    const suggestedPrice = (
+                      ((nft.pricing || 0) * fullShare) /
+                      100
+                    ).toFixed(2);
+                    setSellPrice(suggestedPrice);
+                  }}
+                  className="p-3 bg-orange-50 border border-orange-200 rounded-lg hover:bg-orange-100 transition-colors"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <div className="text-left">
+                    <div className="text-sm font-bold text-orange-900">
+                      Full Share
+                    </div>
+                    <div className="text-xs font-semibold text-orange-700">
+                      {nft.sharePercentage}%
+                    </div>
+                    <div className="text-xs text-orange-700">
+                      Suggested: $
+                      {(
+                        ((nft.pricing || 0) * (nft.sharePercentage || 100)) /
+                        100
+                      ).toFixed(2)}
+                    </div>
+                  </div>
+                </motion.button>
+
+                <motion.button
+                  onClick={() => {
+                    const halfShare = (nft.sharePercentage || 100) / 2;
+                    setSellPercentage(halfShare.toString());
+                    setSellAmount(halfShare);
+                    // Set a more reasonable default price based on the share percentage
+                    const suggestedPrice = (
+                      ((nft.pricing || 0) * halfShare) /
+                      100
+                    ).toFixed(2);
+                    setSellPrice(suggestedPrice);
+                  }}
+                  className="p-3 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <div className="text-left">
+                    <div className="text-sm font-bold text-red-900">
+                      Half Share
+                    </div>
+                    <div className="text-xs font-semibold text-red-700">
+                      {((nft.sharePercentage || 100) / 2).toFixed(1)}%
+                    </div>
+                    <div className="text-xs text-red-700">
+                      Suggested: $
+                      {(
+                        ((nft.pricing || 0) * (nft.sharePercentage || 100)) /
+                        2 /
+                        100
+                      ).toFixed(2)}
+                    </div>
+                  </div>
+                </motion.button>
+              </div>
+
+              {/* Custom Percentage Input */}
+              <div className="space-y-2">
+                <label className="block text-xs font-medium text-gray-700">
+                  Percentage to Sell (Max: {nft.sharePercentage}%)
+                </label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    value={sellPercentage}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      // Limit to reasonable decimal places
+                      if (
+                        value.includes(".") &&
+                        value.split(".")[1]?.length > 1
+                      ) {
+                        return;
+                      }
+                      setSellPercentage(value);
+                      const percentage = Math.min(
+                        Math.max(parseFloat(value) || 0, 0),
+                        nft.sharePercentage || 100
+                      );
+                      setSellAmount(percentage);
+                    }}
+                    max={nft.sharePercentage || 100}
+                    min="0"
+                    step="0.1"
+                    className="w-full pr-10 pl-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm"
+                    placeholder="0.0"
+                  />
+                  <Percent className="absolute right-3 top-2.5 w-4 h-4 text-gray-400" />
+                </div>
+              </div>
+
+              {/* Custom Price Input */}
+              <div className="space-y-2">
+                <label className="block text-xs font-medium text-gray-700">
+                  Listing Price (USD)
+                </label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    value={sellPrice}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      // Limit to reasonable number of decimal places
+                      if (
+                        value.includes(".") &&
+                        value.split(".")[1]?.length > 2
+                      ) {
+                        return;
+                      }
+                      setSellPrice(value);
+                    }}
+                    min="0"
+                    step="0.01"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm"
+                    placeholder="0.00"
+                  />
+                  <DollarSign className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+                </div>
+              </div>
+
+              {/* Sell Summary */}
+              <div className="bg-gray-50 p-4 rounded-lg space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Selling Amount:</span>
+                  <span className="font-semibold">
+                    {sellAmount.toFixed(1)}%
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Listing Price:</span>
+                  <span className="text-lg font-bold text-orange-600">
+                    ${(parseFloat(sellPrice) || 0).toFixed(2)}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Price per 1%:</span>
+                  <span className="text-xs text-gray-500">
+                    $
+                    {sellAmount > 0
+                      ? ((parseFloat(sellPrice) || 0) / sellAmount).toFixed(2)
+                      : "0.00"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Sell Buttons */}
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={closeSellInterface}
+                  className="py-2 px-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors text-sm"
+                >
+                  Cancel
+                </button>
+                <motion.button
+                  onClick={() =>
+                    handleSell(sellAmount, parseFloat(sellPrice) || 0)
+                  }
+                  disabled={
+                    isSellProcessing ||
+                    sellAmount <= 0 ||
+                    !sellPrice ||
+                    parseFloat(sellPrice) <= 0
+                  }
+                  className={`py-2 px-3 rounded-lg font-medium transition-all duration-200 text-sm ${
+                    isSellProcessing ||
+                    sellAmount <= 0 ||
+                    !sellPrice ||
+                    parseFloat(sellPrice) <= 0
+                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      : "bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600"
+                  }`}
+                  whileHover={
+                    !isSellProcessing &&
+                    sellAmount > 0 &&
+                    sellPrice &&
+                    parseFloat(sellPrice) > 0
+                      ? { scale: 1.02 }
+                      : {}
+                  }
+                  whileTap={
+                    !isSellProcessing &&
+                    sellAmount > 0 &&
+                    sellPrice &&
+                    parseFloat(sellPrice) > 0
+                      ? { scale: 0.98 }
+                      : {}
+                  }
+                >
+                  {isSellProcessing ? (
+                    <div className="flex items-center justify-center gap-1">
+                      <motion.div
+                        className="w-3 h-3 border-2 border-white border-t-transparent rounded-full"
+                        animate={{ rotate: 360 }}
+                        transition={{
+                          duration: 1,
+                          repeat: Number.POSITIVE_INFINITY,
+                          ease: "linear",
+                        }}
+                      />
+                      Listing...
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center gap-1">
+                      <DollarSign className="w-3 h-3" />
+                      Sell
+                    </div>
+                  )}
+                </motion.button>
+              </div>
+
+              {(sellAmount <= 0 ||
+                !sellPrice ||
+                parseFloat(sellPrice) <= 0) && (
+                <div className="flex items-center gap-1 text-red-600 justify-center">
+                  <AlertCircle className="w-3 h-3" />
+                  <span className="text-xs">
+                    Please enter valid percentage and price greater than 0
+                  </span>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Original Modal */}
+      {!isPurchaseMode && !isSellMode && (
+        <CoralDetailModal
+          coral={nft}
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          onClick={(e: any) => {
+            e.stopPropagation();
+            handleBuyClick(e);
+          }}
+        />
+      )}
     </div>
   );
 }

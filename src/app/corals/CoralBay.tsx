@@ -94,16 +94,20 @@ export function MarketplaceContent() {
 
   const carouselImages: Image[] = [
     {
-      src: "https://cdna.artstation.com/p/assets/images/images/046/943/386/large/enrique-sepulveda-orcs-must-die-hero-banner-redes.jpg?1646349349",
-      alt: "Featured Products 1",
+      src: "https://w0.peakpx.com/wallpaper/171/126/HD-wallpaper-the-great-wave-off-kanagawa-sunrise-artist-artwork-digital-art.jpg",
+      alt: "Featured Image 1",
     },
     {
-      src: "https://sdmntprwestus.oaiusercontent.com/files/00000000-f36c-6230-b1ed-903e910717e4/raw?se=2025-07-16T09%3A15%3A52Z&sp=r&sv=2024-08-04&sr=b&scid=38b9bd4c-d087-5ddc-9d00-7f4ce32da87f&skoid=61180a4f-34a9-42b7-b76d-9ca47d89946d&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-16T07%3A33%3A07Z&ske=2025-07-17T07%3A33%3A07Z&sks=b&skv=2024-08-04&sig=zBi8m%2B6Hggjbs4fZs85kaKksoiwDDkOAaPZ2Z08xocw%3D",
-      alt: "Featured Products 2",
+      src: "https://www.stash-co.com/cdn/shop/products/55b051df3e88c8321d267531d9e09b09db8e067879efe20e42ba83215e8c1bab.jpg?v=1674759533",
+      alt: "Featured Image 2",
+    },
+    {
+      src: "https://cdna.artstation.com/p/assets/images/images/046/943/386/large/enrique-sepulveda-orcs-must-die-hero-banner-redes.jpg?1646349349",
+      alt: "Featured Image 3",
     },
     {
       src: "https://cointelegraph.com/magazine/wp-content/uploads/2021/12/magazine-CryptoNova.jpg",
-      alt: "Featured Products 3",
+      alt: "Featured Image 4",
     },
   ];
 
@@ -132,10 +136,11 @@ export function MarketplaceContent() {
             className="text-gray-600 max-w-4xl mx-auto mb-8 leading-relaxed"
             variants={itemVariants as any}
           >
-            Discover exclusive offers and curated services designed to elevate
-            your NFT journey. From seamless minting to secure trading, we make
-            every step simple and transparent. Unlock new opportunities and
-            connect with creators and collectors worldwide.
+            Step into Fusumi&apos;s vibrant coral bay—where NFT discovery meets
+            playful innovation. Explore handpicked offers and creative services,
+            all designed to make your Fusumi journey seamless, social, and fun.
+            Mint, trade, and connect with a global community of collectors and
+            creators, all in the Fusumi spirit.
           </motion.p>
 
           {/* Hero Banner */}

@@ -5,11 +5,13 @@ import { X } from "lucide-react";
 import { Portal } from "../Portal";
 import { useState } from "react";
 import { InvoiceDetail } from "@/components/shared/InvoiceDetail";
-import { Offer } from "@/types/offer";
+import { Coral } from "@/types/coral";
 import { getInvoiceDetail } from "@/lib/data";
+import { PurchaseCoralBranch } from "@/components/coral/PurchaseCoralBranch";
+import { SellCoralBranch } from "@/components/coral/SellCoralBranch";
 
 interface CoralDetailModal {
-  nft: Offer;
+  coral: Coral;
   isOpen: boolean;
   onClose: () => void;
   //   onClick: () => void;
@@ -17,7 +19,7 @@ interface CoralDetailModal {
 }
 
 export function CoralDetailModal({
-  nft,
+  coral: nft,
   isOpen,
   onClose,
   onClick,
@@ -77,7 +79,9 @@ export function CoralDetailModal({
   };
 
   // Tab state
-  const [activeTab, setActiveTab] = useState<"details" | "splits">("details");
+  const [activeTab, setActiveTab] = useState<
+    "details" | "splits" | "purchase" | "sell"
+  >("details");
 
   // Mock NFT tree data for demonstration (replace with real data as needed)
   const nftTree = {
@@ -111,7 +115,7 @@ export function CoralDetailModal({
             style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0 }}
           >
             <motion.div
-              className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[85vh] overflow-y-auto relative"
+              className="bg-white rounded-2xl shadow-2xl max-w-6xl w-full max-h-[85vh] overflow-y-auto relative"
               variants={modalVariants as any}
               onClick={(e) => e.stopPropagation()}
             >
@@ -130,13 +134,33 @@ export function CoralDetailModal({
                   </button>
                   <button
                     className={`text-lg font-bold px-2 pb-1 border-b-2 transition-colors duration-200 ${
+                      activeTab === "purchase"
+                        ? "border-[#2a849a] text-[#2a849a]"
+                        : "border-transparent text-gray-500"
+                    }`}
+                    onClick={() => setActiveTab("purchase")}
+                  >
+                    Purchase
+                  </button>
+                  <button
+                    className={`text-lg font-bold px-2 pb-1 border-b-2 transition-colors duration-200 ${
+                      activeTab === "sell"
+                        ? "border-[#2a849a] text-[#2a849a]"
+                        : "border-transparent text-gray-500"
+                    }`}
+                    onClick={() => setActiveTab("sell")}
+                  >
+                    Sell
+                  </button>
+                  <button
+                    className={`text-lg font-bold px-2 pb-1 border-b-2 transition-colors duration-200 ${
                       activeTab === "splits"
                         ? "border-[#2a849a] text-[#2a849a]"
                         : "border-transparent text-gray-500"
                     }`}
                     onClick={() => setActiveTab("splits")}
                   >
-                    Corals NFT Hierachy
+                    View Branches
                   </button>
                 </div>
                 <motion.button
@@ -157,7 +181,10 @@ export function CoralDetailModal({
                 animate="visible"
               >
                 {activeTab === "details" && (
-                  <InvoiceDetail invoiceData={getInvoiceDetail(nft.id)} />
+                  <InvoiceDetail
+                    onClose={onClose}
+                    invoiceData={getInvoiceDetail(nft.id)}
+                  />
                 )}
                 {activeTab === "splits" && (
                   <motion.div
@@ -169,9 +196,13 @@ export function CoralDetailModal({
                         NFT Splitting Hierarchy
                       </div>
                       <div className="text-sm text-gray-700 mb-4">
-                        This NFT tree is always 1-depth: the root NFT and its
+                        {/* This NFT tree is always 1-depth: the root NFT and its
                         direct splits. Each split represents a share of the
-                        original invoice's value.
+                        original invoice's value. */}
+                        Visualize the original invoice NFT as the base of a
+                        coral. Each split grows a new "coral branch"—a smaller
+                        NFT representing a share of the original value, creating
+                        a beautiful structure of ownership.
                       </div>
                     </div>
                     {/* NFT Tree Visualization */}
@@ -234,6 +265,16 @@ export function CoralDetailModal({
                         ))}
                       </div>
                     </div>
+                  </motion.div>
+                )}
+                {activeTab === "purchase" && (
+                  <motion.div variants={itemVariants as any}>
+                    <PurchaseCoralBranch rootNft={nft} />
+                  </motion.div>
+                )}
+                {activeTab === "sell" && (
+                  <motion.div variants={itemVariants as any}>
+                    <SellCoralBranch rootNft={nft} />
                   </motion.div>
                 )}
               </motion.div>
