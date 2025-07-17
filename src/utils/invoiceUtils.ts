@@ -305,12 +305,18 @@ export function getStatusBadgeColor(status: string): {
   }
 }
 
-export function formatCurrency(amount: number): string {
+export function formatCurrency(
+  amount: number,
+  options?: {
+    minimumFractionDigits?: number;
+    maximumFractionDigits?: number;
+  }
+): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
+    minimumFractionDigits: options?.minimumFractionDigits || 0,
+    maximumFractionDigits: options?.maximumFractionDigits || 0,
   }).format(amount);
 }
 
