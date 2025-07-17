@@ -150,158 +150,54 @@
             "updatedAt": "2025-07-17T12:00:00.000Z"
         }
     ],
-    "products": [
-        {
-            "id": "prod-001",
-            "productName": "Web Development Service",
-            "productType": "SERVICE",
-            "price": 2500,
-            "unitOfMeasure": "per project",
-            "description": "Complete web development solution including frontend, backend, and deployment",
-            "images": [
-                "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop",
-                "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop"
-            ],
-            "startDate": "2024-01-01T00:00:00.000Z",
-            "endDate": "2024-12-31T23:59:59.000Z",
-            "createdAt": "2024-01-01T08:00:00.000Z",
-            "updatedAt": "2024-01-15T08:00:00.000Z"
-        },
-        {
-            "id": "prod-002",
-            "productName": "Organic Vegetables Box",
-            "productType": "PRODUCT",
-            "price": 45.99,
-            "unitOfMeasure": "per box",
-            "description": "Weekly delivery of fresh, locally-grown organic vegetables",
-            "images": [
-                "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&h=300&fit=crop",
-                "https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?w=400&h=300&fit=crop"
-            ],
-            "startDate": "2024-01-01T00:00:00.000Z",
-            "endDate": "2024-12-31T23:59:59.000Z",
-            "createdAt": "2024-01-01T09:00:00.000Z",
-            "updatedAt": "2024-01-10T09:00:00.000Z"
-        },
-        {
-            "id": "prod-003",
-            "productName": "Cloud Migration Service",
-            "productType": "SERVICE",
-            "price": 5000,
-            "unitOfMeasure": "per migration",
-            "description": "Complete cloud infrastructure migration with 24/7 support",
-            "images": [
-                "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=300&fit=crop",
-                "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=300&fit=crop"
-            ],
-            "startDate": "2024-01-01T00:00:00.000Z",
-            "endDate": "2024-12-31T23:59:59.000Z",
-            "createdAt": "2024-01-01T07:00:00.000Z",
-            "updatedAt": "2024-01-20T07:00:00.000Z"
-        },
-        {
-            "id": "prod-004",
-            "productName": "Eco-Friendly Packaging",
-            "productType": "PRODUCT",
-            "price": 0.85,
-            "unitOfMeasure": "per unit",
-            "description": "Biodegradable packaging materials made from recycled content",
-            "images": [
-                "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
-                "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=400&h=300&fit=crop"
-            ],
-            "startDate": "2024-01-01T00:00:00.000Z",
-            "endDate": "2024-12-31T23:59:59.000Z",
-            "createdAt": "2024-01-01T08:30:00.000Z",
-            "updatedAt": "2024-01-25T08:30:00.000Z"
-        },
-        {
-            "id": "prod-005",
-            "productName": "Mobile App Development",
-            "productType": "SERVICE",
-            "price": 8000,
-            "unitOfMeasure": "per app",
-            "description": "Cross-platform mobile application development for iOS and Android",
-            "images": [
-                "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=300&fit=crop",
-                "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=300&fit=crop"
-            ],
-            "startDate": "2024-01-01T00:00:00.000Z",
-            "endDate": "2024-12-31T23:59:59.000Z",
-            "createdAt": "2024-01-15T08:00:00.000Z",
-            "updatedAt": "2024-02-15T08:00:00.000Z"
-        },
-        {
-            "id": "prod-006",
-            "productName": "Organic Fruit Basket",
-            "productType": "PRODUCT",
-            "price": 35.5,
-            "unitOfMeasure": "per basket",
-            "description": "Seasonal organic fruits sourced from local farms",
-            "images": [
-                "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=400&h=300&fit=crop",
-                "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=400&h=300&fit=crop"
-            ],
-            "startDate": "2024-01-01T00:00:00.000Z",
-            "endDate": "2024-12-31T23:59:59.000Z",
-            "createdAt": "2024-01-01T09:00:00.000Z",
-            "updatedAt": "2024-02-05T09:00:00.000Z"
-        }
-    ],
     "invoiceProducts": [
         {
             "id": "ip-001",
             "invoiceId": "inv-001",
-            "productId": "prod-001",
+            "productId": "p2",
             "quantity": 1
         },
         {
             "id": "ip-002",
             "invoiceId": "inv-002",
-            "productId": "prod-002",
+            "productId": "p12",
             "quantity": 4
         },
         {
             "id": "ip-003",
             "invoiceId": "inv-003",
-            "productId": "prod-003",
+            "productId": "p1",
             "quantity": 1
         },
         {
             "id": "ip-004",
             "invoiceId": "inv-004",
-            "productId": "prod-004",
-            "quantity": 1000
+            "productId": "p12",
+            "quantity": 10
         },
         {
             "id": "ip-005",
             "invoiceId": "inv-005",
-            "productId": "prod-005",
+            "productId": "p2",
             "quantity": 1
         },
         {
             "id": "ip-006",
             "invoiceId": "inv-006",
-            "productId": "prod-006",
+            "productId": "p12",
             "quantity": 6
         },
         {
             "id": "ip-007",
             "invoiceId": "inv-007",
-            "productId": "prod-003",
+            "productId": "p1",
             "quantity": 1
         },
         {
             "id": "ip-008",
             "invoiceId": "inv-008",
-            "productId": "prod-004",
-            "quantity": 500
-        },
-        {
-            "id": "ip-009",
-            "invoiceId": "inv-009",
-            "productId": "prod-001",
-            "quantity": 1
+            "productId": "p10",
+            "quantity": 2
         }
     ]
 }

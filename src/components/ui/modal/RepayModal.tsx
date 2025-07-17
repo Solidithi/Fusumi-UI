@@ -171,11 +171,11 @@ export function RepayModal({
                   {/* NFT Address */}
                   <div className="space-y-3">
                     <label className="text-lg font-semibold text-gray-900 block">
-                      NFT Address
+                      Invoice ID
                     </label>
                     <div className="bg-gray-50 rounded-xl p-4">
                       <p className="text-gray-900 font-mono text-sm break-all">
-                        {/* {data.addressDebtor} */} No DATA
+                        {/* {data.addressDebtor} */} {data.invoiceId}
                       </p>
                     </div>
                   </div>
