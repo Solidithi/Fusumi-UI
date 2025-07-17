@@ -17,7 +17,7 @@ import {
   Clock,
   Badge,
 } from "lucide-react";
-import type { Offer } from "@/types/offer";
+import type { Coral } from "@/types/coral";
 import { Portal } from "../Portal";
 import { Separator } from "@radix-ui/react-separator";
 import { AnimatedButton } from "../Button";
@@ -26,7 +26,7 @@ import Image from "next/image";
 interface OfferDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
-  offer: Offer;
+  offer: Coral;
 }
 
 export function OfferDetailModal({

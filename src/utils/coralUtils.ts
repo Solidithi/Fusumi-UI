@@ -1,42 +1,6 @@
 import coralData from "../../public/data/corals.json";
 import { EnhancedCoral, Coral, CoralStatus } from "@/types/coral";
-
-export interface CoralNFT {
-  id: string;
-  invoiceId: string;
-  sellerId: string;
-  rootNftId: string | null;
-  rootNftValue: number;
-  pricing: number;
-  sharePercentage: number;
-  remainingPercentage: number;
-  isPartialSale: boolean;
-  isRootNft: boolean;
-  debtNftImageUrl: string;
-  contactInfo: {
-    name?: string;
-    email?: string;
-    phone?: string;
-    company?: string;
-    address: string;
-  };
-  agreements: string[];
-  startDate: string;
-  endDate: string;
-  createdAt: string;
-  title: string;
-  category: string;
-  rarity: string;
-  ownerAvatar: string;
-}
-
-export interface PurchaseData {
-  branchId: string;
-  buyerAddress: string;
-  sharePercentage: number;
-  totalPrice: number;
-  parentNftId: string;
-}
+import { PurchaseData, CoralNFT } from "@/types/coral";
 
 // Mock function to simulate adding new coral branch to the database
 export const createCoralBranch = async (

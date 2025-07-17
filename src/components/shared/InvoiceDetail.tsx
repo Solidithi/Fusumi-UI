@@ -7,9 +7,10 @@ import { InvoiceDetailData } from "@/types/modal";
 
 interface InvoiceDetailProps {
   invoiceData: InvoiceDetailData;
+  onClose: () => void;
 }
 
-export function InvoiceDetail({ invoiceData }: InvoiceDetailProps) {
+export function InvoiceDetail({ invoiceData, onClose }: InvoiceDetailProps) {
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -141,6 +142,28 @@ export function InvoiceDetail({ invoiceData }: InvoiceDetailProps) {
             </div>
           </div>
         </motion.div>
+      </motion.div>
+
+      {/* Action Buttons */}
+      <motion.div
+        className="flex justify-end space-x-4 pt-4"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.7 }}
+      >
+        <AnimatedButton
+          variant="outline"
+          onClick={onClose}
+          className="px-6 bg-gray-400 text-white rounded-xl"
+        >
+          Close
+        </AnimatedButton>
+        <AnimatedButton
+          onClick={() => {}}
+          className="bg-[#2a849a] hover:bg-[#2a849a]/90 rounded-xl p-3 text-white px-6"
+        >
+          Go to invoice
+        </AnimatedButton>
       </motion.div>
     </>
   );

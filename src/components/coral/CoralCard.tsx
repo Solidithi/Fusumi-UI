@@ -511,7 +511,7 @@ export function CoralCard({ coral: nft, index }: CoralCardProps) {
         </div>
       </motion.div>
       <CoralDetailModal
-        nft={nft}
+        coral={nft}
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onClick={(e: any) => {
