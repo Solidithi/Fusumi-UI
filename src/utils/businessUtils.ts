@@ -1,11 +1,11 @@
-import { businesses } from "@/../public/data/businesses.json";
+import businesses  from "@/../public/data/businesses.json";
 import { BusinessId, Business } from "@/types/business";
 import { Product, Invoice, InvoiceProduct } from "@/types";
 
 export function getBusinessById(
   businessId: `bus-${string}`
 ): Business | undefined {
-  return businesses.find((b) => b.id === businessId);
+  return businesses.businesses.find((b) => b.id === businessId);
 }
 
 // Utility functions for business and product management
