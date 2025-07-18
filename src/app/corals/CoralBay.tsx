@@ -8,6 +8,7 @@ import { MarketplaceTab } from "@/types/market";
 import { CoralGrid } from "@/components/coral/CoralGrid";
 import CarouselWithProgress, { Image } from "@/components/shared/Carousel";
 import { Coral } from "@/types/coral";
+import corals from "@/../public/data/corals.json";
 
 const ITEMS_PER_PAGE = 8; // Changed to 8 items per load
 const SERVICES_PER_PAGE = 8; // Changed to 8 services per page
@@ -24,9 +25,9 @@ export function MarketplaceContent() {
   // Load offers data on component mount
   const loadOffersData = async () => {
     try {
-      const response = await fetch("/data/corals.json");
-      const offersData = await response.json();
-      setOffers(offersData);
+      // const response = await fetch("/data/corals.json");
+      // const offersData = await response.json();
+      setOffers(corals);
     } catch (error) {
       console.error("Error loading offers data:", error);
     }
