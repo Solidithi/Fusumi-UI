@@ -1,18 +1,18 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/ButtonBussiness";
+import { Card, CardContent } from "@/components/ui/Card";
+import { FileUpload } from "@/components/ui/FilesUpload";
 import { Input } from "@/components/ui/Input";
 import { Sidebar } from "@/components/ui/SideBar";
 import { Textarea } from "@/components/ui/TextArea";
-import { Card, CardContent } from "@/components/ui/Card";
-import { FileUpload } from "@/components/ui/FilesUpload";
-import { useState } from "react";
-import { Building2, ChevronLeft, ChevronRight } from "lucide-react";
-import axios from "axios";
+import { fusumi_deployer_address } from "@/utils/deployerAddress";
 import { aptos } from "@/utils/indexer";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import { fusumi_deployer_address } from "@/utils/deployerAddress";
+import axios from "axios";
+import { motion } from "framer-motion";
+import { Building2, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 
 const formVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -35,6 +35,7 @@ const fieldVariants = {
 export default function KYBPage() {
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const [currentStep, setCurrentStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [businessName, setBusinessName] = useState("");
   const [registrationNumber, setRegistrationNumber] = useState("");
@@ -60,84 +61,92 @@ export default function KYBPage() {
   };
 
   const handleSubmit = async () => {
+    // Only validate wallet connection since all form fields are now optional
     if (account == null) {
-      throw new Error("Unable to find account to sign transaction");
+      alert("Please connect your wallet first!");
+      return;
     }
-    // const response = await signAndSubmitTransaction({
-    //   sender: account.address,
-    //   data: {
-    //     function: `${fusumi_deployer_address}::debt_factory::add_business`,
-    //     functionArguments: [account.address],
-    //   },
-    // });
-    const response = await signAndSubmitTransaction({
-      sender: account.address,
-      data: {
-        function: `${fusumi_deployer_address}::fusumi::anchoring_ship`,
-        functionArguments: [
-          // businessName,
-          // registrationNumber,
-          // incorporationDate,
-          // businessType,
-          // officialWebsite,
-          // businessLogo,
-          // legalRepFullName,
-          // legalRepId,
-          // legalRepPosition,
-          // legalRepNationality,
-          // taxId,
-          // financialProfile,
-          // documentUrls,
-        ],
-      },
-    });
-    console.log(response);
+
+    setIsSubmitting(true);
+
     try {
+      // 2. Submit blockchain transaction
+      const response = await signAndSubmitTransaction({
+        sender: account.address,
+        data: {
+          function: `${fusumi_deployer_address}::fusumi::anchoring_ship`,
+          functionArguments: [
+            // businessName || "",
+            // registrationNumber || "",
+            // incorporationDate || "",
+            // businessType || "",
+            // officialWebsite || "",
+            // businessLogo || "",
+            // legalRepFullName || "",
+            // legalRepId || "",
+            // legalRepPosition || "",
+            // legalRepNationality || "",
+            // taxId || "",
+            // financialProfile || "",
+          ],
+        },
+      });
+      
+      console.log("Blockchain transaction submitted:", response);
+
+      // 3. Wait for transaction confirmation
       const txn = await aptos.waitForTransaction({
         transactionHash: response.hash,
       });
+      console.log("Transaction confirmed:", txn);
 
-      console.log("Transaction txn", txn);
+      // 4. Save to JSON file via API
+      const payload = {
+        businessName: businessName || "",
+        registrationNumber: registrationNumber || "",
+        incorporationDate: incorporationDate ? new Date(incorporationDate).toISOString() : "",
+        businessType: businessType || "",
+        officialWebsite: officialWebsite || "",
+        businessLogo: businessLogo || "",
+        legalRepFullName: legalRepFullName || "",
+        legalRepId: legalRepId || "",
+        legalRepPosition: legalRepPosition || "",
+        legalRepNationality: legalRepNationality || "",
+        taxId: taxId || "",
+        financialProfile: financialProfile
+          ? financialProfile.split(",").map((s) => s.trim()).filter(s => s.length > 0)
+          : [],
+        documentUrls: documentUrls || [],
+        walletAddress: account?.address || "",
+      };
+
+      const apiResponse = await axios.post("/api/business/kyb", payload);
+      console.log("API Response:", apiResponse.data);
+      
+      alert("Business registration submitted successfully!");
+      
+      // Reset form or redirect
+      setCurrentStep(1);
+      setBusinessName("");
+      setRegistrationNumber("");
+      setIncorporationDate("");
+      setBusinessType("");
+      setOfficialWebsite("");
+      setBusinessLogo("");
+      setLegalRepFullName("");
+      setLegalRepId("");
+      setLegalRepPosition("");
+      setLegalRepNationality("");
+      setTaxId("");
+      setFinancialProfile("");
+      setDocumentUrls([]);
+      
     } catch (error) {
-      console.error(error);
+      console.error("Error submitting business registration:", error);
+      alert("Error submitting business registration. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
-
-    // 2. Save to businesses.json via API
-    const payload = {
-      id: account.address, // Use wallet address as business ID
-      businessName,
-      registrationNumber,
-      incorporationDate: new Date(incorporationDate).toISOString(),
-      businessType,
-      officialWebsite,
-      businessLogo,
-      legalRepFullName,
-      legalRepId,
-      legalRepPosition,
-      legalRepNationality,
-      taxId,
-      financialProfile: financialProfile
-        ? financialProfile.split(",").map((s) => s.trim())
-        : [],
-      documentUrls,
-      description: "Submitted via KYB form",
-      rating: 0,
-      totalReviews: 0,
-      walletAddress: account.address, // Add wallet address to associate business with user
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-
-    // console.log("Payload:", payload);
-
-    // try {
-    //   const response = await axios.post("/api/business/kyb", payload);
-    //   console.log("API Response:", response.data);
-    //   alert("Successfully!");
-    // } catch (err) {
-    //   console.error(err);
-    //   alert("Server error!");
-    // }
   };
 
   return (
@@ -229,6 +238,7 @@ export default function KYBPage() {
                         <Input
                           id="business-name"
                           placeholder="Enter business name"
+                          value={businessName}
                           onChange={(e) => setBusinessName(e.target.value)}
                           className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                         />
@@ -243,6 +253,7 @@ export default function KYBPage() {
                         <Input
                           id="registration-number"
                           placeholder="Enter registration number"
+                          value={registrationNumber}
                           onChange={(e) =>
                             setRegistrationNumber(e.target.value)
                           }
@@ -261,6 +272,7 @@ export default function KYBPage() {
                         <Input
                           id="incorporation-date"
                           type="date"
+                          value={incorporationDate}
                           onChange={(e) => setIncorporationDate(e.target.value)}
                           className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                         />
@@ -275,6 +287,7 @@ export default function KYBPage() {
                         <Input
                           id="business-type"
                           placeholder="e.g. LLC, Corporation, etc."
+                          value={businessType}
                           onChange={(e) => setBusinessType(e.target.value)}
                           className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                         />
@@ -287,6 +300,7 @@ export default function KYBPage() {
                       <Input
                         id="official-website"
                         placeholder="https://www.example.com"
+                        value={officialWebsite}
                         onChange={(e) => setOfficialWebsite(e.target.value)}
                         className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                       />
@@ -322,6 +336,7 @@ export default function KYBPage() {
                         <Input
                           id="legal-rep-full-name"
                           placeholder="Enter full name"
+                          value={legalRepFullName}
                           onChange={(e) => setLegalRepFullName(e.target.value)}
                           className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                         />
@@ -336,6 +351,7 @@ export default function KYBPage() {
                         <Input
                           id="legal-rep-id"
                           placeholder="Enter ID number"
+                          value={legalRepId}
                           onChange={(e) => setLegalRepId(e.target.value)}
                           className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                         />
@@ -352,6 +368,7 @@ export default function KYBPage() {
                         <Input
                           id="legal-rep-position"
                           placeholder="e.g. CEO, Director, etc."
+                          value={legalRepPosition}
                           onChange={(e) => setLegalRepPosition(e.target.value)}
                           className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                         />
@@ -366,6 +383,7 @@ export default function KYBPage() {
                         <Input
                           id="legal-rep-nationality"
                           placeholder="Enter nationality"
+                          value={legalRepNationality}
                           onChange={(e) =>
                             setLegalRepNationality(e.target.value)
                           }
@@ -380,6 +398,7 @@ export default function KYBPage() {
                       <Input
                         id="tax-id"
                         placeholder="Enter tax identification number"
+                        value={taxId}
                         onChange={(e) => setTaxId(e.target.value)}
                         className="bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300"
                       />
@@ -401,6 +420,7 @@ export default function KYBPage() {
                       <Textarea
                         id="financial-profile"
                         placeholder="Describe your business financial profile, annual revenue, funding sources, etc."
+                        value={financialProfile}
                         onChange={(e) => setFinancialProfile(e.target.value)}
                         className="min-h-[120px] bg-white/90 border-white/30 focus:border-white focus:ring-white/50 transition-all duration-300 resize-none"
                       />
@@ -445,10 +465,11 @@ export default function KYBPage() {
                   </div>
                   <Button
                     onClick={currentStep === 3 ? handleSubmit : handleNext}
-                    className="px-8 py-2 bg-gradient-to-r from-[#2a6b7f] to-[#3587A3] hover:from-[#1f5a6b] hover:to-[#2a6b7f] text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                    disabled={isSubmitting}
+                    className="px-8 py-2 bg-gradient-to-r from-[#2a6b7f] to-[#3587A3] hover:from-[#1f5a6b] hover:to-[#2a6b7f] text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   >
-                    {currentStep === 3 ? "Submit" : "Next"}
-                    {currentStep < 3 && (
+                    {isSubmitting ? "Submitting..." : (currentStep === 3 ? "Submit" : "Next")}
+                    {currentStep < 3 && !isSubmitting && (
                       <ChevronRight className="h-4 w-4 ml-2" />
                     )}
                   </Button>
