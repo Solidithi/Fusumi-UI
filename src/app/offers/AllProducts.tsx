@@ -363,17 +363,17 @@ export default function AllProductsPage() {
 
     return productsData.businesses.map((business) => {
       const businessProducts = productsData.products.filter(
-        (p) => p.businessId === business.walletAddress
+        (p) => p.businessId === business.id || p.businessId === business.walletAddress
       );
       const businessServices = productsData.services.filter(
-        (s) => s.businessId === business.walletAddress
+        (s) => s.businessId === business.id || s.businessId === business.walletAddress
       );
 
       return {
         ...business,
         name: business.businessName,
         logo: business.businessLogo || `https://ui-avatars.com/api/?name=${encodeURIComponent(business.businessName)}&background=3587A3&color=fff&size=64`,
-        trending: businessProducts.filter(p => p.rating >= 4.5).slice(0, 3).map(p => ({
+        trending: businessProducts.filter(p => p.rating >= 4.0).slice(0, 3).map(p => ({
           ...p,
           name: p.productName, // Add name field for consistency
           business: business.businessName
@@ -543,24 +543,26 @@ export default function AllProductsPage() {
 
   // Get trending businesses (top businesses by average product rating)
   const trendingBusinesses = useMemo(() => {
-    if (!businesses) return [];
+    if (!businesses || !productsData?.products) return [];
+
+    const products = productsData.products;
 
     return businesses
       .map((business: any) => {
-        const allProducts = [
-          ...business.trending,
-          ...business.bestSellers,
-          ...business.goods,
-          ...business.services,
-        ];
+        // Find all products for this business
+        const businessProducts = products.filter(
+          (product: any) => product.businessId === business.id || product.businessId === business.walletAddress
+        );
+        
         const avgRating =
-          allProducts.length > 0
-            ? allProducts.reduce(
+          businessProducts.length > 0
+            ? businessProducts.reduce(
                 (sum: number, product: any) => sum + product.rating,
                 0
-              ) / allProducts.length
-            : 0;
-        const totalReviews = allProducts.reduce(
+              ) / businessProducts.length
+            : business.rating || 0;
+        
+        const totalReviews = businessProducts.reduce(
           (sum: number, product: any) => sum + product.reviews,
           0
         );
@@ -569,51 +571,48 @@ export default function AllProductsPage() {
           ...business,
           rating: avgRating,
           totalReviews: totalReviews,
+          productCount: businessProducts.length,
         };
       })
       .filter(
-        (business: any) => business.rating >= 4.5 && business.totalReviews >= 50
+        (business: any) => business.rating >= 0 // Show all businesses
       )
       .sort(
         (a: any, b: any) =>
-          b.rating * b.totalReviews - a.rating * a.totalReviews
+          b.rating * (b.totalReviews + 1) - a.rating * (a.totalReviews + 1)
       )
       .slice(0, 12); // Top 12 trending businesses
-  }, [businesses]);
+  }, [businesses, productsData]);
 
   // Get all trending products across all businesses
   const trendingProducts = useMemo(() => {
-    if (!businesses) return [];
+    if (!businesses || !productsData?.products) return [];
 
+    const products = productsData.products;
     const allTrendingProducts: any[] = [];
 
-    businesses.forEach((business: any) => {
-      // Add trending products
-      business.trending.forEach((product: any) => {
+    // Get all products and add business information
+    products.forEach((product: any) => {
+      const business = businesses.find((b: any) => 
+        b.id === product.businessId || b.walletAddress === product.businessId
+      );
+      
+      if (business) {
         allTrendingProducts.push({
           ...product,
-          business: business.name,
-          type: "goods" as const,
-          sales: product.sales || Math.floor(Math.random() * 1000) + 100, // Use existing sales or mock
-        });
-      });
-
-      // Add some best sellers as trending too
-      business.bestSellers.slice(0, 2).forEach((product: any) => {
-        allTrendingProducts.push({
-          ...product,
-          business: business.name,
-          type: "goods" as const,
+          business: business.businessName || business.name,
+          businessInfo: business,
+          type: product.type || "goods",
           sales: product.sales || Math.floor(Math.random() * 1000) + 100,
         });
-      });
+      }
     });
 
     // Sort by rating and return top 16
     return allTrendingProducts
       .sort((a: any, b: any) => b.rating - a.rating)
       .slice(0, 16);
-  }, [businesses]);
+  }, [businesses, productsData]);
 
   const handleFavoriteToggle = (productId: string) => {
     setFavorites((prev) => {

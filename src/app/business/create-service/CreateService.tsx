@@ -11,6 +11,7 @@ import { CustomerModal } from "@/components/ui/modal/CustomerModal";
 import { Sidebar } from "@/components/ui/SideBar";
 import { Textarea } from "@/components/ui/TextArea";
 import { toast } from "@/hooks/animation-hook/useToast";
+import { BillingItem } from "@/types";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
@@ -24,13 +25,6 @@ const formVariants = {
     transition: { duration: 0.7, delay: 0.3 },
   },
 };
-
-interface BillingItem {
-  id: string;
-  productName: string;
-  price: string;
-  quantity: string;
-}
 
 interface CustomerFieldsConfig {
   email: boolean;

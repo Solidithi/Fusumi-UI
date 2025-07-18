@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
+import { useMemo, useState } from "react";
 // import { NFTHeader } from "./nft-header";
-import { PageHeader } from "@/components/shared/PageHeader";
+import coralsData from "@/../public/data/corals.json";
 import { NFTGrid } from "@/components/coral/NFTGrid";
-import { mockNFTData } from "@/lib/data";
-import { Sidebar } from "@/components/ui/SideBar";
+import { PageHeader } from "@/components/shared/PageHeader";
+import { Coral } from "@/types/coral";
 
 const ITEMS_PER_PAGE = 8; // Changed to 8 items per load
 
@@ -16,11 +16,12 @@ export function MyNFT() {
   const [loading, setLoading] = useState(false);
 
   const filteredNFTs = useMemo(() => {
-    return mockNFTData.filter(
-      (nft: any) =>
-        nft.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        nft.owner.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        nft.category?.toLowerCase().includes(searchTerm.toLowerCase())
+    const corals = coralsData as Coral[];
+    return corals.filter(
+      (coral: Coral) =>
+        coral.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        coral.contactInfo?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        coral.category?.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [searchTerm]);
 
