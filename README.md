@@ -12,7 +12,7 @@ Bridging Future Promises to Present Liquidity
 ---
 
 ## Table of Contents 🏆
-- [# 🌊 FUSUMI 🪸](#--fusumi-)
+- [ 🌊 FUSUMI 🪸](#--fusumi-)
   - [Table of Contents 🏆](#table-of-contents-)
   - [Introduction 📕](#introduction-)
   - [Features ☕](#features-)
@@ -59,19 +59,6 @@ Inspired by the vastness and fluidity of the ocean, Fusumi is charting a new cou
 
 ---
 
-## Table of Contents 🏆
-- [# 🌊 FUSUMI 🪸](#--fusumi-)
-  - [Table of Contents 🏆](#table-of-contents-)
-  - [Introduction 📕](#introduction-)
-  - [Features ☕](#features-)
-  - [Table of Contents 🏆](#table-of-contents--1)
-  - [Introduction 📕](#introduction--1)
-  - [Features ☕](#features--1)
-  - [How It Works 🛠️](#how-it-works-️)
-  - [Tech Stack 💻](#tech-stack-)
-  - [Demo 🎥](#demo-)
-  - [Installation 📦](#installation-)
-  - [Team Core 🎮](#team-core-)
 
 ## Introduction 📕
 
