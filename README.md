@@ -16,8 +16,6 @@ Bridging Future Promises to Present Liquidity
   - [Table of Contents 🏆](#table-of-contents-)
   - [Introduction 📕](#introduction-)
   - [Features ☕](#features-)
-  - [Introduction 📕](#introduction--1)
-  - [Features ☕](#features--1)
   - [How It Works 🛠️](#how-it-works-️)
   - [Tech Stack 💻](#tech-stack-)
   - [Demo 🎥](#demo-)
@@ -57,33 +55,6 @@ Inspired by the vastness and fluidity of the ocean, Fusumi is charting a new cou
 
 
 ---
-
-
-## Introduction 📕
-
-**Fusumi UI** is a cutting-edge blockchain-powered platform designed to revolutionize business invoicing through NFT technology on the Aptos blockchain. Our platform empowers businesses to create, manage, and trade NFT invoices while providing a vibrant marketplace for coral NFT collections with fractional ownership capabilities.
-
-Whether you're a business looking to streamline your invoicing process or an investor seeking to participate in the coral NFT marketplace, Fusumi provides the tools and infrastructure to foster growth and innovation in the decentralized business ecosystem.
-
-## Features ☕
-
-- **🔐 Blockchain-Powered Security**: Advanced encryption with multi-layer security protocols ensuring your transactions are completely protected through Aptos blockchain technology.
-
-- **⚡ Lightning-Fast Processing**: Process thousands of NFT invoices per second with our optimized blockchain infrastructure and smart contracts, delivering unparalleled performance.
-
-- **🌍 Global Connectivity**: Connect with businesses worldwide for seamless international transactions, enabling cross-border commerce with ease and transparency.
-
-- **🪸 Coral NFT Marketplace**: Trade and discover unique coral-themed NFT collections with an innovative split NFT system that allows fractional ownership and trading of coral branches.
-
-- **💰 Split NFT Trading**: Revolutionary system that allows users to purchase and sell fractional shares of coral NFTs, creating new investment opportunities and democratizing access to valuable digital assets.
-
-- **📊 Business Dashboard**: Comprehensive invoice management system with analytics, product catalog management, service billing, and customer relationship tracking tools.
-
-- **� Smart Invoicing**: Create products, services, and automated billing systems with blockchain-backed security and transparency for all business transactions.
-
-- **🎨 Enhanced User Experience**: Beautiful, responsive interface built with Framer Motion animations, providing smooth interactions and engaging visual feedback across all devices.
-
-- **🖼️ IPFS Integration**: Decentralized file storage through Pinata for NFT metadata, ensuring permanent and accessible storage for all digital assets.
 
 ## How It Works 🛠️
 
