@@ -103,7 +103,7 @@ const accountSidebarItems = [
     path: "/account/invoices",
   },
   { icon: Image, label: "My NFT", id: "nfts", path: "/account/nfts" },
-  { icon: Tag, label: "Upgrade", id: "upgrade", path: "/account/upgrade" },
+  // { icon: Tag, label: "Upgrade", id: "upgrade", path: "/account/upgrade" },
   { icon: Shield, label: "KYC", id: "kyc", path: "/account/kyc" },
 ];
 

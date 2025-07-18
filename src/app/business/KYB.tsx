@@ -10,9 +10,9 @@ import { fusumi_deployer_address } from "@/utils/deployerAddress";
 import { aptos } from "@/utils/indexer";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import axios from "axios";
-import { motion } from "framer-motion";
-import { Building2, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Building2, ChevronLeft, ChevronRight, CheckCircle, AlertTriangle } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const formVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -36,6 +36,11 @@ export default function KYBPage() {
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [errors, setErrors] = useState<{
+    wallet?: string;
+    fields?: string;
+  }>({});
 
   const [businessName, setBusinessName] = useState("");
   const [registrationNumber, setRegistrationNumber] = useState("");
@@ -52,6 +57,13 @@ export default function KYBPage() {
   const [documentUrls, setDocumentUrls] = useState<string[]>([]);
   const { account, signAndSubmitTransaction } = useWallet();
 
+  // Clear errors when user fixes issues
+  useEffect(() => {
+    if (errors.wallet && account) {
+      setErrors((prev) => ({ ...prev, wallet: undefined }));
+    }
+  }, [account, errors.wallet]);
+
   const handleNext = () => {
     setCurrentStep((prev) => Math.min(prev + 1, 3));
   };
@@ -61,9 +73,12 @@ export default function KYBPage() {
   };
 
   const handleSubmit = async () => {
+    // Clear previous errors
+    setErrors({});
+
     // Only validate wallet connection since all form fields are now optional
     if (account == null) {
-      alert("Please connect your wallet first!");
+      setErrors({ wallet: "Please connect your wallet first!" });
       return;
     }
 
@@ -122,30 +137,34 @@ export default function KYBPage() {
 
       const apiResponse = await axios.post("/api/business/kyb", payload);
       console.log("API Response:", apiResponse.data);
-      
-      alert("Business registration submitted successfully!");
-      
-      // Reset form or redirect
-      setCurrentStep(1);
-      setBusinessName("");
-      setRegistrationNumber("");
-      setIncorporationDate("");
-      setBusinessType("");
-      setOfficialWebsite("");
-      setBusinessLogo("");
-      setLegalRepFullName("");
-      setLegalRepId("");
-      setLegalRepPosition("");
-      setLegalRepNationality("");
-      setTaxId("");
-      setFinancialProfile("");
-      setDocumentUrls([]);
+
+      setIsSubmitting(false);
+      setIsSuccess(true);
+
+      // Auto close success state and reset form after 3 seconds
+      setTimeout(() => {
+        setIsSuccess(false);
+        // Reset form after successful creation
+        setCurrentStep(1);
+        setBusinessName("");
+        setRegistrationNumber("");
+        setIncorporationDate("");
+        setBusinessType("");
+        setOfficialWebsite("");
+        setBusinessLogo("");
+        setLegalRepFullName("");
+        setLegalRepId("");
+        setLegalRepPosition("");
+        setLegalRepNationality("");
+        setTaxId("");
+        setFinancialProfile("");
+        setDocumentUrls([]);
+      }, 3000);
       
     } catch (error) {
       console.error("Error submitting business registration:", error);
-      alert("Error submitting business registration. Please try again.");
-    } finally {
       setIsSubmitting(false);
+      setErrors({ fields: "Error submitting business registration. Please try again." });
     }
   };
 
@@ -446,6 +465,26 @@ export default function KYBPage() {
                     </motion.div>
                   </motion.div>
                 )}
+
+                {/* Error Messages */}
+                {(errors.wallet || errors.fields) && (
+                  <motion.div
+                    variants={fieldVariants}
+                    className="bg-red-100 border border-red-300 rounded-lg p-4 mt-6"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="flex items-start space-x-2">
+                      <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+                      <div className="text-red-700 text-sm space-y-1">
+                        {errors.wallet && <p>{errors.wallet}</p>}
+                        {errors.fields && <p>{errors.fields}</p>}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
                 {/* Navigation Buttons */}
                 <motion.div
                   variants={fieldVariants}
@@ -468,9 +507,18 @@ export default function KYBPage() {
                     disabled={isSubmitting}
                     className="px-8 py-2 bg-gradient-to-r from-[#2a6b7f] to-[#3587A3] hover:from-[#1f5a6b] hover:to-[#2a6b7f] text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   >
-                    {isSubmitting ? "Submitting..." : (currentStep === 3 ? "Submit" : "Next")}
-                    {currentStep < 3 && !isSubmitting && (
-                      <ChevronRight className="h-4 w-4 ml-2" />
+                    {isSubmitting ? (
+                      <div className="flex items-center justify-center space-x-2">
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>Submitting...</span>
+                      </div>
+                    ) : (
+                      <>
+                        {currentStep === 3 ? "Submit" : "Next"}
+                        {currentStep < 3 && (
+                          <ChevronRight className="h-4 w-4 ml-2" />
+                        )}
+                      </>
                     )}
                   </Button>
                 </motion.div>
@@ -479,6 +527,49 @@ export default function KYBPage() {
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Success Overlay */}
+      <AnimatePresence>
+        {isSuccess && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-xl p-8 shadow-2xl max-w-md mx-4"
+            >
+              <div className="text-center">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.2, duration: 0.3 }}
+                  className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4"
+                >
+                  <CheckCircle className="w-8 h-8 text-green-600" />
+                </motion.div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  KYB Submitted Successfully!
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  Your business verification has been submitted and is being processed.
+                </p>
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 3 }}
+                  className="bg-green-200 h-1 rounded-full"
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

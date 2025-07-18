@@ -257,7 +257,7 @@ export function CustomerInvoiceTable({
                     className="bg-red-900 text-white rounded-xl p-3 cursor-not-allowed"
                     disabled
                   >
-                    Pending
+                    Overdue
                   </AnimatedButton>
                 ) : (
                   <AnimatedButton className="bg-slate-400 text-white rounded-xl p-3 cursor-not-allowed">

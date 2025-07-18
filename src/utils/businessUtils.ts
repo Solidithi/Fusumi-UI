@@ -83,7 +83,7 @@ export async function getCurrentBusinessId(
     const matchingBusiness = businesses.find(
       (business) =>
         business.walletAddress &&
-        business.walletAddress.toLowerCase() === userAddress.toLowerCase()
+        business.walletAddress === userAddress.toLowerCase()
     );
 
     if (matchingBusiness) {
