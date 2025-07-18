@@ -1,5 +1,5 @@
 import { invoices, invoiceProducts } from "@/../public/data/invoices.json";
-import { products } from "@/../public/data/products.json";
+import products from "@/../public/data/products.json";
 
 /**
  * Interface for invoice data
@@ -41,7 +41,7 @@ export function calcRemainingPercentageOfRootNft(
  */
 export function getInvoiceAmount(invoiceId: string): number {
   let total = 0;
-  const productMap = new Map<string, (typeof products)[0]>();
+  const productMap = new Map<string, (typeof products.products)[0]>();
 
   for (const invoiceProduct of invoiceProducts) {
     if (invoiceProduct.invoiceId !== invoiceId) {
@@ -51,7 +51,7 @@ export function getInvoiceAmount(invoiceId: string): number {
     let product = productMap.get(invoiceProduct.productId);
     if (!product) {
       // find product in products.json
-      product = products.find((p) => p.id === invoiceProduct.productId);
+      product = products.products.find((p) => p.id === invoiceProduct.productId);
       if (!product) {
         continue; // Skip if product not found
       }
