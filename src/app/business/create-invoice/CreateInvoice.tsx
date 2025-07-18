@@ -16,7 +16,13 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { CheckCircle, AlertTriangle, ChevronDown, User, Search } from "lucide-react";
+import {
+  CheckCircle,
+  AlertTriangle,
+  ChevronDown,
+  User,
+  Search,
+} from "lucide-react";
 import Image from "next/image";
 
 const formVariants = {
@@ -78,11 +84,11 @@ export default function CreateInvoice() {
     const loadUsers = async () => {
       try {
         setLoadingUsers(true);
-        const response = await fetch('/data/users.json');
+        const response = await fetch("/data/users.json");
         const userData = await response.json();
         setUsers(userData);
       } catch (error) {
-        console.error('Error loading users:', error);
+        console.error("Error loading users:", error);
       } finally {
         setLoadingUsers(false);
       }
@@ -142,26 +148,27 @@ export default function CreateInvoice() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
-      if (!target.closest('.user-selector')) {
+      if (!target.closest(".user-selector")) {
         setShowUserDropdown(false);
         setUserSearchTerm("");
       }
     };
 
     if (showUserDropdown) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
       return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener("mousedown", handleClickOutside);
       };
     }
   }, [showUserDropdown]);
 
   // Filter users based on search term
-  const filteredUsers = users.filter((user) =>
-    user.fullName?.toLowerCase().includes(userSearchTerm.toLowerCase()) ||
-    user.alias?.toLowerCase().includes(userSearchTerm.toLowerCase()) ||
-    user.email?.toLowerCase().includes(userSearchTerm.toLowerCase()) ||
-    user.address?.toLowerCase().includes(userSearchTerm.toLowerCase())
+  const filteredUsers = users.filter(
+    (user) =>
+      user.fullName?.toLowerCase().includes(userSearchTerm.toLowerCase()) ||
+      user.alias?.toLowerCase().includes(userSearchTerm.toLowerCase()) ||
+      user.email?.toLowerCase().includes(userSearchTerm.toLowerCase()) ||
+      user.address?.toLowerCase().includes(userSearchTerm.toLowerCase())
   );
 
   // const startDateTimestamp = Math.floor(new Date(startDate).getTime() / 1000);
@@ -348,7 +355,7 @@ export default function CreateInvoice() {
                       onClick={() => setShowUserDropdown(!showUserDropdown)}
                       tabIndex={0}
                       onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
+                        if (e.key === "Enter" || e.key === " ") {
                           e.preventDefault();
                           setShowUserDropdown(!showUserDropdown);
                         }
@@ -369,7 +376,8 @@ export default function CreateInvoice() {
                                 {selectedUser.fullName || selectedUser.alias}
                               </span>
                               <span className="text-xs text-gray-500">
-                                {selectedUser.address.slice(0, 8)}...{selectedUser.address.slice(-6)}
+                                {selectedUser.address.slice(0, 8)}...
+                                {selectedUser.address.slice(-6)}
                               </span>
                             </div>
                           </>
@@ -377,7 +385,9 @@ export default function CreateInvoice() {
                           <>
                             <User className="w-6 h-6 text-gray-400" />
                             <span className="text-gray-500">
-                              {loadingUsers ? "Loading users..." : "Select debtor..."}
+                              {loadingUsers
+                                ? "Loading users..."
+                                : "Select debtor..."}
                             </span>
                           </>
                         )}
@@ -406,13 +416,15 @@ export default function CreateInvoice() {
                               <Input
                                 placeholder="Search users..."
                                 value={userSearchTerm}
-                                onChange={(e) => setUserSearchTerm(e.target.value)}
+                                onChange={(e) =>
+                                  setUserSearchTerm(e.target.value)
+                                }
                                 className="pl-10 text-sm"
                                 autoFocus
                               />
                             </div>
                           </div>
-                          
+
                           {/* User List */}
                           <div className="max-h-40 overflow-y-auto">
                             {filteredUsers.length > 0 ? (
@@ -437,7 +449,8 @@ export default function CreateInvoice() {
                                       {user.email}
                                     </div>
                                     <div className="text-xs text-gray-400 font-mono">
-                                      {user.address.slice(0, 12)}...{user.address.slice(-8)}
+                                      {user.address.slice(0, 12)}...
+                                      {user.address.slice(-8)}
                                     </div>
                                   </div>
                                   <div className="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded">
