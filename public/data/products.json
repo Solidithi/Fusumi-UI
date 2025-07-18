@@ -1,0 +1,552 @@
+{
+  "products": [
+    {
+      "id": "p1",
+      "productName": "Cloud Infrastructure Setup",
+      "productType": "SERVICE",
+      "price": 299.99,
+      "unitOfMeasure": "per month",
+      "description": "Complete cloud infrastructure setup and management service for growing businesses",
+      "images": [
+        "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg",
+        "https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg"
+      ],
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "businessId": "bus-002",
+      "category": "Information Technology",
+      "rating": 4.8,
+      "reviews": 45,
+      "sales": 234,
+      "type": "service",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "p2",
+      "productName": "Web Development Package",
+      "productType": "SERVICE",
+      "price": 1999.99,
+      "unitOfMeasure": "per project",
+      "description": "Custom web development with modern frameworks and responsive design",
+      "images": [
+        "https://images.pexels.com/photos/1181341/pexels-photo-1181341.jpeg",
+        "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg"
+      ],
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "businessId": "bus-002",
+      "category": "Information Technology",
+      "rating": 4.9,
+      "reviews": 67,
+      "sales": 89,
+      "type": "service",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "p3",
+      "productName": "Health Consultation Service",
+      "productType": "SERVICE",
+      "price": 150,
+      "unitOfMeasure": "per consultation",
+      "description": "Professional medical consultation with experienced doctors",
+      "images": [
+        "https://images.unsplash.com/photo-1504813184591-01572f98c85f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aGVhbHRoY2FyZXxlbnwwfHwwfHx8MA%3D%3D",
+        "https://media.gettyimages.com/id/1632593384/video/hospital-bed-senior-patient-and-nurse-talk-with-night-check-and-healthcare-monitor-in-icu.jpg?s=640x640&k=20&c=lcRHHqtbceERY3WCLytuYotxIFUO0pnmDb2iaNuUefE="
+      ],
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "businessId": "bus-002",
+      "category": "Healthcare",
+      "rating": 4.9,
+      "reviews": 112,
+      "sales": 345,
+      "type": "service",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "p4",
+      "productName": "Grocery Shopping Experience",
+      "productType": "SERVICE",
+      "price": 25.99,
+      "unitOfMeasure": "per visit",
+      "description": "Premium grocery shopping with fresh products and personalized service",
+      "images": [
+        "https://c1.wallpaperflare.com/preview/572/808/14/shopping-business-retail-shopping-cart.jpg",
+        "https://img.freepik.com/free-photo/fresh-vegetables-fruit-market-stall_1101-2560.jpg?semt=ais_hybrid&w=740"
+      ],
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "businessId": "0x1234567890abcdef1234567890abcdef12345678",
+      "category": "Retail",
+      "rating": 4.7,
+      "reviews": 78,
+      "sales": 456,
+      "type": "service",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "p5",
+      "productName": "Home Construction Project",
+      "productType": "SERVICE",
+      "price": 85000,
+      "unitOfMeasure": "per project",
+      "description": "Complete home construction with modern designs and quality materials",
+      "images": [
+        "https://i.pinimg.com/736x/94/41/f2/9441f2efd20b16f02e73b25b43181a8c.jpg",
+        "https://media.gettyimages.com/id/1472109843/video/construction-site-with-cranes-at-dawn.jpg?s=640x640&k=20&c=NLUyc82XiKoDlER07IkmD6hKVyiznMUjc_ymb-vFfiA="
+      ],
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "businessId": "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
+      "category": "Construction",
+      "rating": 4.6,
+      "reviews": 23,
+      "sales": 12,
+      "type": "service",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "p6",
+      "productName": "Gourmet Dining Experience",
+      "productType": "SERVICE",
+      "price": 89.99,
+      "unitOfMeasure": "per person",
+      "description": "Exquisite dining experience with chef's special menu",
+      "images": [
+        "https://wallpapers.com/images/hd/food-and-beverage-5120-x-3200-wallpaper-uu4k0ng81kx5p7fx.jpg",
+        "https://static.vecteezy.com/system/resources/previews/028/648/358/non_2x/a-delectable-portrayal-of-gourmet-artistry-paired-with-the-finest-beverage-for-food-enthusiasts-ai-generative-photo.jpg"
+      ],
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "businessId": "0x1234567890abcdef1234567890abcdef12345678",
+      "category": "Food & Beverage",
+      "rating": 4.8,
+      "reviews": 124,
+      "sales": 289,
+      "type": "service",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "p7",
+      "productName": "Personal Banking Services",
+      "productType": "SERVICE",
+      "price": 15,
+      "unitOfMeasure": "per month",
+      "description": "Comprehensive personal banking with premium account benefits",
+      "images": [
+        "https://images.unsplash.com/photo-1501167786227-4cba60f6d58f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmFua3xlbnwwfHwwfHx8MA%3D%3D",
+        "https://images.unsplash.com/photo-1669251921941-ae3645715017?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YmFua3xlbnwwfHwwfHx8MA%3D%3D"
+      ],
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "businessId": "0x9876543210fedcba9876543210fedcba98765432",
+      "category": "Banking & Finance",
+      "rating": 4.5,
+      "reviews": 234,
+      "sales": 567,
+      "type": "service",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "p8",
+      "productName": "Premium Education Program",
+      "productType": "SERVICE",
+      "price": 2500,
+      "unitOfMeasure": "per semester",
+      "description": "High-quality education program with experienced teachers",
+      "images": [
+        "https://plus.unsplash.com/premium_photo-1682125773446-259ce64f9dd7?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZWR1Y2F0aW9ufGVufDB8fDB8fHww",
+        "https://wallpapers.com/images/featured/education-d4w62mny8rdusxe0.jpg"
+      ],
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "businessId": "0x0000000000000000000000000000000000000000000000000000000000000003",
+      "category": "Education",
+      "rating": 4.9,
+      "reviews": 89,
+      "sales": 145,
+      "type": "service",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "p9",
+      "productName": "European Adventure Package",
+      "productType": "SERVICE",
+      "price": 3500,
+      "unitOfMeasure": "per person",
+      "description": "14-day guided tour through Europe's most beautiful destinations",
+      "images": [
+        "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dHJhdmVsJTIwd2FsbHBhcGVyfGVufDB8fDB8fHww",
+        "https://wallpapercrafter.com/sizes/2560x1440/549-man-traveler-tourist-travel-road-4k.jpg"
+      ],
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "businessId": "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
+      "category": "Tourism",
+      "rating": 4.7,
+      "reviews": 56,
+      "sales": 78,
+      "type": "service",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "p10",
+      "productName": "Professional Laptop",
+      "productType": "PRODUCT",
+      "price": 1299.99,
+      "unitOfMeasure": "per unit",
+      "description": "High-performance laptop for business and development work",
+      "images": [
+        "https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg",
+        "https://images.pexels.com/photos/1181341/pexels-photo-1181341.jpeg"
+      ],
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "businessId": "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
+      "category": "Information Technology",
+      "rating": 4.6,
+      "reviews": 189,
+      "sales": 234,
+      "type": "goods",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "p11",
+      "productName": "Medical Equipment Set",
+      "productType": "PRODUCT",
+      "price": 450,
+      "unitOfMeasure": "per set",
+      "description": "Professional medical equipment set for healthcare professionals",
+      "images": [
+        "https://c4.wallpaperflare.com/wallpaper/287/732/883/saving-hope-4k-computer-backgrounds-wallpaper-preview.jpg",
+        "https://images.unsplash.com/photo-1504813184591-01572f98c85f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aGVhbHRoY2FyZXxlbnwwfHwwfHx8MA%3D%3D"
+      ],
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "businessId": "0x9876543210fedcba9876543210fedcba98765432",
+      "category": "Healthcare",
+      "rating": 4.8,
+      "reviews": 67,
+      "sales": 123,
+      "type": "goods",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "p12",
+      "productName": "Organic Food Basket",
+      "productType": "PRODUCT",
+      "price": 45.99,
+      "unitOfMeasure": "per basket",
+      "description": "Fresh organic vegetables and fruits sourced locally",
+      "images": [
+        "https://c0.wallpaperflare.com/preview/462/1010/452/supermarket-shelf-blur-yogurt.jpg",
+        "https://c1.wallpaperflare.com/preview/572/808/14/shopping-business-retail-shopping-cart.jpg"
+      ],
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "businessId": "0x9876543210fedcba9876543210fedcba98765432",
+      "category": "Retail",
+      "rating": 4.7,
+      "reviews": 145,
+      "sales": 456,
+      "type": "goods",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "p1752684064131",
+      "productName": "Yepay",
+      "productType": "SERVICE",
+      "price": 234,
+      "unitOfMeasure": "pieces",
+      "description": "Some yepay",
+      "images": [
+        "https://plus.unsplash.com/premium_photo-1682125773446-259ce64f9dd7?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZWR1Y2F0aW9ufGVufDB8fDB8fHww",
+        "https://wallpapers.com/images/featured/education-d4w62mny8rdusxe0.jpg"
+      ],
+      "startDate": "2025-07-23",
+      "endDate": "2025-07-30",
+      "businessId": "0x1234567890abcdef1234567890abcdef12345678",
+      "category": "education",
+      "rating": 4,
+      "reviews": 0,
+      "sales": 0,
+      "type": "goods",
+      "createdAt": "2025-07-16T16:41:04.131Z",
+      "updatedAt": "2025-07-16T16:41:04.131Z"
+    },
+    {
+      "id": "p1752684174082",
+      "productName": "Yepay",
+      "productType": "SERVICE",
+      "price": 234,
+      "unitOfMeasure": "pieces",
+      "description": "Yepay some",
+      "images": [
+        "https://wallpapers.com/images/featured/education-d4w62mny8rdusxe0.jpg"
+      ],
+      "startDate": "2025-07-23",
+      "endDate": "2025-08-06",
+      "businessId": "0x1234567890abcdef1234567890abcdef12345678",
+      "category": "education",
+      "rating": 4,
+      "reviews": 0,
+      "sales": 0,
+      "type": "goods",
+      "createdAt": "2025-07-16T16:42:54.082Z",
+      "updatedAt": "2025-07-16T16:42:54.082Z"
+    },
+    {
+      "id": "p1752685447700",
+      "productName": "Test Product Split",
+      "productType": "SERVICE",
+      "price": 99.99,
+      "unitOfMeasure": "per unit",
+      "description": "Testing the split data structure",
+      "images": [
+        "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg"
+      ],
+      "startDate": "2025-01-01",
+      "endDate": "2025-12-31",
+      "businessId": "0x1234567890abcdef1234567890abcdef12345678",
+      "category": "Information Technology",
+      "rating": 4,
+      "reviews": 0,
+      "sales": 0,
+      "type": "goods",
+      "createdAt": "2025-07-16T17:04:07.700Z",
+      "updatedAt": "2025-07-16T17:04:07.700Z"
+    }
+  ],
+  "services": [
+    {
+      "id": "s1",
+      "name": "Cloud Infrastructure Setup",
+      "description": "Complete cloud infrastructure setup and management service for growing businesses",
+      "category": "it",
+      "price": 299.99,
+      "imageUrl": "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg",
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "attachments": [
+        "service-agreement.pdf",
+        "technical-specs.pdf"
+      ],
+      "businessId": "0x1234567890abcdef1234567890abcdef12345678",
+      "features": [
+        "24/7 monitoring and support",
+        "Automated backups",
+        "Scalable infrastructure",
+        "Security compliance",
+        "Performance optimization"
+      ],
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "s2",
+      "name": "Medical Consultation",
+      "description": "Professional healthcare consultation with certified doctors",
+      "category": "healthcare",
+      "price": 150,
+      "imageUrl": "https://images.unsplash.com/photo-1504813184591-01572f98c85f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aGVhbHRoY2FyZXxlbnwwfHwwfHx8MA%3D%3D",
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "attachments": [
+        "consultation-agreement.pdf",
+        "medical-guidelines.pdf"
+      ],
+      "businessId": "0x9876543210fedcba9876543210fedcba98765432",
+      "features": [
+        "Licensed medical professionals",
+        "Comprehensive health assessment",
+        "Personalized treatment plans",
+        "Follow-up consultations",
+        "Emergency contact support"
+      ],
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "s3",
+      "name": "Home Construction",
+      "description": "Professional home construction with modern designs and quality materials",
+      "category": "construction",
+      "price": 85000,
+      "imageUrl": "https://i.pinimg.com/736x/94/41/f2/9441f2efd20b16f02e73b25b43181a8c.jpg",
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "attachments": [
+        "construction-contract.pdf",
+        "blueprint-designs.pdf"
+      ],
+      "businessId": "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
+      "features": [
+        "Licensed contractors",
+        "Modern architectural designs",
+        "Quality building materials",
+        "Project management",
+        "5-year warranty"
+      ],
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "s4",
+      "name": "Gourmet Catering",
+      "description": "Premium catering service with chef-prepared meals",
+      "category": "food-beverage",
+      "price": 89.99,
+      "imageUrl": "https://wallpapers.com/images/hd/food-and-beverage-5120-x-3200-wallpaper-uu4k0ng81kx5p7fx.jpg",
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "attachments": [
+        "catering-menu.pdf",
+        "service-terms.pdf"
+      ],
+      "businessId": "0x1234567890abcdef1234567890abcdef12345678",
+      "features": [
+        "Professional chef team",
+        "Fresh ingredients daily",
+        "Customizable menus",
+        "Event planning support",
+        "Clean-up service included"
+      ],
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    },
+    {
+      "id": "s5",
+      "name": "Travel Planning",
+      "description": "Comprehensive travel planning with personalized itineraries",
+      "category": "tourism",
+      "price": 3500,
+      "imageUrl": "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dHJhdmVsJTIwd2FsbHBhcGVyfGVufDB8fDB8fHww",
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-12-31T23:59:59.000Z",
+      "attachments": [
+        "travel-itinerary.pdf",
+        "booking-confirmations.pdf"
+      ],
+      "businessId": "0x2ea52e6ae741e7c0f8301523c1ee70ffb99a5c9f6776cce3e94699828bccbb38",
+      "features": [
+        "Personalized travel itineraries",
+        "Hotel and flight bookings",
+        "Local tour guide services",
+        "24/7 travel support",
+        "Travel insurance included"
+      ],
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-01T00:00:00.000Z"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "r1",
+      "productId": "p1",
+      "user": "Alice Johnson",
+      "rating": 5,
+      "comment": "Excellent cloud setup service! Our infrastructure is now rock solid and the support team is amazing.",
+      "date": "2024-11-15"
+    },
+    {
+      "id": "r2",
+      "productId": "p1",
+      "user": "Bob Smith",
+      "rating": 4,
+      "comment": "Great service overall. Setup was smooth and the team was very professional.",
+      "date": "2024-11-10"
+    },
+    {
+      "id": "r3",
+      "productId": "p3",
+      "user": "Carol Davis",
+      "rating": 5,
+      "comment": "Dr. Johnson was incredibly thorough and professional. The consultation exceeded my expectations!",
+      "date": "2024-11-12"
+    },
+    {
+      "id": "r4",
+      "productId": "p4",
+      "user": "David Wilson",
+      "rating": 4,
+      "comment": "Great shopping experience at FreshMart! Staff was helpful and products were fresh.",
+      "date": "2024-11-08"
+    },
+    {
+      "id": "r5",
+      "productId": "p5",
+      "user": "Emma Brown",
+      "rating": 5,
+      "comment": "BuildCorp delivered exactly what they promised. Our new home is beautiful and built to last!",
+      "date": "2024-11-05"
+    },
+    {
+      "id": "r6",
+      "productId": "p6",
+      "user": "Frank Miller",
+      "rating": 5,
+      "comment": "The gourmet dining experience was unforgettable. Chef Isabella's creativity is outstanding!",
+      "date": "2024-11-20"
+    },
+    {
+      "id": "r7",
+      "productId": "p7",
+      "user": "Grace Lee",
+      "rating": 4,
+      "comment": "SecureBank's personal banking service is reliable and their staff is always helpful.",
+      "date": "2024-11-18"
+    },
+    {
+      "id": "r8",
+      "productId": "p8",
+      "user": "Henry Taylor",
+      "rating": 5,
+      "comment": "BrightFuture Academy provides excellent education. My daughter loves her teachers!",
+      "date": "2024-11-14"
+    },
+    {
+      "id": "r9",
+      "productId": "p9",
+      "user": "Isabella Garcia",
+      "rating": 5,
+      "comment": "WanderLust Travel planned the perfect European adventure. Every detail was taken care of!",
+      "date": "2024-11-16"
+    },
+    {
+      "id": "r10",
+      "productId": "p10",
+      "user": "Jack Anderson",
+      "rating": 4,
+      "comment": "This laptop is perfect for development work. Fast, reliable, and great battery life.",
+      "date": "2024-11-11"
+    },
+    {
+      "id": "r11",
+      "productId": "p11",
+      "user": "Karen White",
+      "rating": 5,
+      "comment": "High-quality medical equipment set. Everything a healthcare professional needs.",
+      "date": "2024-11-09"
+    },
+    {
+      "id": "r12",
+      "productId": "p12",
+      "user": "Lucas Martinez",
+      "rating": 4,
+      "comment": "Fresh, organic produce delivered right to my door. The quality is consistently excellent.",
+      "date": "2024-11-07"
+    }
+  ]
+}
