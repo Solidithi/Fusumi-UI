@@ -86,9 +86,8 @@ Inspired by the vastness and fluidity of the ocean, Fusumi is charting a new cou
 
 Experience the future of DeFi and PayFi with Fusumi!
 
-👉 [Live Demo](https://fusumi.io) <!-- Replace with actual demo link -->
+👉 [Live Demo](https://youtu.be/qu0K_W3PMvs?si=9CIr6br-DZyDo7sC) <!-- Replace with actual demo link -->
 
-![Demo GIF](https://your-repo-url.com/demo.gif) <!-- Replace with actual demo GIF URL -->
 
 ## Installation 📦
 
