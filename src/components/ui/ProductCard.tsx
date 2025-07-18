@@ -63,7 +63,7 @@ export function ProductCard({
       {/* Image Section */}
       <div className="relative h-48 overflow-hidden">
         <Image
-          src={product.image || "/placeholder.svg"}
+          src={product.image || "https://via.placeholder.com/400x300.png?text=No+Image"}
           alt={product.name}
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-110"

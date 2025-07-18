@@ -376,21 +376,25 @@ export default function AllProductsPage() {
         trending: businessProducts.filter(p => p.rating >= 4.0).slice(0, 3).map(p => ({
           ...p,
           name: p.productName, // Add name field for consistency
+          image: p.images && p.images.length > 0 ? p.images[0] : 'https://via.placeholder.com/400x300.png?text=No+Image', // Add image field from images array
           business: business.businessName
         })),
         bestSellers: businessProducts.sort((a, b) => b.sales - a.sales).slice(0, 3).map(p => ({
           ...p,
           name: p.productName, // Add name field for consistency
+          image: p.images && p.images.length > 0 ? p.images[0] : 'https://via.placeholder.com/400x300.png?text=No+Image', // Add image field from images array
           business: business.businessName
         })),
         goods: businessProducts.filter(p => p.type === 'goods').map(p => ({
           ...p,
           name: p.productName, // Add name field for consistency
+          image: p.images && p.images.length > 0 ? p.images[0] : 'https://via.placeholder.com/400x300.png?text=No+Image', // Add image field from images array
           business: business.businessName
         })),
         services: businessProducts.filter(p => p.type === 'service').map(p => ({
           ...p,
           name: p.productName, // Add name field for consistency
+          image: p.images && p.images.length > 0 ? p.images[0] : 'https://via.placeholder.com/400x300.png?text=No+Image', // Add image field from images array
           business: business.businessName
         })).concat(
           businessServices.map(s => ({
@@ -600,6 +604,8 @@ export default function AllProductsPage() {
       if (business) {
         allTrendingProducts.push({
           ...product,
+          name: product.productName, // Add name field for consistency
+          image: product.images && product.images.length > 0 ? product.images[0] : 'https://via.placeholder.com/400x300.png?text=No+Image', // Add image field from images array
           business: business.businessName || business.name,
           businessInfo: business,
           type: product.type || "goods",
@@ -609,9 +615,18 @@ export default function AllProductsPage() {
     });
 
     // Sort by rating and return top 16
-    return allTrendingProducts
+    const result = allTrendingProducts
       .sort((a: any, b: any) => b.rating - a.rating)
       .slice(0, 16);
+    
+    console.log("Trending Products Debug:", {
+      totalProducts: products.length,
+      businessesFound: businesses.length,
+      trendingProducts: result.length,
+      sampleProduct: result[0],
+    });
+    
+    return result;
   }, [businesses, productsData]);
 
   const handleFavoriteToggle = (productId: string) => {
