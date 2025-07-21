@@ -20,6 +20,7 @@ Bridging Future Promises to Present Liquidity
   - [Tech Stack 💻](#tech-stack-)
   - [Demo 🎥](#demo-)
   - [Installation 📦](#installation-)
+  - [Smart Contracts 📜](#smart-contracts-)
   - [Team Core 🎮](#team-core-)
 
 ## Introduction 📕
@@ -131,6 +132,19 @@ Follow these steps to set up the Fusumi protocol locally:
 
 6. **Access the Application**
    Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Smart Contracts 📜
+
+The core Move smart contracts that power the Fusumi protocol are maintained in a separate repository:
+
+👉 **[Fusumi Smart Contracts](https://github.com/Solidithi/Fusumi-Contracts)**
+
+This repository contains:
+- **Debt-NFT Minting Contracts**: Core logic for creating and managing debt-NFTs
+- **Fractionalization Logic**: Smart contracts enabling debt-NFT splitting and proportional distribution
+- **Marketplace Contracts**: Trading mechanisms for the liquidity marketplace
+<!-- - **Credit Scoring System**: On-chain credit assessment and risk management -->
+- **Payment Settlement**: Automated payment processing and distribution logic
 
 ## Team Core 🎮
 
